@@ -1,0 +1,48 @@
+{
+  "name": "autamedica-reboot",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:packages": "turbo run build --filter @autamedica/*",
+    "build:apps": "turbo run build --filter ./apps/*",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "type-check": "turbo run typecheck",
+    "check-types": "turbo run check-types",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "validate-exports": "node scripts/validate-exports.mjs",
+    "docs:validate": "node scripts/validate-exports.mjs",
+    "env:validate": "node scripts/validate-env.mjs",
+    "test:unit": "turbo run test:unit",
+    "health": "node scripts/health-check.mjs",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "eslint": "^9.34.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.6",
+    "typescript": "5.9.2",
+    "vitest": "^1.6.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  }
+}
