@@ -46,6 +46,6 @@ export const ROLE_REDIRECTS = {
 } as const
 
 export function getRoleRedirectUrl(role: UserRole): string {
-  const environment = ensureEnv('NODE_ENV') === 'development' ? 'development' : 'production'
+  const environment = (process.env.NEXT_PUBLIC_NODE_ENV ?? 'development') === 'development' ? 'development' : 'production'
   return ROLE_REDIRECTS[role][environment]
 }

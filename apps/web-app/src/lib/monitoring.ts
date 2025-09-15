@@ -39,7 +39,9 @@ class ObservabilityManager {
   private traceId: string;
 
   constructor() {
-    this.isProduction = ensureEnv('NODE_ENV') === 'production';
+    // Use NEXT_PUBLIC_NODE_ENV for client-side or fallback to development
+    const nodeEnv = process.env.NEXT_PUBLIC_NODE_ENV ?? 'development';
+    this.isProduction = nodeEnv === 'production';
     this.sessionId = this.generateSessionId();
     this.traceId = this.generateTraceId();
   }
@@ -53,7 +55,7 @@ class ObservabilityManager {
     const enrichedMetric = {
       ...metric,
       timestamp: metric.timestamp || Date.now(),
-      environment: ensureEnv('NODE_ENV'),
+      environment: process.env.NEXT_PUBLIC_NODE_ENV ?? 'development',
       service: 'altamedica-web',
       version: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'unknown'
     };
@@ -422,7 +424,7 @@ class ObservabilityManager {
     // - Prometheus/Grafana
 
     // For now, we'll just log in development
-    if (ensureEnv('NODE_ENV') === 'development' && process.env.DEBUG_MONITORING) {
+    if ((process.env.NEXT_PUBLIC_NODE_ENV ?? 'development') === 'development' && process.env.DEBUG_MONITORING) {
       console.log(`[MONITORING:${type.toUpperCase()}]`, data);
     }
   }
@@ -437,7 +439,7 @@ class ObservabilityManager {
     // - Splunk
 
     // For now, we'll just log in development
-    if (ensureEnv('NODE_ENV') === 'development' && process.env.DEBUG_LOGGING) {
+    if ((process.env.NEXT_PUBLIC_NODE_ENV ?? 'development') === 'development' && process.env.DEBUG_LOGGING) {
       console.log('[LOGGING]', event);
     }
   }
