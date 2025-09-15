@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm -w build --filter @autamedica/web-app...",
-  "outputDirectory": "apps/web-app/.next",
+  "outputDirectory": ".next",
   "installCommand": "pnpm install",
   "framework": "nextjs"
 }
