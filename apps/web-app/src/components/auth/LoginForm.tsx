@@ -19,7 +19,7 @@ export default function LoginForm() {
     setError(null)
 
     // Check if we're in development mode with dummy credentials
-    const isDummyMode = ensureEnv('NEXT_PUBLIC_SUPABASE_URL') === 'https://dummy.supabase.co'
+    const isDummyMode = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://dummy.supabase.co') === 'https://dummy.supabase.co'
 
     if (isDummyMode) {
       // Simulate login in development mode
@@ -66,7 +66,7 @@ export default function LoginForm() {
     setError(null)
 
     // Check if we're in development mode with dummy credentials
-    const isDummyMode = ensureEnv('NEXT_PUBLIC_SUPABASE_URL') === 'https://dummy.supabase.co'
+    const isDummyMode = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://dummy.supabase.co') === 'https://dummy.supabase.co'
 
     if (isDummyMode) {
       // Simulate OAuth login in development mode

@@ -8,8 +8,8 @@ export function createClient() {
   }
 
   // For development/testing, use dummy values if not available
-  const url = ensureEnv('NEXT_PUBLIC_SUPABASE_URL') ?? 'https://dummy.supabase.co'
-  const key = ensureEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ?? 'dummy-key'
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://dummy.supabase.co'
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'dummy-key'
 
   return createBrowserClient(url, key)
 }

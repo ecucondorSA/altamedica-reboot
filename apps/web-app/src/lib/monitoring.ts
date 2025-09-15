@@ -271,10 +271,10 @@ class ObservabilityManager {
 
     try {
       // Check auth service availability
-      const response = await fetch(ensureEnv('NEXT_PUBLIC_SUPABASE_URL') + '/rest/v1/', {
+      const response = await fetch((process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://dummy.supabase.co') + '/rest/v1/', {
         method: 'HEAD',
         headers: {
-          'apikey': ensureEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ?? ''
+          'apikey': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
         }
       });
 
