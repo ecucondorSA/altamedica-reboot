@@ -3,13 +3,12 @@
  * Handles URL generation for different environments
  */
 
-import { ensureEnv } from '@autamedica/shared'
 
 export function getAppUrl(path: string, subdomain?: string): string {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 
   // In development, use localhost with different ports
-  if (ensureEnv('NODE_ENV') === 'development') {
+  if ((process.env.NEXT_PUBLIC_NODE_ENV ?? 'development') === 'development') {
     const portMap = {
       patients: '3003',
       doctors: '3002',
