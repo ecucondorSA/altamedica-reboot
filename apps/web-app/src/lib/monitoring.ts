@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 /**
  * AltaMedica Monitoring & Observability Library
  * HIPAA-compliant monitoring with privacy protection
  */
 
-import { NextRequest } from 'next/server';
+import { ensureEnv } from '@autamedica/shared';
 
 export interface MetricData {
   name: string;
@@ -16,7 +17,7 @@ export interface MetricData {
 export interface LogEvent {
   level: 'debug' | 'info' | 'warn' | 'error' | 'critical';
   message: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   timestamp?: number;
   userId?: string; // Hashed for HIPAA compliance
   sessionId?: string;
@@ -28,7 +29,7 @@ export interface HealthCheckResult {
   service: string;
   status: 'healthy' | 'degraded' | 'unhealthy';
   responseTime: number;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   timestamp: number;
 }
 
@@ -38,23 +39,23 @@ class ObservabilityManager {
   private traceId: string;
 
   constructor() {
-    this.isProduction = process.env.NODE_ENV === 'production';
+    this.isProduction = ensureEnv('NODE_ENV') === 'production';
     this.sessionId = this.generateSessionId();
     this.traceId = this.generateTraceId();
   }
 
   // Metrics Collection
   recordMetric(metric: MetricData): void {
-    if (!this.isProduction && !process.env.ENABLE_DEV_METRICS) {
+    if (!this.isProduction) {
       return;
     }
 
     const enrichedMetric = {
       ...metric,
       timestamp: metric.timestamp || Date.now(),
-      environment: process.env.NODE_ENV,
+      environment: ensureEnv('NODE_ENV'),
       service: 'altamedica-web',
-      version: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || 'unknown'
+      version: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'unknown'
     };
 
     // Send to monitoring service (Vercel Analytics, DataDog, etc.)
@@ -100,7 +101,7 @@ class ObservabilityManager {
     });
   }
 
-  recordUserAction(action: string, userId?: string, metadata?: Record<string, any>): void {
+  recordUserAction(action: string, userId?: string, metadata?: Record<string, unknown>): void {
     const sanitizedMetadata = this.sanitizeMetadata(metadata);
 
     this.recordMetric({
@@ -116,7 +117,7 @@ class ObservabilityManager {
   }
 
   // Error Tracking
-  recordError(error: Error, context?: Record<string, any>): void {
+  recordError(error: Error, context?: Record<string, unknown>): void {
     const errorEvent: LogEvent = {
       level: 'error',
       message: error.message,
@@ -169,7 +170,7 @@ class ObservabilityManager {
   }
 
   // Authentication Events
-  recordAuthEvent(event: 'login' | 'logout' | 'register' | 'failed_login', userId?: string, metadata?: Record<string, any>): void {
+  recordAuthEvent(event: 'login' | 'logout' | 'register' | 'failed_login', userId?: string, metadata?: Record<string, unknown>): void {
     this.log({
       level: 'info',
       message: `Authentication event: ${event}`,
@@ -247,7 +248,7 @@ class ObservabilityManager {
         timestamp: Date.now(),
         details: {
           provider: 'supabase',
-          region: process.env.SUPABASE_REGION || 'unknown'
+          region: process.env.SUPABASE_REGION ?? 'unknown'
         }
       };
     } catch (error) {
@@ -268,10 +269,10 @@ class ObservabilityManager {
 
     try {
       // Check auth service availability
-      const response = await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL + '/rest/v1/', {
+      const response = await fetch(ensureEnv('NEXT_PUBLIC_SUPABASE_URL') + '/rest/v1/', {
         method: 'HEAD',
         headers: {
-          'apikey': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+          'apikey': ensureEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ?? ''
         }
       });
 
@@ -351,10 +352,10 @@ class ObservabilityManager {
                   .replace(/\?.*/, ''); // Query parameters
   }
 
-  private sanitizeMetadata(metadata?: Record<string, any>): Record<string, any> {
+  private sanitizeMetadata(metadata?: Record<string, unknown>): Record<string, unknown> {
     if (!metadata) return {};
 
-    const sanitized: Record<string, any> = {};
+    const sanitized: Record<string, unknown> = {};
 
     for (const [key, value] of Object.entries(metadata)) {
       // Skip sensitive fields
@@ -411,7 +412,7 @@ class ObservabilityManager {
     return Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
   }
 
-  private sendToMonitoringService(type: 'metrics' | 'logs', data: any): void {
+  private sendToMonitoringService(type: 'metrics' | 'logs', data: unknown): void {
     if (!this.isProduction) return;
 
     // In production, this would send to monitoring services like:
@@ -421,7 +422,7 @@ class ObservabilityManager {
     // - Prometheus/Grafana
 
     // For now, we'll just log in development
-    if (process.env.NODE_ENV === 'development' && process.env.DEBUG_MONITORING) {
+    if (ensureEnv('NODE_ENV') === 'development' && process.env.DEBUG_MONITORING) {
       console.log(`[MONITORING:${type.toUpperCase()}]`, data);
     }
   }
@@ -436,7 +437,7 @@ class ObservabilityManager {
     // - Splunk
 
     // For now, we'll just log in development
-    if (process.env.NODE_ENV === 'development' && process.env.DEBUG_LOGGING) {
+    if (ensureEnv('NODE_ENV') === 'development' && process.env.DEBUG_LOGGING) {
       console.log('[LOGGING]', event);
     }
   }
@@ -447,8 +448,8 @@ export const monitoring = new ObservabilityManager();
 
 // Convenience functions
 export const recordMetric = (metric: MetricData) => monitoring.recordMetric(metric);
-export const recordError = (error: Error, context?: Record<string, any>) => monitoring.recordError(error, context);
+export const recordError = (error: Error, context?: Record<string, unknown>) => monitoring.recordError(error, context);
 export const log = (event: LogEvent) => monitoring.log(event);
-export const recordAuthEvent = (event: 'login' | 'logout' | 'register' | 'failed_login', userId?: string, metadata?: Record<string, any>) =>
+export const recordAuthEvent = (event: 'login' | 'logout' | 'register' | 'failed_login', userId?: string, metadata?: Record<string, unknown>) =>
   monitoring.recordAuthEvent(event, userId, metadata);
 export const performHealthCheck = () => monitoring.performHealthCheck();

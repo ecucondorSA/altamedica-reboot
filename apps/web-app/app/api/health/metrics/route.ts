@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { recordMetric, log } from '@/lib/monitoring';
 
 /**
  * Metrics endpoint for Prometheus/monitoring integration
  * Returns system metrics in standard format
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   const startTime = Date.now();
 
   try {

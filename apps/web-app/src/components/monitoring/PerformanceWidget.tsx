@@ -19,12 +19,12 @@ export default function PerformanceWidget() {
   useEffect(() => {
     const measurePerformance = () => {
       try {
-        const navigation = (performance as any).navigation || (window as any).performance.getEntriesByType('navigation')[0]
-        const memory = (performance as any).memory
+        const navigation = (performance as unknown as { navigation?: unknown }).navigation || (window as unknown as { performance: { getEntriesByType: (type: string) => unknown[] } }).performance.getEntriesByType('navigation')[0]
+        const memory = (performance as unknown as { memory?: unknown }).memory
 
         const loadTime = navigation ? navigation.loadEventEnd - navigation.fetchStart : 0
         const renderTime = navigation ? navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart : 0
-        const connection = (navigator as any).connection
+        const connection = (navigator as unknown as { connection?: unknown }).connection
 
         const perfData: PerformanceData = {
           loadTime: Math.round(loadTime),

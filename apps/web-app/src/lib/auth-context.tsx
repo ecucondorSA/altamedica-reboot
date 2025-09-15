@@ -51,7 +51,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           console.log('User profiles table not found, using mock profile')
           const mockProfile: UserProfile = {
             id: userId,
-            email: user?.email || '',
+            email: user?.email ?? '',
             role: 'patient',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
@@ -64,13 +64,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       setUserProfile(data as UserProfile)
-    } catch (error) {
+    } catch {
       console.log('Error accessing user profiles, using default profile')
       // Create a default profile for development
       if (user) {
         const defaultProfile: UserProfile = {
           id: userId,
-          email: user.email || '',
+          email: user.email ?? '',
           role: 'patient',
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()

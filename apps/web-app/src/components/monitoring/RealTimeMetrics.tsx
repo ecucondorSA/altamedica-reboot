@@ -15,12 +15,12 @@ interface MetricData {
 export default function RealTimeMetrics() {
   const [metrics, setMetrics] = useState<MetricData[]>([])
   const [isVisible, setIsVisible] = useState(false)
-  const [activeUsers, setActiveUsers] = useState(0)
+  const [, setActiveUsers] = useState(0)
 
   const generateMetrics = useCallback(() => {
     try {
       // Simulated real-time metrics (in production, these would come from actual monitoring)
-      const currentTime = Date.now()
+      // const currentTime = Date.now() // Currently unused
       const responseTime = Math.floor(Math.random() * 100) + 50 // 50-150ms
       const memoryUsage = Math.floor(Math.random() * 200) + 300 // 300-500MB
       const apiCalls = Math.floor(Math.random() * 50) + 20 // 20-70 calls/min

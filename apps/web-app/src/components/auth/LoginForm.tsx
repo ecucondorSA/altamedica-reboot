@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { ensureEnv } from '@autamedica/shared'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
@@ -18,7 +19,7 @@ export default function LoginForm() {
     setError(null)
 
     // Check if we're in development mode with dummy credentials
-    const isDummyMode = process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://dummy.supabase.co'
+    const isDummyMode = ensureEnv('NEXT_PUBLIC_SUPABASE_URL') === 'https://dummy.supabase.co'
 
     if (isDummyMode) {
       // Simulate login in development mode
@@ -65,7 +66,7 @@ export default function LoginForm() {
     setError(null)
 
     // Check if we're in development mode with dummy credentials
-    const isDummyMode = process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://dummy.supabase.co'
+    const isDummyMode = ensureEnv('NEXT_PUBLIC_SUPABASE_URL') === 'https://dummy.supabase.co'
 
     if (isDummyMode) {
       // Simulate OAuth login in development mode

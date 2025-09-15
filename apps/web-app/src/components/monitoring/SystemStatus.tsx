@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { monitoring, recordMetric } from '@/lib/monitoring'
+import { recordMetric } from '@/lib/monitoring'
 
 interface SystemHealth {
   status: 'healthy' | 'degraded' | 'unhealthy'

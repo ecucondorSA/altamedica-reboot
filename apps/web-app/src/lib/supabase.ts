@@ -1,4 +1,5 @@
 import { createBrowserClient } from '@supabase/ssr'
+import { ensureEnv } from '@autamedica/shared'
 
 export function createClient() {
   // Only create client on the client side
@@ -6,12 +7,9 @@ export function createClient() {
     return null
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
   // For development/testing, use dummy values if not available
-  const url = supabaseUrl || 'https://dummy.supabase.co'
-  const key = supabaseAnonKey || 'dummy-key'
+  const url = ensureEnv('NEXT_PUBLIC_SUPABASE_URL') ?? 'https://dummy.supabase.co'
+  const key = ensureEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ?? 'dummy-key'
 
   return createBrowserClient(url, key)
 }
@@ -48,6 +46,6 @@ export const ROLE_REDIRECTS = {
 } as const
 
 export function getRoleRedirectUrl(role: UserRole): string {
-  const environment = process.env.NODE_ENV === 'development' ? 'development' : 'production'
+  const environment = ensureEnv('NODE_ENV') === 'development' ? 'development' : 'production'
   return ROLE_REDIRECTS[role][environment]
 }

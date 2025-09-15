@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { performHealthCheck, recordMetric, log } from '@/lib/monitoring';
 
 /**
  * Deep health check endpoint for comprehensive system validation
  * Performs thorough checks of all system components
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   const startTime = Date.now();
 
   try {
