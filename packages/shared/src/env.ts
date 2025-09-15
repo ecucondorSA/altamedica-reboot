@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, no-restricted-globals, no-console */
 // Tipos de configuración de entorno
 export interface EnvironmentConfig {
   // Variables públicas (cliente)
@@ -198,7 +199,7 @@ export function validateEnvironment(): EnvironmentConfig {
   // Validar variables críticas del servidor
   const server = {
     supabase: {
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL || '', // Usamos la misma URL
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL ??'', // Usamos la misma URL
       serviceRoleKey: ensureServerEnv('SUPABASE_SERVICE_ROLE_KEY'),
     },
     jwt: {
@@ -223,14 +224,7 @@ export function validateEnvironment(): EnvironmentConfig {
 }
 
 // Validación específica para variables críticas de producción
-export function validateProductionEnvironment(): {
-  security: boolean;
-  database: boolean;
-  payments: boolean;
-  monitoring: boolean;
-  compliance: boolean;
-  issues: string[];
-} {
+export function validateProductionEnvironment(): EnvironmentValidation {
   const issues: string[] = [];
 
   // Verificar seguridad crítica
@@ -297,7 +291,7 @@ export function validateProductionEnvironment(): {
 
   const compliance = complianceVars.every(varName => {
     const value = process.env[varName];
-    if (!value || value !== 'true') {
+    if (!value ??value !== 'true') {
       issues.push(`Compliance variable ${varName} must be set to 'true'`);
       return false;
     }
@@ -305,6 +299,7 @@ export function validateProductionEnvironment(): {
   });
 
   return {
+    environment: 'production',
     security,
     database,
     payments,
@@ -343,5 +338,83 @@ export function validateEnvironmentSecurity(): void {
     if (serverVal && clientVal && serverVal !== clientVal) {
       console.warn(`Warning: ${serverVar} and ${clientVar} have different values. This may cause confusion.`);
     }
+  }
+}
+
+// Environment-specific validation
+export interface EnvironmentValidation {
+  environment: 'development' | 'staging' | 'production';
+  security: boolean;
+  database: boolean;
+  monitoring: boolean;
+  compliance: boolean;
+  payments: boolean;
+  issues: string[];
+}
+
+export function validateStagingEnvironment(): EnvironmentValidation {
+  const issues: string[] = [];
+
+  // Check staging-specific requirements
+  const nodeEnv = process.env.NODE_ENV;
+  if (nodeEnv !== 'staging' && nodeEnv !== 'development') {
+    issues.push('NODE_ENV should be "staging" for staging environment');
+  }
+
+  // Staging should use test reCAPTCHA keys
+  const recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  if (recaptchaKey && !recaptchaKey.includes('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')) {
+    issues.push('Staging should use test reCAPTCHA keys for development');
+  }
+
+  // Staging should use test MercadoPago
+  const mpToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
+  if (mpToken && !mpToken.startsWith('TEST-')) {
+    issues.push('Staging should use TEST MercadoPago credentials');
+  }
+
+  // Check staging domain structure
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (appUrl && !appUrl.includes('staging')) {
+    issues.push('Staging should use staging subdomain structure');
+  }
+
+  // Basic validations from production
+  const prodValidation = validateProductionEnvironment();
+
+  return {
+    environment: 'staging',
+    security: prodValidation.security,
+    database: prodValidation.database,
+    monitoring: prodValidation.monitoring,
+    compliance: true, // Less strict for staging
+    payments: mpToken?.startsWith('TEST-') ??false,
+    issues: [...issues, ...prodValidation.issues.filter(issue =>
+      !issue.includes('MercadoPago') // Filter out production payment issues
+    )]
+  };
+}
+
+export function validateEnvironmentByType(envType?: string): EnvironmentValidation {
+  const environment = envType ??process.env.NODE_ENV ??'development';
+
+  switch (environment) {
+    case 'production':
+      return validateProductionEnvironment();
+    case 'staging':
+      return validateStagingEnvironment();
+    case 'development':
+      // Development is more permissive
+      return {
+        environment: 'development',
+        security: true,
+        database: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        monitoring: true,
+        compliance: true,
+        payments: true, // Not required for development
+        issues: []
+      };
+    default:
+      throw new Error(`Unknown environment type: ${environment}`);
   }
 }

@@ -1,4 +1,28 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+echo "🔐 Running pre-commit security checks..."
+
+# 1. Run security validation script
+echo "📋 Running comprehensive security validation..."
+node scripts/security-check.mjs
+
+# 2. Check for secrets in staged files
+echo "🕵️ Checking for exposed secrets..."
+git diff --cached --name-only | xargs -I {} sh -c 'echo "Checking: {}"; grep -E "(password|secret|key|token)" {} || true'
+
+# 3. Run lint-staged for code quality
+echo "🔍 Running code quality checks..."
 pnpm lint-staged
+
+# 4. Type checking
+echo "📝 Running TypeScript checks..."
+pnpm type-check
+
+# 5. Run tests if they exist
+if [ -f "package.json" ] && grep -q '"test"' package.json; then
+  echo "🧪 Running tests..."
+  pnpm test --passWithNoTests
+fi
+
+echo "✅ Pre-commit security checks completed successfully!"

@@ -1,0 +1,50 @@
+import Link from 'next/link';
+import LoginForm from '@/components/auth/LoginForm';
+
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-autamedica-negro via-autamedica-secondary to-autamedica-negro flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <Link href="/" className="text-2xl font-bold text-autamedica-blanco hover:text-autamedica-primary transition-colors">
+            AutaMedica
+          </Link>
+          <p className="text-autamedica-text-light mt-2">Desarrollado por E.M Medicina - UBA</p>
+        </div>
+
+        {/* Login Form */}
+        <div className="bg-autamedica-negro/50 backdrop-blur-lg rounded-2xl p-8 border border-autamedica-secondary/30">
+          <h1 className="text-2xl font-bold text-autamedica-blanco mb-6 text-center">Iniciar Sesión</h1>
+
+          <LoginForm />
+
+          {/* Footer Links */}
+          <div className="mt-6 text-center space-y-2">
+            <p className="text-gray-400 text-sm">
+              ¿No tienes cuenta?{' '}
+              <Link href="/auth/register" className="text-autamedica-primary hover:text-autamedica-primary-dark font-medium">
+                Registrarse
+              </Link>
+            </p>
+            <Link href="/auth/forgot-password" className="text-autamedica-text-light hover:text-autamedica-text-secondary text-sm">
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
+        </div>
+
+        {/* Terms */}
+        <p className="text-center text-xs text-autamedica-text-light mt-6">
+          Al continuar, aceptas nuestros{' '}
+          <Link href="/terms" className="text-autamedica-primary hover:text-autamedica-primary-dark">
+            Términos de Servicio
+          </Link>{' '}
+          y{' '}
+          <Link href="/privacy" className="text-autamedica-primary hover:text-autamedica-primary-dark">
+            Política de Privacidad
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

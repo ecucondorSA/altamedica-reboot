@@ -5,11 +5,13 @@ export {
   ensureServerEnv,
   validateEnvironment,
   validateEnvironmentSecurity,
-  validateProductionEnvironment
+  validateProductionEnvironment,
+  validateStagingEnvironment,
+  validateEnvironmentByType
 } from "./env";
 
 // Tipos de entorno
-export type { EnvironmentConfig } from "./env";
+export type { EnvironmentConfig, EnvironmentValidation } from "./env";
 
 // Validaciones
 export { validateEmail, validatePhone } from "./validators";
