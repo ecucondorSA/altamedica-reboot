@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { validateEnvironmentSecurity } from '@autamedica/shared';
-import { performHealthCheck, recordMetric, log } from '@/lib/monitoring';
+import { performHealthCheck, recordMetric, log, HealthCheckResult } from '@/lib/monitoring';
 
 /**
  * Health check endpoint for monitoring and observability
@@ -18,7 +18,7 @@ export async function GET() {
     });
 
     // Perform comprehensive health checks (skip in development to avoid errors)
-    let detailedHealthChecks = [];
+    let detailedHealthChecks: HealthCheckResult[] = [];
     try {
       if (process.env.NODE_ENV === 'production') {
         detailedHealthChecks = await performHealthCheck();

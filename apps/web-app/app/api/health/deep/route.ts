@@ -170,7 +170,7 @@ function getLoadAverage(): number[] | null {
 
 function checkHTTPSEnforcement(): boolean {
   return process.env.NODE_ENV === 'production' &&
-         process.env.NEXT_PUBLIC_SUPABASE_URL?.startsWith('https://');
+         (process.env.NEXT_PUBLIC_SUPABASE_URL?.startsWith('https://') ?? false);
 }
 
 function checkSecurityHeaders(): boolean {

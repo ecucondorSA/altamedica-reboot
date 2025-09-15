@@ -132,7 +132,7 @@ class ObservabilityManager {
         url: typeof window !== 'undefined' ? window.location.href : undefined,
         userAgent: typeof window !== 'undefined' ? navigator.userAgent : undefined
       },
-      component: context?.component || 'unknown'
+      component: (context?.component as string) || 'unknown'
     };
 
     this.log(errorEvent);
@@ -144,7 +144,7 @@ class ObservabilityManager {
       unit: 'count',
       tags: {
         error_type: error.name,
-        component: context?.component || 'unknown'
+        component: (context?.component as string) || 'unknown'
       }
     });
   }
@@ -369,7 +369,7 @@ class ObservabilityManager {
       if (typeof value === 'string') {
         sanitized[key] = this.sanitizeValue(value);
       } else if (typeof value === 'object' && value !== null) {
-        sanitized[key] = this.sanitizeMetadata(value);
+        sanitized[key] = this.sanitizeMetadata(value as Record<string, unknown>);
       } else {
         sanitized[key] = value;
       }

@@ -19,12 +19,12 @@ export default function PerformanceWidget() {
   useEffect(() => {
     const measurePerformance = () => {
       try {
-        const navigation = (performance as unknown as { navigation?: unknown }).navigation || (window as unknown as { performance: { getEntriesByType: (type: string) => unknown[] } }).performance.getEntriesByType('navigation')[0]
-        const memory = (performance as unknown as { memory?: unknown }).memory
+        const navigation = (performance as unknown as { navigation?: { loadEventEnd: number; fetchStart: number; domContentLoadedEventEnd: number; domContentLoadedEventStart: number } }).navigation || (window as unknown as { performance: { getEntriesByType: (type: string) => { loadEventEnd: number; fetchStart: number; domContentLoadedEventEnd: number; domContentLoadedEventStart: number }[] } }).performance.getEntriesByType('navigation')[0]
+        const memory = (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory
 
         const loadTime = navigation ? navigation.loadEventEnd - navigation.fetchStart : 0
         const renderTime = navigation ? navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart : 0
-        const connection = (navigator as unknown as { connection?: unknown }).connection
+        const connection = (navigator as unknown as { connection?: { effectiveType: string } }).connection
 
         const perfData: PerformanceData = {
           loadTime: Math.round(loadTime),
@@ -59,7 +59,7 @@ export default function PerformanceWidget() {
         recordMetric({
           name: 'memory_usage_client',
           value: perfData.memoryUsage,
-          unit: 'MB',
+          unit: 'bytes',
           tags: { type: 'client_side' }
         })
 
