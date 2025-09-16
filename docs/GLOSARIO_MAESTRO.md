@@ -496,3 +496,15 @@ Script en `scripts/validate-exports.mjs` verifica que:
 - Package manager PNPM
 - Build commands para monorepo
 - Output directories correctos
+
+<!-- AUTOGEN_PACKAGES:START -->
+
+## Índice de símbolos por paquete (auto)
+
+- auth: `AuthProvider`, `AuthState`, `AuthUser`, `SignInWithOtpOptions`, `SignInWithOtpResult`, `createBrowserClient`, `createMiddlewareClient`, `createRouteHandlerClient`, `createServerClient`, `getCurrentUser`, `getPortalRedirectUrl`, `getSession`, `hasPortalAccess`, `hasRole`, `requirePortalAccess`, `requireSession`, `signInWithOtp`, `signOut`, `useAuth`, `validateEmailForSignIn`
+- hooks: `useAppointments`, `useAsync`, `useDebounce`, `usePatients`
+- shared: `EnvironmentConfig`, `EnvironmentValidation`, `ensureClientEnv`, `ensureEnv`, `ensureServerEnv`, `validateEmail`, `validateEnvironment`, `validateEnvironmentByType`, `validateEnvironmentSecurity`, `validatePhone`, `validateProductionEnvironment`, `validateStagingEnvironment`
+- types: `APIError`, `APIErrorResponse`, `APIResponse`, `APISuccessResponse`, `Appointment`, `AppointmentId`, `Company`, `CompanyAddress`, `CompanyContact`, `CompanyId`, `CompanySize`, `Doctor`, `DoctorEducation`, `DoctorExperience`, `DoctorId`, `EmergencyContact`, `FacilityId`, `ISODateString`, `Patient`, `PatientAddress`, `PatientId`, `Portal`, `ROLE_TO_PORTALS`, `SpecialtyId`, `UUID`, `User`, `UserProfile`, `UserRole`, `UserSession`, `canAccessPortal`, `createCompanyId`, `createDoctorId`, `createErrorResponse`, `createPatientId`, `createSuccessResponse`, `createUUID`, `fromISODateString`, `nowAsISODateString`, `toISODateString`
+
+
+<!-- AUTOGEN_PACKAGES:END -->
