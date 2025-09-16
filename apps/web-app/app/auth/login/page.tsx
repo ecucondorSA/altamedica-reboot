@@ -10,7 +10,7 @@ export default function LoginPage() {
           <Link href="/" className="text-2xl font-bold text-autamedica-blanco hover:text-autamedica-primary transition-colors">
             AutaMedica
           </Link>
-          <p className="text-autamedica-text-light mt-2">Desarrollado por E.M Medicina - UBA</p>
+          <p className="text-white mt-2">Desarrollado por E.M Medicina - UBA</p>
         </div>
 
         {/* Login Form */}
@@ -34,13 +34,13 @@ export default function LoginPage() {
         </div>
 
         {/* Terms */}
-        <p className="text-center text-xs text-autamedica-text-light mt-6">
+        <p className="text-center text-xs text-white mt-6">
           Al continuar, aceptas nuestros{' '}
-          <Link href="/terms" className="text-autamedica-primary hover:text-autamedica-primary-dark">
+          <Link href="/terms" className="text-autamedica-primary hover:text-white underline">
             Términos de Servicio
           </Link>{' '}
           y{' '}
-          <Link href="/privacy" className="text-autamedica-primary hover:text-autamedica-primary-dark">
+          <Link href="/privacy" className="text-autamedica-primary hover:text-white underline">
             Política de Privacidad
           </Link>
         </p>

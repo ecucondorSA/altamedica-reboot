@@ -116,7 +116,7 @@ export default function LoginForm() {
       )}
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-autamedica-text-secondary mb-2">
+        <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
           Email
         </label>
         <input
@@ -132,7 +132,7 @@ export default function LoginForm() {
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-autamedica-text-secondary mb-2">
+        <label htmlFor="password" className="block text-sm font-medium text-white mb-2">
           Contraseña
         </label>
         <input
@@ -158,7 +158,7 @@ export default function LoginForm() {
       {/* Divider */}
       <div className="my-6 flex items-center">
         <div className="flex-1 border-t border-autamedica-secondary/30"></div>
-        <span className="px-4 text-autamedica-text-light text-sm">o</span>
+        <span className="px-4 text-white text-sm">o</span>
         <div className="flex-1 border-t border-autamedica-secondary/30"></div>
       </div>
 

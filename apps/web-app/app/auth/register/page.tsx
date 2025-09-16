@@ -9,7 +9,7 @@ export default function RegisterPage() {
           <Link href="/" className="text-2xl font-bold text-autamedica-blanco hover:text-autamedica-primary transition-colors">
             AutaMedica
           </Link>
-          <p className="text-autamedica-text-light mt-2">Desarrollado por E.M Medicina - UBA</p>
+          <p className="text-white mt-2">Desarrollado por E.M Medicina - UBA</p>
         </div>
 
         {/* Register Form */}
@@ -25,7 +25,7 @@ export default function RegisterPage() {
                 <input
                   type="text"
                   id="firstName"
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-autamedica-primary focus:border-transparent"
                   placeholder="Juan"
                   required
                 />
@@ -37,7 +37,7 @@ export default function RegisterPage() {
                 <input
                   type="text"
                   id="lastName"
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-autamedica-primary focus:border-transparent"
                   placeholder="Pérez"
                   required
                 />
@@ -51,7 +51,7 @@ export default function RegisterPage() {
               <input
                 type="email"
                 id="email"
-                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-autamedica-primary focus:border-transparent"
                 placeholder="tu@email.com"
                 required
               />
@@ -63,7 +63,7 @@ export default function RegisterPage() {
               </label>
               <select
                 id="userType"
-                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-autamedica-primary focus:border-transparent"
                 required
               >
                 <option value="">Seleccionar tipo</option>
@@ -80,7 +80,7 @@ export default function RegisterPage() {
               <input
                 type="password"
                 id="password"
-                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-autamedica-primary focus:border-transparent"
                 placeholder="••••••••"
                 required
               />
@@ -93,7 +93,7 @@ export default function RegisterPage() {
               <input
                 type="password"
                 id="confirmPassword"
-                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-autamedica-primary focus:border-transparent"
                 placeholder="••••••••"
                 required
               />
@@ -104,16 +104,16 @@ export default function RegisterPage() {
               <input
                 type="checkbox"
                 id="terms"
-                className="w-4 h-4 mt-1 bg-gray-700 border border-gray-600 rounded focus:ring-green-500 focus:ring-2"
+                className="w-4 h-4 mt-1 bg-gray-700 border border-gray-600 rounded focus:ring-autamedica-primary focus:ring-2"
                 required
               />
               <label htmlFor="terms" className="text-sm text-gray-300">
                 Acepto los{' '}
-                <Link href="/terms" className="text-green-400 hover:text-green-300">
+                <Link href="/terms" className="text-autamedica-primary hover:text-white underline">
                   Términos de Servicio
                 </Link>{' '}
                 y la{' '}
-                <Link href="/privacy" className="text-green-400 hover:text-green-300">
+                <Link href="/privacy" className="text-autamedica-primary hover:text-white underline">
                   Política de Privacidad
                 </Link>
               </label>
@@ -121,7 +121,7 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105"
+              className="w-full bg-gradient-to-r from-autamedica-primary to-autamedica-primary-dark text-white py-3 px-4 rounded-lg font-semibold hover:from-autamedica-primary-dark hover:to-autamedica-beige transition-all duration-200 transform hover:scale-105"
             >
               Crear Cuenta
             </button>
@@ -158,7 +158,7 @@ export default function RegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-gray-400 text-sm">
               ¿Ya tienes cuenta?{' '}
-              <Link href="/auth/login" className="text-green-400 hover:text-green-300 font-medium">
+              <Link href="/auth/login" className="text-autamedica-primary hover:text-white font-medium underline">
                 Iniciar sesión
               </Link>
             </p>
