@@ -3,8 +3,8 @@
  * Validates that Vercel deployment configuration is correct for monorepo apps
  */
 
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 const vercelDeploymentConfig = {
   rules: {
@@ -157,4 +157,4 @@ const vercelDeploymentConfig = {
   },
 };
 
-export default vercelDeploymentConfig;
+module.exports = vercelDeploymentConfig;

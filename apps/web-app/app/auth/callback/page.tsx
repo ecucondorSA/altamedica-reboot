@@ -31,7 +31,7 @@ export default function AuthCallbackPage() {
           return;
         }
 
-        if (!data.session || !data.session.user) {
+        if (!data.session?.user) {
           console.warn('No session or user found');
           setStatus('Sesión no válida');
           router.push('/auth/login?error=no_session');

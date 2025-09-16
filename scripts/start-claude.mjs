@@ -54,23 +54,55 @@ function startProcess(name, command, args = [], options = {}) {
 async function main() {
   console.log('📋 Iniciando procesos de desarrollo:\n');
 
-  // 1. Validación inicial de políticas
-  console.log('🔍 Ejecutando validación inicial de políticas...');
+  // 1. Validación inicial completa (políticas + quality)
+  console.log('🔍 Ejecutando validación inicial completa...');
   try {
     const { spawnSync } = await import('node:child_process');
-    const validation = spawnSync('pnpm', ['run', 'policies:validate'], {
+
+    // Validación de políticas
+    console.log('  📋 Validando políticas del monorepo...');
+    const policyValidation = spawnSync('pnpm', ['run', 'policies:validate'], {
       stdio: 'pipe',
       encoding: 'utf8',
       cwd: join(__dirname, '..')
     });
 
-    if (validation.status === 0) {
-      console.log('✅ Validación de políticas inicial: PASÓ\n');
+    if (policyValidation.status === 0) {
+      console.log('  ✅ Políticas: PASÓ');
     } else {
-      console.log('⚠️  Validación de políticas inicial: FALLÓ (continuando...)\n');
-      console.log(validation.stdout);
-      console.log(validation.stderr);
+      console.log('  ⚠️  Políticas: FALLÓ (continuando...)');
     }
+
+    // Validación de arquitectura con dependency-cruiser (rápida)
+    console.log('  🏗️  Validando arquitectura del proyecto...');
+    const archValidation = spawnSync('pnpm', ['run', 'depcruise'], {
+      stdio: 'pipe',
+      encoding: 'utf8',
+      cwd: join(__dirname, '..')
+    });
+
+    if (archValidation.status === 0) {
+      console.log('  ✅ Arquitectura: LIMPIA');
+    } else {
+      console.log('  ⚠️  Arquitectura: Violaciones detectadas (revisar con pnpm depcruise)');
+    }
+
+    // ESLint básico (no con --fix para no modificar archivos automáticamente)
+    console.log('  🔍 Verificando calidad de código...');
+    const lintValidation = spawnSync('pnpm', ['run', 'lint'], {
+      stdio: 'pipe',
+      encoding: 'utf8',
+      cwd: join(__dirname, '..')
+    });
+
+    if (lintValidation.status === 0) {
+      console.log('  ✅ Calidad de código: PASÓ');
+    } else {
+      console.log('  ⚠️  Calidad de código: Issues detectados (revisar con pnpm lint)');
+    }
+
+    console.log('');
+
   } catch (error) {
     console.log('⚠️  Error en validación inicial (continuando...):', error.message);
   }
@@ -90,7 +122,6 @@ async function main() {
   );
 
   // 4. ESLint en modo watch (si está disponible)
-  // Nota: algunos proyectos no tienen watch mode para ESLint, pero intentamos
   try {
     startProcess(
       'ESLint Watch',
@@ -101,6 +132,29 @@ async function main() {
     console.log('ℹ️  ESLint watch mode no disponible');
   }
 
+  // 5. Monitoreo periódico de arquitectura (cada 30 segundos)
+  startProcess(
+    'Architecture Monitor',
+    'node',
+    ['-e', `
+      setInterval(() => {
+        const { spawnSync } = require('child_process');
+        const result = spawnSync('pnpm', ['run', 'depcruise'], {
+          stdio: 'pipe',
+          encoding: 'utf8'
+        });
+
+        if (result.status !== 0) {
+          console.log('⚠️  [ARCHITECTURE] Violaciones detectadas - ejecuta: pnpm depcruise');
+        } else {
+          console.log('✅ [ARCHITECTURE] Sin violaciones');
+        }
+      }, 30000);
+
+      console.log('🏗️  Monitor de arquitectura iniciado (cada 30s)');
+    `]
+  );
+
   console.log('\n✅ Todos los procesos de desarrollo iniciados');
   console.log('\n📊 Procesos activos:');
   processes.forEach(({ name }) => {
@@ -108,12 +162,19 @@ async function main() {
   });
 
   console.log('\n💡 Comandos útiles mientras desarrollas:');
-  console.log('  pnpm run policies:validate    # Validar políticas del monorepo');
-  console.log('  pnpm run check:all           # Validación completa (lint + type + policies)');
-  console.log('  pnpm run lint                # Solo ESLint');
-  console.log('  pnpm run type-check          # Solo TypeScript check');
-  console.log('  pnpm run vercel:validate     # Validar configuración de deployment');
-  console.log('  pnpm run pre-deploy          # Validación pre-deployment completa');
+  console.log('  🔍 Quality & Validation:');
+  console.log('    pnpm ci:quality            # ⭐ Gate completo: lint + arquitectura + duplicados');
+  console.log('    pnpm lint                  # Solo ESLint check');
+  console.log('    pnpm lint:fix              # Auto-fix issues de ESLint');
+  console.log('    pnpm depcruise             # Validar arquitectura y dependencias');
+  console.log('    pnpm dup                   # Detectar código duplicado');
+  console.log('  🏗️  Architecture & Policies:');
+  console.log('    pnpm policies:validate     # Validar políticas del monorepo');
+  console.log('    pnpm check:all             # Validación completa (lint + type + policies)');
+  console.log('    pnpm type-check            # Solo TypeScript check');
+  console.log('  🚀 Deployment:');
+  console.log('    pnpm vercel:validate       # Validar configuración de deployment');
+  console.log('    pnpm pre-deploy            # Validación pre-deployment completa');
 
   console.log('\n🎯 Claude está listo para desarrollar con validación en tiempo real');
   console.log('💡 Presiona Ctrl+C para detener todos los procesos\n');

@@ -7,8 +7,8 @@
 
 import { createBrowserClient } from "./client";
 import { ensureClientEnv } from "@autamedica/shared";
-import type { APIResponse } from "@autamedica/types";
-import { createSuccessResponse, createErrorResponse } from "@autamedica/types";
+import type { ApiResponse } from "@autamedica/types";
+import { ok, fail } from "@autamedica/types";
 
 export interface SignInWithOtpOptions {
   email: string;
@@ -29,7 +29,7 @@ export interface SignInWithOtpResult {
  */
 export async function signInWithOtp(
   options: SignInWithOtpOptions
-): Promise<APIResponse<SignInWithOtpResult>> {
+): Promise<ApiResponse<SignInWithOtpResult>> {
   try {
     const { email, redirectTo, portal } = options;
     const supabase = createBrowserClient();
@@ -64,27 +64,27 @@ export async function signInWithOtp(
       options: {
         emailRedirectTo: redirectUrlWithParams.toString(),
         data: {
-          portal: portal || "patients", // Portal por defecto
+          portal: portal ?? "patients", // Portal por defecto
         },
       },
     });
 
     if (error) {
-      return createErrorResponse({
-        code: "SIGNIN_ERROR",
+      return fail({
+        code: "UNAUTHENTICATED",
         message: error.message,
         details: { email, portal },
       });
     }
 
-    return createSuccessResponse({
+    return ok({
       success: true,
       message: `Se ha enviado un enlace de acceso a ${email}. Revisa tu bandeja de entrada.`,
     });
   } catch (error) {
     console.error("Error in signInWithOtp:", error);
-    return createErrorResponse({
-      code: "UNEXPECTED_ERROR",
+    return fail({
+      code: "INTERNAL",
       message: "Error inesperado al enviar el enlace de acceso",
       details: { error: String(error) },
     });
@@ -98,28 +98,28 @@ export async function signInWithOtp(
  */
 export async function validateEmailForSignIn(
   email: string
-): Promise<APIResponse<{ isValid: boolean; exists?: boolean }>> {
+): Promise<ApiResponse<{ isValid: boolean; exists?: boolean }>> {
   try {
     // Validación básica de formato
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return createErrorResponse({
-        code: "INVALID_EMAIL_FORMAT",
+      return fail({
+        code: "VALIDATION",
         message: "El formato del email no es válido",
-        field: "email",
+        details: { field: "email" },
       });
     }
 
     // TODO: Implementar verificación de existencia en la base de datos
     // Por ahora, asumimos que todos los emails válidos pueden intentar login
-    return createSuccessResponse({
+    return ok({
       isValid: true,
       exists: true, // Por defecto, permitimos todos los emails válidos
     });
   } catch (error) {
     console.error("Error validating email:", error);
-    return createErrorResponse({
-      code: "VALIDATION_ERROR",
+    return fail({
+      code: "INTERNAL",
       message: "Error al validar el email",
       details: { error: String(error) },
     });
@@ -137,7 +137,7 @@ export function getPortalRedirectUrl(
   fallback?: string
 ): string {
   if (!portal) {
-    return fallback || "/";
+    return fallback ?? "/";
   }
 
   try {
@@ -150,9 +150,9 @@ export function getPortalRedirectUrl(
       admin: `${baseUrl}/admin/dashboard`,
     };
 
-    return portalUrls[portal] || fallback || "/";
+    return portalUrls[portal] ?? fallback ?? "/";
   } catch (error) {
     console.error("Error getting portal redirect URL:", error);
-    return fallback || "/";
+    return fallback ?? "/";
   }
 }

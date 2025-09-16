@@ -35,5 +35,23 @@ export type { SignInWithOtpOptions, SignInWithOtpResult } from "./email";
 // Contexto y hooks React (TODO: implementar)
 // export { AuthProvider, useAuth } from "./react";
 
-// Tipos de autenticación (TODO: implementar)
-// export type { AuthState, AuthUser } from "./types";
+// Sistema de roles y permisos
+export {
+  ROLES,
+  PORTALS,
+  ALL_ROLES,
+  ROLE_TO_PORTAL,
+  PORTAL_TO_ROLE,
+  isUserRole,
+  isPortal,
+  getPortalForRole,
+  getRoleForPortal,
+  isAdminRole,
+  isMedicalRole,
+  canAccessPatientData,
+  canManagePlatform,
+  getBasePermissions,
+  hasPermission,
+  canAccessPortal,
+} from "./roles";
+export type { UserRole, Portal } from "./roles";

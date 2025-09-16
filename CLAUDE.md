@@ -1,6 +1,22 @@
 # CLAUDE.md - Guía para Claude Code
 
-Esta guía ayuda a futuras instancias de Claude Code a trabajar efectivamente en el monorepo de Autamedica.
+Esta guía ayuda a futuras instancias de Claude Code a trabajar efectivamente en el monorepo de AltaMedica-Reboot.
+
+## 🗺️ **METODOLOGÍA CLAVE: DevAltamedica como Mapa de Navegación**
+
+**REGLA ORO**: Cuando no sepas qué hacer o cómo implementar algo, consulta **DevAltamedica-Independent** como tu mapa de navegación:
+- **📍 Ubicación**: `/home/edu/Devaltamedica-Independent/`
+- **🎯 Propósito**: Ver cómo está implementado en producción
+- **🧭 Consulta**: `DEVALTAMEDICA_GUIDE.md` para metodología completa
+
+### 📋 **Packages Críticos para Migrar (Tier 1)**
+1. **@altamedica/types** - 190+ tipos médicos (DevAltamedica/packages/types)
+2. **@altamedica/auth** - Sistema autenticación + MFA (DevAltamedica/packages/auth)
+3. **@altamedica/database** - HIPAA + Prisma + audit (DevAltamedica/packages/database)
+4. **@altamedica/medical** - Lógica médica core (DevAltamedica/packages/medical)
+5. **@altamedica/telemedicine-core** - WebRTC engine (DevAltamedica/packages/telemedicine-core)
+6. **@altamedica/alta-agent** - ⭐ IA médica 3D (DevAltamedica/packages/alta-agent)
+7. **@altamedica/hooks** - 50+ hooks médicos (DevAltamedica/packages/hooks)
 
 ## 🏥 Arquitectura del Proyecto
 
@@ -24,30 +40,50 @@ autamedica-reboot/
 
 ## 🚨 Reglas Críticas
 
-### 1. Contract-First Development
+### 1. DevAltamedica First - Consulta el Mapa
+
+- **ANTES de implementar**: Consulta cómo está hecho en `/home/edu/Devaltamedica-Independent/`
+- **Migración progresiva**: Tomar esencia, limpiar implementación
+- **Preservar expertise médico**: Mantener lógica validada por profesionales
+- **Arquitectura guiada**: DevAltamedica como referencia, AltaMedica-Reboot como destino limpio
+
+### 2. Contract-First Development
 
 - **TODO export DEBE estar en `docs/GLOSARIO_MAESTRO.md` PRIMERO**
 - Ejecutar `pnpm docs:validate` para validar contratos vs exports
 - Usar `ISODateString` en lugar de `Date` para APIs
 - `APIResponse<T>` como discriminated union obligatorio
 
-### 2. Zero Technical Debt
+### 3. Zero Technical Debt
 
 - El usuario enfatizó: **"no generes deuda tecnica por favor"**
 - Strict TypeScript, ESLint sin warnings (`--max-warnings=0`)
 - Tests obligatorios con Vitest
 - Pre-commit hooks con husky + lint-staged
 
-### 3. Import Rules Estrictas
+### 4. Import Rules Estrictas
 
 ```typescript
 // ✅ PERMITIDO
-import { Patient } from "@autamedica/types";
-import { ensureEnv } from "@autamedica/shared";
+import { Patient } from "@altamedica/types";
+import { ensureEnv } from "@altamedica/shared";
 
 // ❌ PROHIBIDO - Deep imports
-import { Patient } from "@autamedica/types/src/entities";
+import { Patient } from "@altamedica/types/src/entities";
 const env = process.env.API_URL; // Direct process.env access
+```
+
+### 5. Migración Methodology
+
+```bash
+# 1. EXPLORAR - ¿Cómo lo hace DevAltamedica?
+find /home/edu/Devaltamedica-Independent -name "*auth*" -type f
+
+# 2. ADAPTAR - ¿Por qué lo hace así?
+# Documentar patterns, constrains médicos, regulaciones
+
+# 3. IMPLEMENTAR - Version limpia en AltaMedica-Reboot
+# Mantener esencia médica, modernizar implementación
 ```
 
 ## 🛠 Comandos Principales
@@ -326,11 +362,23 @@ pnpm pre-deploy
 
 ## 📚 Referencias Clave
 
+### 🗺️ **Documentos de Navegación**
+- **Mapa de Desarrollo**: `DEVALTAMEDICA_GUIDE.md` - Metodología completa
+- **Plan de Desarrollo**: `DEVELOPMENT_PLAN.md` - Roadmap 7 semanas
+- **Arquitectura Multi-App**: `MULTI_APP_ARCHITECTURE.md` - Estrategia portales
+- **Próximos Pasos**: `NEXT_STEPS.md` - Hoja de ruta inmediata
+
+### 🏗️ **Referencias Técnicas**
 - **Contratos**: `docs/GLOSARIO_MAESTRO.md`
-- **Deployment**: `docs/VERCEL_DEPLOYMENT.md`
 - **Package.json**: Scripts y dependencias root
 - **Turbo.json**: Task definitions y cache config
-- **ESLint config**: `eslint.config.mjs` (strict rules)
+- **ESLint config**: `.eslintrc.json` (strict rules)
+
+### 🗺️ **Mapa DevAltamedica** (Consulta constante)
+- **Ubicación**: `/home/edu/Devaltamedica-Independent/`
+- **Packages**: `/home/edu/Devaltamedica-Independent/packages/`
+- **Apps**: `/home/edu/Devaltamedica-Independent/apps/`
+- **Config**: `/home/edu/Devaltamedica-Independent/package.json`
 
 ## 🤝 Principios del Proyecto
 

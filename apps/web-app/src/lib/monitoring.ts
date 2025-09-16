@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 /**
  * AltaMedica Monitoring & Observability Library
  * HIPAA-compliant monitoring with privacy protection

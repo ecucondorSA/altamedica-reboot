@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, type PropsWithChildren } from "react";
-import type { AuthState, AuthUser } from "./types";
+import type { AuthState } from "./types";
 
 const AuthContext = createContext<AuthState | null>(null);
 

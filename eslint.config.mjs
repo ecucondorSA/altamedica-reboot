@@ -1,9 +1,28 @@
 import js from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
-import vercelDeploymentConfig from './eslint-rules/vercel-deployment-config.js';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const vercelDeploymentConfig = require('./eslint-rules/vercel-deployment-config.cjs');
 
 export default [
+  // Global ignores - replaces .eslintignore
+  {
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      '.turbo/**',
+      '.next/**',
+      'out/**',
+      'coverage/**',
+      '**/*.tsbuildinfo',
+      '**/*.d.ts',
+      '*.backup.*',
+      'app.backup.*/',
+      'apps/web-app/.next/**'
+    ],
+  },
   js.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
@@ -49,8 +68,15 @@ export default [
           message: 'export * prohibido. Usa barrels controlados con exports nombrados.',
         },
       ],
-      // TypeScript estricto
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      // TypeScript estricto - Variables no usadas con patrones avanzados
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', {
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        ignoreRestSiblings: true
+      }],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/prefer-nullish-coalescing': 'error',
