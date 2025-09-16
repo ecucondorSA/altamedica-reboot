@@ -21,13 +21,13 @@ export default function LoginPage() {
 
           {/* Footer Links */}
           <div className="mt-6 text-center space-y-2">
-            <p className="text-gray-400 text-sm">
+            <p className="text-white text-sm">
               ¿No tienes cuenta?{' '}
-              <Link href="/auth/register" className="text-autamedica-primary hover:text-autamedica-primary-dark font-medium">
+              <Link href="/auth/register" className="text-autamedica-primary hover:text-autamedica-primary-dark font-medium underline">
                 Registrarse
               </Link>
             </p>
-            <Link href="/auth/forgot-password" className="text-autamedica-text-light hover:text-autamedica-text-secondary text-sm">
+            <Link href="/auth/forgot-password" className="text-white hover:text-autamedica-primary text-sm underline">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>

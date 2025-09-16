@@ -150,8 +150,8 @@ const EnhancedLandingExperience: React.FC = () => {
                 '/videos/video2.mp4',
                 '/videos/video3.mp4'
               ]}
-              title="Apoyo familiar inteligente en salud"
-              subtitle="Eliminamos las barreras en tu atención médica para que te concentres en lo que importa: tu bienestar"
+              title="AutaMedica existe para quitar la fricción de tu consulta"
+              subtitle="Agenda inmediata, receta digital al finalizar y resultados en tu móvil"
             />
             {/* Single scroll indicator at bottom of hero */}
             <div

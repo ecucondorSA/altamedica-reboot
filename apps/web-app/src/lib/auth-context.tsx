@@ -35,50 +35,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [clientReady, setClientReady] = useState(false)
   const supabase = createClient()
 
-  const fetchUserProfile = useCallback(async (userId: string) => {
-    if (!supabase) return
+  const fetchUserProfile = useCallback(async (user: User) => {
+    if (!user) return
 
-    try {
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('id', userId)
-        .single()
+    // Use user_metadata from Supabase Auth instead of database query
+    const role = user.user_metadata?.role as UserRole || 'patient'
 
-      if (error) {
-        // If table doesn't exist or user profile not found, create a mock profile
-        if (error.code === 'PGRST116' || error.code === '42P01') {
-          console.log('User profiles table not found, using mock profile')
-          const mockProfile: UserProfile = {
-            id: userId,
-            email: user?.email ?? '',
-            role: 'patient',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          }
-          setUserProfile(mockProfile)
-          return
-        }
-        console.log('User profile not found, using default profile')
-        return
-      }
-
-      setUserProfile(data as UserProfile)
-    } catch {
-      console.log('Error accessing user profiles, using default profile')
-      // Create a default profile for development
-      if (user) {
-        const defaultProfile: UserProfile = {
-          id: userId,
-          email: user.email ?? '',
-          role: 'patient',
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        }
-        setUserProfile(defaultProfile)
-      }
+    const userProfile: UserProfile = {
+      id: user.id,
+      email: user.email ?? '',
+      role: role,
+      created_at: user.created_at,
+      updated_at: user.updated_at ?? user.created_at,
+      first_name: user.user_metadata?.first_name,
+      last_name: user.user_metadata?.last_name
     }
-  }, [supabase, user])
+
+    setUserProfile(userProfile)
+  }, [])
 
   // Initialize client readiness on mount
   useEffect(() => {
@@ -97,7 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(session?.user ?? null)
 
       if (session?.user) {
-        await fetchUserProfile(session.user.id)
+        await fetchUserProfile(session.user)
       }
       setLoading(false)
     }
@@ -108,7 +82,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser(session?.user ?? null)
 
         if (event === 'SIGNED_IN' && session?.user) {
-          await fetchUserProfile(session.user.id)
+          await fetchUserProfile(session.user)
         } else if (event === 'SIGNED_OUT') {
           setUserProfile(null)
         }

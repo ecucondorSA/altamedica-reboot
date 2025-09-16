@@ -81,22 +81,22 @@ export default function MobileExperience() {
             <source src={src} type="video/mp4" />
           </video>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/10 to-autamedica-beige/40" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-10 flex-1 flex flex-col justify-center px-4 text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-          Apoyo familiar inteligente en salud
+          AutaMedica existe para quitar la fricción de tu consulta
         </h1>
         <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
-          Eliminamos las barreras en tu atención médica para que te concentres en lo que importa: tu bienestar
+          Agenda inmediata, receta digital al finalizar y resultados en tu móvil
         </p>
 
         <div className="space-y-4">
           <button
             onClick={() => handleAuth('login')}
-            className="w-full max-w-sm mx-auto block bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-lg font-semibold text-lg shadow-lg active:scale-95 transition-transform"
+            className="w-full max-w-sm mx-auto block bg-gradient-to-r from-autamedica-primary to-autamedica-primary-dark text-white py-4 px-6 rounded-lg font-semibold text-lg shadow-lg active:scale-95 transition-transform"
           >
             Iniciar Sesión
           </button>
@@ -127,7 +127,7 @@ export default function MobileExperience() {
   const renderPatientsContent = () => (
     <div className="px-4 py-8">
       <div className="text-center mb-8">
-        <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center">
           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
@@ -145,7 +145,7 @@ export default function MobileExperience() {
           'Acceso 24/7 a especialistas'
         ].map((feature, index) => (
           <div key={index} className="flex items-center space-x-3 bg-gray-800/50 p-4 rounded-lg">
-            <span className="text-green-400 text-xl">✓</span>
+            <span className="text-emerald-400 text-xl">✓</span>
             <span>{feature}</span>
           </div>
         ))}
@@ -154,13 +154,13 @@ export default function MobileExperience() {
       <div className="space-y-3">
         <a
           href={getAppUrl('/auth/login', 'patients')}
-          className="w-full block bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-lg font-semibold text-center active:scale-95 transition-transform"
+          className="w-full block bg-gradient-to-r from-emerald-500 to-emerald-600 text-white py-4 px-6 rounded-lg font-semibold text-center active:scale-95 transition-transform"
         >
           Acceder como Paciente
         </a>
         <a
           href={getAppUrl('/auth/register', 'patients')}
-          className="w-full block bg-transparent border-2 border-green-500 text-green-500 py-4 px-6 rounded-lg font-semibold text-center active:scale-95 transition-transform"
+          className="w-full block bg-transparent border-2 border-emerald-500 text-emerald-500 py-4 px-6 rounded-lg font-semibold text-center active:scale-95 transition-transform"
         >
           Registrarse Gratis
         </a>
@@ -324,7 +324,7 @@ export default function MobileExperience() {
               <div className="border-t border-gray-700 mt-2 pt-2">
                 <button
                   onClick={() => handleAuth('login')}
-                  className="w-full px-6 py-3 text-left hover:bg-gray-800 transition-colors text-green-400"
+                  className="w-full px-6 py-3 text-left hover:bg-gray-800 transition-colors text-emerald-400"
                 >
                   Iniciar Sesión
                 </button>

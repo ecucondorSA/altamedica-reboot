@@ -9,7 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { createMiddlewareClient } from "@autamedica/auth";
+import { createServerClient } from "@supabase/ssr";
 
 // Rutas que requieren autenticación
 const PROTECTED_ROUTES = [
@@ -34,6 +34,7 @@ const PUBLIC_ROUTES = [
   "/terms",
   "/privacy",
   "/auth/callback",
+  "/auth/select-role",
   "/_next",
   "/favicon.ico",
   "/api/health",
@@ -53,8 +54,35 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    // Crear cliente Supabase para middleware
-    const { supabase, response } = createMiddlewareClient(request);
+    // Create a response object to pass to the middleware client
+    const response = NextResponse.next();
+
+    // Create Supabase client for middleware
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value;
+          },
+          set(name: string, value: string, options: any) {
+            response.cookies.set({
+              name,
+              value,
+              ...options,
+            });
+          },
+          remove(name: string, options: any) {
+            response.cookies.set({
+              name,
+              value: '',
+              ...options,
+            });
+          },
+        },
+      }
+    );
 
     // Obtener sesión actual
     const {
@@ -79,13 +107,18 @@ export async function middleware(request: NextRequest) {
     // Redirigir usuarios autenticados que intentan acceder a páginas de auth
     if (isAuthenticated && isAuthRoute) {
       // Determinar redirección basada en el rol del usuario
-      const userRole = session.user.user_metadata?.role || "patient";
+      const userRole = session.user.user_metadata?.role;
+
+      // Si no tiene rol, redirigir a select-role
+      if (!userRole) {
+        return NextResponse.redirect(new URL("/auth/select-role", request.url));
+      }
 
       const roleRedirects = {
-        patient: "/patients/dashboard",
-        doctor: "/doctors/dashboard",
-        company_admin: "/companies/dashboard",
-        platform_admin: "/admin/dashboard",
+        patient: "/dashboard",
+        doctor: "/doctor/dashboard",
+        company: "/company/dashboard",
+        admin: "/admin/dashboard",
       };
 
       const redirectUrl = new URL(
@@ -116,18 +149,23 @@ export async function middleware(request: NextRequest) {
 
     // Verificar acceso por rol para rutas específicas
     if (isAuthenticated && isProtectedRoute) {
-      const userRole = session.user.user_metadata?.role || "patient";
+      const userRole = session.user.user_metadata?.role;
+
+      // Si no tiene rol, redirigir a select-role
+      if (!userRole) {
+        return NextResponse.redirect(new URL("/auth/select-role", request.url));
+      }
 
       // Verificar acceso a rutas específicas por rol
-      if (pathname.startsWith("/admin") && userRole !== "platform_admin") {
+      if (pathname.startsWith("/admin") && userRole !== "admin") {
         return NextResponse.redirect(new URL("/", request.url));
       }
 
-      if (pathname.startsWith("/doctors") && !["doctor", "platform_admin"].includes(userRole)) {
+      if (pathname.startsWith("/doctor") && !["doctor", "admin"].includes(userRole)) {
         return NextResponse.redirect(new URL("/", request.url));
       }
 
-      if (pathname.startsWith("/companies") && !["company_admin", "platform_admin"].includes(userRole)) {
+      if (pathname.startsWith("/company") && !["company", "admin"].includes(userRole)) {
         return NextResponse.redirect(new URL("/", request.url));
       }
     }
