@@ -75,11 +75,11 @@ export default function ProfessionalDoctorsFeatures() {
       </div>
 
       <div className="cta-buttons">
-        <Link href={getAppUrl('/auth/login', 'doctors')} className="btn btn-primary">
+        <Link href={getAppUrl('/auth/login?portal=doctors', 'doctors')} className="btn btn-primary">
           Acceder como Médico
         </Link>
-        <Link href={getAppUrl('/auth/register', 'doctors')} className="btn btn-secondary">
-          Registro Profesional
+        <Link href={getAppUrl('/auth/login?portal=doctors', 'doctors')} className="btn btn-secondary">
+          Unirse a la Plataforma
         </Link>
       </div>
 

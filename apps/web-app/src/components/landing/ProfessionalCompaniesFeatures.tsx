@@ -67,11 +67,11 @@ export default function ProfessionalCompaniesFeatures() {
       </div>
 
       <div className="cta-buttons">
-        <Link href={getAppUrl('/auth/login', 'companies')} className="btn btn-primary">
+        <Link href={getAppUrl('/auth/login?portal=companies', 'companies')} className="btn btn-primary">
           Acceso Empresarial
         </Link>
-        <Link href={getAppUrl('/auth/register', 'companies')} className="btn btn-secondary">
-          Demo Corporativo
+        <Link href={getAppUrl('/auth/login?portal=companies', 'companies')} className="btn btn-secondary">
+          Solicitar Demo
         </Link>
       </div>
 

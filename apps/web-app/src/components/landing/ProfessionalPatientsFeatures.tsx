@@ -77,11 +77,11 @@ export default function ProfessionalPatientsFeatures() {
       </div>
 
       <div className="cta-buttons">
-        <Link href={getAppUrl('/auth/login', 'patients')} className="btn btn-primary">
+        <Link href={getAppUrl('/auth/login?portal=patients', 'patients')} className="btn btn-primary">
           Acceder como Paciente
         </Link>
-        <Link href={getAppUrl('/auth/register', 'patients')} className="btn btn-secondary">
-          Registrarse Gratis
+        <Link href={getAppUrl('/auth/login?portal=patients', 'patients')} className="btn btn-secondary">
+          Comenzar Gratis
         </Link>
       </div>
 

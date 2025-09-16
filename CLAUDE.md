@@ -118,6 +118,54 @@ pnpm test                 # Run all tests
 apps/web-app
 ```
 
+## 🔐 Sistema de Autenticación
+
+### Implementación Completa de Supabase Auth
+
+**✅ IMPLEMENTADO** - Sistema de autenticación robusto con magic links:
+
+- **@autamedica/auth**: Package completo con Supabase wrapper
+- **Magic Links**: Autenticación sin contraseña via email
+- **Roles**: `patient`, `doctor`, `company_admin`, `platform_admin`
+- **Portales**: Redirección automática basada en rol
+- **Middleware**: Protección automática de rutas
+- **Session Management**: Funciones `getSession`, `requireSession`, `signOut`
+
+### Archivos Clave de Autenticación
+
+```typescript
+// @autamedica/auth package
+packages/auth/src/
+├── client.ts          // Browser client
+├── server.ts          // Server clients (middleware, route handlers)
+├── session.ts         // Session management
+├── email.ts           // Magic link authentication
+└── index.ts           // Exports centralizados
+
+// App routes
+apps/web-app/src/app/
+├── auth/login/page.tsx       // Login form con portal params
+├── auth/callback/route.ts    // OAuth callback handler
+└── middleware.ts             // Route protection
+```
+
+### Uso de Autenticación
+
+```typescript
+// Client-side
+import { createBrowserClient } from "@autamedica/auth";
+const supabase = createBrowserClient();
+
+// Server actions
+import { getSession, requireSession } from "@autamedica/auth";
+const session = await getSession();
+const user = await requireSession("/auth/login");
+
+// Portal access control
+import { requirePortalAccess } from "@autamedica/auth";
+const session = await requirePortalAccess("medico");
+```
+
 ### @autamedica/types
 
 - Branded types: `PatientId`, `DoctorId`, `UUID`

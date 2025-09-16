@@ -203,6 +203,10 @@ export type {
   CompanyAddress,
   CompanyContact,
 } from "./entities/company";
+
+export type {
+  Appointment,
+} from "./entities/appointment";
 ```
 
 ### @autamedica/shared
@@ -234,11 +238,32 @@ export type { EnvironmentConfig, EnvironmentValidation } from "./env";
 **Ubicación**: `packages/auth/src/index.ts`
 
 ```typescript
-// Contexto y hooks React
-export { AuthProvider, useAuth } from "./react";
+// Clientes Supabase
+export { createBrowserClient } from "./client";
+export {
+  createServerClient,
+  createMiddlewareClient,
+  createRouteHandlerClient,
+} from "./server";
 
-// Tipos de autenticación
-export type { AuthState, AuthUser } from "./types";
+// Manejo de sesiones
+export {
+  getSession,
+  requireSession,
+  requirePortalAccess,
+  signOut,
+  getCurrentUser,
+  hasRole,
+  hasPortalAccess,
+} from "./session";
+
+// Autenticación por email (Magic Links)
+export {
+  signInWithOtp,
+  validateEmailForSignIn,
+  getPortalRedirectUrl,
+} from "./email";
+export type { SignInWithOtpOptions, SignInWithOtpResult } from "./email";
 ```
 
 ### @autamedica/hooks
