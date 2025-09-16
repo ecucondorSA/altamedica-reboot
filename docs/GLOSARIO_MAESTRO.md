@@ -87,7 +87,13 @@ export interface Appointment {
   startTime: ISODateString;
   duration: number; // minutos
   type: "consultation" | "follow-up" | "emergency";
-  status: "scheduled" | "in-progress" | "completed" | "cancelled" | "no-show" | "rescheduled";
+  status:
+    | "scheduled"
+    | "in-progress"
+    | "completed"
+    | "cancelled"
+    | "no-show"
+    | "rescheduled";
   notes?: string;
   createdAt: ISODateString;
   updatedAt: ISODateString;
@@ -97,9 +103,34 @@ export interface Appointment {
 ### Respuestas API
 
 ```typescript
-export type APIResponse<T = unknown> =
-  | { ok: true; data: T; timestamp: ISODateString }
-  | { ok: false; error: string; code?: string; timestamp: ISODateString };
+export interface APIError {
+  code: string;
+  message: string;
+  details?: Record<string, unknown>;
+  field?: string;
+}
+
+export interface APISuccessResponse<T = unknown> {
+  success: true;
+  data: T;
+  meta?: {
+    timestamp: ISODateString;
+    requestId?: string;
+    version?: string;
+  };
+}
+
+export interface APIErrorResponse {
+  success: false;
+  error: APIError;
+  meta?: {
+    timestamp: ISODateString;
+    requestId?: string;
+    version?: string;
+  };
+}
+
+export type APIResponse<T = unknown> = APISuccessResponse<T> | APIErrorResponse;
 ```
 
 ## 📖 Exports por Package
@@ -109,17 +140,69 @@ export type APIResponse<T = unknown> =
 **Ubicación**: `packages/types/src/index.ts`
 
 ```typescript
-// Identificadores
-export { UUID, PatientId, DoctorId, AppointmentId, FacilityId, SpecialtyId } from "./ids";
+// Primitivos: Fechas
+export type { ISODateString } from "./primitives/date";
+export {
+  toISODateString,
+  fromISODateString,
+  nowAsISODateString,
+} from "./primitives/date";
 
-// Escalares
-export { ISODateString } from "./scalars";
+// Primitivos: API
+export type {
+  APIResponse,
+  APIError,
+  APISuccessResponse,
+  APIErrorResponse,
+} from "./primitives/api";
+export { createSuccessResponse, createErrorResponse } from "./primitives/api";
 
-// Entidades core
-export { User, Patient, Doctor, Appointment, EmergencyContact } from "./entities";
+// Primitivos: IDs
+export type {
+  UUID,
+  PatientId,
+  DoctorId,
+  CompanyId,
+  AppointmentId,
+  FacilityId,
+  SpecialtyId,
+} from "./primitives/id";
+export {
+  createUUID,
+  createPatientId,
+  createDoctorId,
+  createCompanyId,
+} from "./primitives/id";
 
-// API
-export type { APIResponse } from "./api";
+// Auth
+export type {
+  UserRole,
+  Portal,
+  User,
+  UserProfile,
+  UserSession,
+} from "./auth/user";
+export { ROLE_TO_PORTALS, canAccessPortal } from "./auth/user";
+
+// Entidades
+export type {
+  Patient,
+  PatientAddress,
+  EmergencyContact,
+} from "./entities/patient";
+
+export type {
+  Doctor,
+  DoctorEducation,
+  DoctorExperience,
+} from "./entities/doctor";
+
+export type {
+  Company,
+  CompanySize,
+  CompanyAddress,
+  CompanyContact,
+} from "./entities/company";
 ```
 
 ### @autamedica/shared
@@ -134,14 +217,16 @@ export {
   ensureServerEnv,
   validateEnvironment,
   validateEnvironmentSecurity,
-  validateProductionEnvironment
+  validateProductionEnvironment,
+  validateStagingEnvironment,
+  validateEnvironmentByType,
 } from "./env";
 
 // Validaciones
 export { validateEmail, validatePhone } from "./validators";
 
 // Tipos de entorno
-export type { EnvironmentConfig } from "./env";
+export type { EnvironmentConfig, EnvironmentValidation } from "./env";
 ```
 
 ### @autamedica/auth
@@ -176,7 +261,7 @@ export { useAsync, useDebounce } from "./utils";
 
 ## 🌍 Variables de Entorno
 
-### Contratos de Variables (Cliente - NEXT_PUBLIC_*)
+### Contratos de Variables (Cliente - NEXT*PUBLIC*\*)
 
 Variables que pueden ser expuestas al cliente (bundle JavaScript):
 
@@ -322,9 +407,67 @@ export function ensureEnv(name: string): string;
 export function validateEnvironment(): EnvironmentConfig;
 ```
 
+## 🚀 Deployment y Validaciones
+
+### Validación de Configuración Vercel
+
+**Script**: `scripts/validate-vercel-config.mjs`
+
+Valida configuración de deployment para prevenir errores:
+
+```typescript
+interface VercelConfig {
+  installCommand: "pnpm install"; // Requerido para workspace deps
+  buildCommand: "pnpm -w build --filter @autamedica/web-app..."; // Monorepo filter
+  outputDirectory: ".next"; // Relativo a Root Directory
+  framework: "nextjs"; // Framework Next.js
+}
+```
+
+**Comandos disponibles**:
+
+```bash
+pnpm vercel:validate     # Validar configuración Vercel
+pnpm pre-deploy         # Validación completa pre-deployment
+```
+
+**Pre-commit hooks**:
+
+- Validación automática de configuración deployment
+- Security checks y lint
+- TypeScript validation
+- Tests unitarios
+
+### Scripts de Automatización
+
+**Ubicación**: `scripts/`
+
+```typescript
+// Health check completo del monorepo
+pnpm health             // scripts/health-check.mjs
+
+// Validaciones de seguridad
+pnpm security:check     // scripts/security-check.mjs
+pnpm security:full      // security:check + pnpm audit
+
+// Validación de exports vs documentación
+pnpm docs:validate      // scripts/validate-exports.mjs
+
+// Diagnóstico de deployment
+./collect_vercel_diagnostics.sh  // Diagnóstico completo Vercel
+```
+
 ## ✅ Validación Automática
 
 Script en `scripts/validate-exports.mjs` verifica que:
+
 - Todo export tiene documentación en este glosario
 - No hay exports no documentados
 - Versiones semánticas son respetadas
+
+**Validación de deployment** en `scripts/validate-vercel-config.mjs`:
+
+- Configuración correcta de vercel.json
+- Package manager PNPM
+- Build commands para monorepo
+- Output directories correctos

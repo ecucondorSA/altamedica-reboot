@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
+import vercelDeploymentConfig from './eslint-rules/vercel-deployment-config.js';
 
 export default [
   js.configs.recommended,
@@ -16,6 +17,7 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tseslint,
+      'vercel-deployment-config': vercelDeploymentConfig,
     },
     rules: {
       // Prohibir deep imports
@@ -31,11 +33,20 @@ export default [
         },
       ],
       // Prohibir process.env directo fuera de @autamedica/shared
-      'no-restricted-globals': [
+      'no-restricted-properties': [
         'error',
         {
-          name: 'process',
+          object: 'process',
+          property: 'env',
           message: 'Use ensureEnv from @autamedica/shared instead of direct process.env access.',
+        },
+      ],
+      // Prohibir export * (debe usar barrels controlados)
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'ExportAllDeclaration',
+          message: 'export * prohibido. Usa barrels controlados con exports nombrados.',
         },
       ],
       // TypeScript estricto
@@ -44,13 +55,15 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/prefer-nullish-coalescing': 'error',
       '@typescript-eslint/prefer-optional-chain': 'error',
+      // Validar configuración de deployment
+      'vercel-deployment-config/validate-config': 'error',
     },
   },
   {
     files: ['packages/shared/**/*.{ts,tsx}'],
     rules: {
       // Permitir process.env solo en @autamedica/shared
-      'no-restricted-globals': 'off',
+      'no-restricted-properties': 'off',
     },
   },
   {

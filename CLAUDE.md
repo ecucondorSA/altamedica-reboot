@@ -25,18 +25,21 @@ autamedica-reboot/
 ## 🚨 Reglas Críticas
 
 ### 1. Contract-First Development
+
 - **TODO export DEBE estar en `docs/GLOSARIO_MAESTRO.md` PRIMERO**
 - Ejecutar `pnpm docs:validate` para validar contratos vs exports
 - Usar `ISODateString` en lugar de `Date` para APIs
 - `APIResponse<T>` como discriminated union obligatorio
 
 ### 2. Zero Technical Debt
+
 - El usuario enfatizó: **"no generes deuda tecnica por favor"**
 - Strict TypeScript, ESLint sin warnings (`--max-warnings=0`)
 - Tests obligatorios con Vitest
 - Pre-commit hooks con husky + lint-staged
 
 ### 3. Import Rules Estrictas
+
 ```typescript
 // ✅ PERMITIDO
 import { Patient } from "@autamedica/types";
@@ -49,13 +52,33 @@ const env = process.env.API_URL; // Direct process.env access
 
 ## 🛠 Comandos Principales
 
-### Desarrollo
+### 🚀 Comando Principal para Claude
+
+```bash
+pnpm claude                  # Inicia sesión completa de desarrollo con Claude
+# o
+pnpm start-claude           # Alias del comando anterior
+# o
+./start-claude              # Script directo ejecutable
+```
+
+**Este comando único ejecuta automáticamente:**
+
+- ✅ Validación inicial de políticas del monorepo
+- 🔄 TypeScript watch mode para todos los packages
+- 🚀 Dev server con hot reload (Turbo)
+- 🔍 ESLint watch mode (si está disponible)
+- 📊 Monitoring en tiempo real de errores
+
+### Desarrollo Manual
+
 ```bash
 pnpm dev                     # Todos los packages en watch mode
 pnpm dev --filter web-app    # Solo la app web
 ```
 
 ### Build y Validación
+
 ```bash
 pnpm build:packages         # Solo packages (@autamedica/*)
 pnpm build:apps            # Solo apps (./apps/*)
@@ -65,14 +88,26 @@ pnpm docs:validate         # Validar exports vs GLOSARIO_MAESTRO
 pnpm health               # Health check completo
 ```
 
+### Deployment y Validación
+
+```bash
+pnpm vercel:validate        # Validar configuración Vercel deployment
+pnpm pre-deploy            # Validación completa pre-deployment
+pnpm security:check        # Validaciones de seguridad
+pnpm security:full         # Audit + security check completo
+```
+
 ### Testing
+
 ```bash
 pnpm test:unit            # Vitest con coverage
+pnpm test                 # Run all tests
 ```
 
 ## 📦 Package Architecture
 
 ### Dependencias Estrictas
+
 ```
 @autamedica/types (base - branded types, contratos)
     ↓
@@ -84,39 +119,55 @@ apps/web-app
 ```
 
 ### @autamedica/types
+
 - Branded types: `PatientId`, `DoctorId`, `UUID`
 - `ISODateString` para fechas
 - `APIResponse<T>` discriminated union
 - **Ubicación**: `packages/types/src/index.ts`
 
 ### @autamedica/shared
+
 - `ensureEnv()` para variables de entorno
 - `validateEmail()`, `validatePhone()`
 - **Único package que puede usar `process.env`**
 
 ### @autamedica/auth
+
 - React Context + useAuth hook
 - AuthProvider para apps
 
 ### @autamedica/hooks
+
 - Hooks médicos: `usePatients`, `useAppointments`
 - Hooks utilidad: `useAsync`, `useDebounce`
 
 ## 🔧 Configuración Técnica
 
+### ESLint Configuration
+
+- ESLint 9.x con configuración estricta (`--max-warnings=0`)
+- Reglas personalizadas para monorepo:
+  - `no-restricted-imports`: Prohibe deep imports de packages
+  - `no-restricted-globals`: Prohibe `process.env` directo (solo en @autamedica/shared)
+  - `vercel-deployment-config/validate-config`: **Valida configuración de Vercel deployment**
+- Auto-validación que previene problemas de deployment
+
 ### TypeScript
+
 - Version: 5.9.2
 - Strict mode enabled
 - `moduleResolution: "Bundler"`
 - Paths apuntan a `dist/` files
 
 ### Build System
+
 - **Turborepo 2.5.6** con cache distribuido
 - **Next.js 15.5.0** con Turbopack beta
 - **PNPM** como package manager
 - Builds paralelos con dependencias
 
 ### CI/CD
+
 - **GitHub Actions** con jobs separados:
   - lint (ESLint strict)
   - typecheck (TypeScript)
@@ -128,29 +179,33 @@ apps/web-app
 ## 🚀 Comandos de Despliegue
 
 ### Vercel (Configurado)
+
 - Root Directory: `apps/web-app`
 - Build Command: `pnpm -w build --filter @autamedica/web-app...`
 - Framework: Next.js
 - Node version: >=18
 
 ### Variables de Entorno
+
 - Usar `ensureEnv()` de `@autamedica/shared`
 - **NO** acceso directo a `process.env`
 
 ## 🧪 Testing Standards
 
 ### Vitest Configuration
+
 - Coverage con V8
 - Tests en `*.test.ts` files
 - Ejemplo: `packages/shared/src/validators.test.ts`
 
 ### Test Structure
-```typescript
-import { describe, it, expect } from 'vitest';
 
-describe('validateEmail', () => {
-  it('should accept valid email', () => {
-    expect(validateEmail('user@example.com')).toBe(true);
+```typescript
+import { describe, it, expect } from "vitest";
+
+describe("validateEmail", () => {
+  it("should accept valid email", () => {
+    expect(validateEmail("user@example.com")).toBe(true);
   });
 });
 ```
@@ -158,6 +213,7 @@ describe('validateEmail', () => {
 ## 🐛 Troubleshooting Common Issues
 
 ### Build Errors
+
 ```bash
 # Limpiar cache completo
 rm -rf node_modules dist .next .turbo
@@ -166,6 +222,7 @@ pnpm build
 ```
 
 ### TypeScript Errors
+
 ```bash
 # Check específico por package
 pnpm --filter @autamedica/types typecheck
@@ -175,12 +232,26 @@ pnpm type-check
 ```
 
 ### Import/Export Errors
+
 ```bash
 # Validar contratos vs exports
 pnpm docs:validate
 
 # Health check completo
 pnpm health
+```
+
+### Deployment Errors
+
+```bash
+# Validar configuración de Vercel
+pnpm vercel:validate
+
+# Diagnóstico completo de deployment
+./collect_vercel_diagnostics.sh
+
+# Validación pre-deployment
+pnpm pre-deploy
 ```
 
 ## ⚠️ Cosas que NUNCA hacer
@@ -192,6 +263,7 @@ pnpm health
 5. **Warnings en ESLint** (configurado con `--max-warnings=0`)
 6. **Commits sin tests** para nueva funcionalidad
 7. **Breaking changes** sin actualizar GLOSARIO_MAESTRO
+8. **Configuración incorrecta de deployment** (validada por regla ESLint)
 
 ## 🎯 Flujo de Trabajo Recomendado
 
