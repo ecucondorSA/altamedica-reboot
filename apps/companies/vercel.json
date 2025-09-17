@@ -1,8 +1,8 @@
 {
-  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install --no-frozen-lockfile",
+  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install",
   "buildCommand": "cd ../.. && pnpm -w build --filter @autamedica/companies",
   "framework": "nextjs",
-  "outputDirectory": "apps/companies/.next",
+  "outputDirectory": ".next",
   "ignoreCommand": "cd ../.. && npx turbo-ignore @autamedica/companies",
   "functions": {
     "app/api/**/*.ts": {

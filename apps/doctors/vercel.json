@@ -1,8 +1,8 @@
 {
-  "installCommand": "echo 'Skipping auto-install, using buildCommand instead'",
-  "buildCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install --no-frozen-lockfile && pnpm -w build --filter @autamedica/doctors",
+  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm -w build --filter @autamedica/doctors",
   "framework": "nextjs",
-  "outputDirectory": "apps/doctors/.next",
+  "outputDirectory": ".next",
   "ignoreCommand": "cd ../.. && npx turbo-ignore @autamedica/doctors",
   "functions": {
     "app/api/**/*.ts": {
