@@ -34,9 +34,9 @@ export async function signInWithOtp(
     const { email, redirectTo, portal } = options;
     const supabase = createBrowserClient();
 
-    // Construir URL de redirección
-    const baseUrl = ensureClientEnv("NEXT_PUBLIC_APP_URL");
-    const callbackUrl = `${baseUrl}/auth/callback`;
+    // Construir URL de redirección usando la URL base de la app actual
+    const baseUrl = ensureClientEnv("NEXT_PUBLIC_BASE_URL");
+    const callbackUrl = ensureClientEnv("NEXT_PUBLIC_AUTH_CALLBACK_URL");
 
     // Si se especifica un portal, redirigir después del callback
     let finalRedirectTo = redirectTo;

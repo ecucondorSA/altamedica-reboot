@@ -36,6 +36,7 @@
 - `isUserRole`
 - `requirePortalAccess`
 - `requireSession`
+- `signInWithOAuth`
 - `signInWithOtp`
 - `signOut`
 - `useAuth`

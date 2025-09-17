@@ -6,7 +6,7 @@
  */
 
 // Clientes Supabase
-export { createBrowserClient } from "./client";
+export { createBrowserClient, signInWithOAuth } from "./client";
 export {
   createServerClient,
   createMiddlewareClient,

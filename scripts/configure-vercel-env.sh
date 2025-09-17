@@ -27,6 +27,10 @@ if [ -f "apps/web-app/.vercel/project.json" ]; then
     npx vercel env add NEXT_PUBLIC_PATIENTS_URL production "$PATIENTS_URL" --yes --cwd apps/web-app 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_COMPANIES_URL production "$COMPANIES_URL" --yes --cwd apps/web-app 2>/dev/null || echo "Variable already exists"
     
+    # Set callback URLs for authentication
+    npx vercel env add NEXT_PUBLIC_BASE_URL production "$WEB_APP_URL" --yes --cwd apps/web-app 2>/dev/null || echo "Variable already exists"
+    npx vercel env add NEXT_PUBLIC_AUTH_CALLBACK_URL production "$WEB_APP_URL/auth/callback" --yes --cwd apps/web-app 2>/dev/null || echo "Variable already exists"
+    
     # Set Supabase config
     npx vercel env add NEXT_PUBLIC_SUPABASE_URL production "$SUPABASE_URL" --yes --cwd apps/web-app 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY production "$SUPABASE_ANON_KEY" --yes --cwd apps/web-app 2>/dev/null || echo "Variable already exists"
@@ -42,6 +46,10 @@ if [ -f "apps/doctors/.vercel/project.json" ]; then
     npx vercel env add NEXT_PUBLIC_DOCTORS_URL production "$DOCTORS_URL" --yes --cwd apps/doctors 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_PATIENTS_URL production "$PATIENTS_URL" --yes --cwd apps/doctors 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_COMPANIES_URL production "$COMPANIES_URL" --yes --cwd apps/doctors 2>/dev/null || echo "Variable already exists"
+    
+    # Set callback URLs for authentication
+    npx vercel env add NEXT_PUBLIC_BASE_URL production "$DOCTORS_URL" --yes --cwd apps/doctors 2>/dev/null || echo "Variable already exists"
+    npx vercel env add NEXT_PUBLIC_AUTH_CALLBACK_URL production "$DOCTORS_URL/auth/callback" --yes --cwd apps/doctors 2>/dev/null || echo "Variable already exists"
     
     # Set Supabase config
     npx vercel env add NEXT_PUBLIC_SUPABASE_URL production "$SUPABASE_URL" --yes --cwd apps/doctors 2>/dev/null || echo "Variable already exists"
@@ -63,6 +71,10 @@ if [ -f "apps/patients/.vercel/project.json" ]; then
     npx vercel env add NEXT_PUBLIC_PATIENTS_URL production "$PATIENTS_URL" --yes --cwd apps/patients 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_COMPANIES_URL production "$COMPANIES_URL" --yes --cwd apps/patients 2>/dev/null || echo "Variable already exists"
     
+    # Set callback URLs for authentication
+    npx vercel env add NEXT_PUBLIC_BASE_URL production "$PATIENTS_URL" --yes --cwd apps/patients 2>/dev/null || echo "Variable already exists"
+    npx vercel env add NEXT_PUBLIC_AUTH_CALLBACK_URL production "$PATIENTS_URL/auth/callback" --yes --cwd apps/patients 2>/dev/null || echo "Variable already exists"
+    
     # Set Supabase config
     npx vercel env add NEXT_PUBLIC_SUPABASE_URL production "$SUPABASE_URL" --yes --cwd apps/patients 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY production "$SUPABASE_ANON_KEY" --yes --cwd apps/patients 2>/dev/null || echo "Variable already exists"
@@ -82,6 +94,10 @@ if [ -f "apps/companies/.vercel/project.json" ]; then
     npx vercel env add NEXT_PUBLIC_DOCTORS_URL production "$DOCTORS_URL" --yes --cwd apps/companies 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_PATIENTS_URL production "$PATIENTS_URL" --yes --cwd apps/companies 2>/dev/null || echo "Variable already exists"
     npx vercel env add NEXT_PUBLIC_COMPANIES_URL production "$COMPANIES_URL" --yes --cwd apps/companies 2>/dev/null || echo "Variable already exists"
+    
+    # Set callback URLs for authentication
+    npx vercel env add NEXT_PUBLIC_BASE_URL production "$COMPANIES_URL" --yes --cwd apps/companies 2>/dev/null || echo "Variable already exists"
+    npx vercel env add NEXT_PUBLIC_AUTH_CALLBACK_URL production "$COMPANIES_URL/auth/callback" --yes --cwd apps/companies 2>/dev/null || echo "Variable already exists"
     
     # Set Supabase config
     npx vercel env add NEXT_PUBLIC_SUPABASE_URL production "$SUPABASE_URL" --yes --cwd apps/companies 2>/dev/null || echo "Variable already exists"

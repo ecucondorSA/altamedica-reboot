@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
 
     // Si no tiene rol o está pendiente, enviar a selección de rol en web-app
     if (!userRole || pendingRoleSelection) {
-      const webAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.autamedica.com';
+      const webAppUrl = process.env.APP_URL || 'https://autamedica.com';
       const selectRoleUrl = new URL('/auth/select-role', webAppUrl);
       return NextResponse.redirect(selectRoleUrl);
     }
