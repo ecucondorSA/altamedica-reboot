@@ -497,14 +497,133 @@ Script en `scripts/validate-exports.mjs` verifica que:
 - Build commands para monorepo
 - Output directories correctos
 
+## 🎨 Contratos UI (@autamedica/ui)
+
+### Componentes React Básicos
+
+```typescript
+// Componentes
+export const Button: React.FC<ButtonProps>;
+export const Card: React.FC<CardProps>;
+export const Input: React.FC<InputProps>;
+export const FooterLink: React.FC<FooterLinkProps>;
+
+// Props Types
+export interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary' | 'outline';
+  className?: string;
+}
+
+export interface CardProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface InputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  type?: string;
+  className?: string;
+}
+
+export interface FooterLinkProps {
+  href: string;
+  children: React.ReactNode;
+  target?: '_blank' | '_self';
+  className?: string;
+}
+```
+
+## 🛠️ Contratos Utils (@autamedica/utils)
+
+### Funciones Utilitarias
+
+```typescript
+// Utilidades de clases CSS
+export function cn(...classes: (string | undefined | null | boolean)[]): string;
+
+// Type Guards
+export function isString(value: unknown): value is string;
+export function isNumber(value: unknown): value is number;
+export function isBoolean(value: unknown): value is boolean;
+
+// Utilidades de tiempo
+export function delay(ms: number): Promise<void>;
+```
+
+## 🔐 Contratos Auth Adicionales (@autamedica/auth)
+
+### Estados de Autenticación
+
+```typescript
+export interface AuthState {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  user: AuthUser | null;
+  error: string | null;
+}
+
+export interface AuthUser extends User {
+  // Campos específicos de autenticación si se necesitan
+}
+```
+
+### Opciones de Autenticación
+
+```typescript
+export interface SignInWithOtpOptions {
+  email: string;
+  options?: {
+    redirectTo?: string;
+    shouldCreateUser?: boolean;
+  };
+}
+
+export interface SignInWithOtpResult {
+  data: {
+    user: User | null;
+    session: Session | null;
+  };
+  error: AuthError | null;
+}
+```
+
+## 📊 Contratos Shared Adicionales (@autamedica/shared)
+
+### Logger Service
+
+```typescript
+export interface Logger {
+  error(message: string, ...args: unknown[]): void;
+  warn(message: string, ...args: unknown[]): void;
+  info(message: string, ...args: unknown[]): void;
+  debug(message: string, ...args: unknown[]): void;
+}
+
+export interface LogLevel {
+  ERROR: 'error';
+  WARN: 'warn';
+  INFO: 'info';
+  DEBUG: 'debug';
+}
+
+export const logger: Logger;
+export const LOG_LEVELS: LogLevel;
+```
+
 <!-- AUTOGEN_PACKAGES:START -->
 
 ## Índice de símbolos por paquete (auto)
 
 - auth: `ALL_ROLES`, `AuthProvider`, `PORTALS`, `PORTAL_TO_ROLE`, `Portal`, `ROLES`, `ROLE_TO_PORTAL`, `SignInWithOtpOptions`, `SignInWithOtpResult`, `UserRole`, `canAccessPatientData`, `canAccessPortal`, `canManagePlatform`, `createBrowserClient`, `createMiddlewareClient`, `createRouteHandlerClient`, `createServerClient`, `getBasePermissions`, `getCurrentUser`, `getPortalForRole`, `getPortalRedirectUrl`, `getRoleForPortal`, `getSession`, `hasPermission`, `hasPortalAccess`, `hasRole`, `isAdminRole`, `isMedicalRole`, `isPortal`, `isUserRole`, `requirePortalAccess`, `requireSession`, `signInWithOtp`, `signOut`, `useAuth`, `validateEmailForSignIn`
 - hooks: `useAppointments`, `useAsync`, `useDebounce`, `usePatients`
-- shared: `EnvironmentConfig`, `EnvironmentValidation`, `ensureClientEnv`, `ensureEnv`, `ensureServerEnv`, `validateEmail`, `validateEnvironment`, `validateEnvironmentByType`, `validateEnvironmentSecurity`, `validatePhone`, `validateProductionEnvironment`, `validateStagingEnvironment`
+- shared: `EnvironmentConfig`, `EnvironmentValidation`, `LogLevel`, `Logger`, `ensureClientEnv`, `ensureEnv`, `ensureServerEnv`, `logger`, `validateEmail`, `validateEnvironment`, `validateEnvironmentByType`, `validateEnvironmentSecurity`, `validatePhone`, `validateProductionEnvironment`, `validateStagingEnvironment`
 - types: `ARGENTINA_INSURANCE_PROVIDERS`, `ARS`, `Address`, `Allergy`, `AllergySeverity`, `ApiError`, `ApiErrorCode`, `ApiResponse`, `Appointment`, `AppointmentId`, `ArrayElement`, `AsyncFunction`, `AsyncState`, `AutamedicaRecognition`, `AuthenticatedLoadable`, `BMI`, `BaseEntity`, `BloodType`, `Brand`, `CERTIFICATION_TYPES`, `Callback`, `CertificationId`, `Company`, `CompanyAddress`, `CompanyContact`, `CompanyId`, `CompanySize`, `ComplianceInfo`, `Coordinates`, `CountryCode`, `CreateEntityInput`, `DNI`, `DataLoadingState`, `DaySchedule`, `DiscriminateUnion`, `Doctor`, `DoctorAPIResponse`, `DoctorEducation`, `DoctorExperience`, `DoctorId`, `DoctorListAPIResponse`, `DoctorLookupResult`, `DoctorPrivateData`, `DoctorProfile`, `DoctorPublicAPIResponse`, `DoctorPublicProfile`, `DoctorPublicRating`, `DoctorRatingAPIResponse`, `DoctorRatingDisplay`, `EmergencyContact`, `EmployeeId`, `EntityFilters`, `HeightCm`, `ICD10Code`, `ID_VALIDATION_CONFIG`, `ISODateString`, `Id`, `InsurancePlan`, `InsurancePolicyNumber`, `JsonArray`, `JsonObject`, `JsonPrimitive`, `JsonValue`, `KeysOf`, `LICENSE_STATUS`, `LicenseProvinceCode`, `Loadable`, `LoadingState`, `MEDICAL_SPECIALTIES`, `MapDiscriminatedUnion`, `Maybe`, `MedicalApiResponse`, `MedicalAudit`, `MedicalCertification`, `MedicalCondition`, `MedicalHistoryId`, `MedicalLicense`, `MedicalLicenseNumber`, `MedicalLoadable`, `MedicalRecordNumber`, `MedicalSpecialty`, `MedicalSubspecialty`, `Medication`, `MutableDeep`, `NationalPhone`, `NonEmptyArray`, `NonEmptyObject`, `NonEmptyString`, `NonNullable`, `Nullable`, `Optional`, `PHONE_VALIDATION_CONFIG`, `PaginatedResponse`, `PaginationParams`, `Patient`, `PatientAPIResponse`, `PatientAddress`, `PatientAdminView`, `PatientCount`, `PatientId`, `PatientListAPIResponse`, `PatientMedicalAPIResponse`, `PatientMedicalView`, `PatientPrivateData`, `PatientProfile`, `PatientPublicProfile`, `PatientReview`, `PatientVolumeMetrics`, `Percent0to100`, `Percentage`, `PhoneE164`, `Portal`, `PositiveNumber`, `Predicate`, `PrescriptionId`, `ProfessionalInsurance`, `REVIEW_WINDOW_DAYS`, `RatingScore`, `ReadonlyDeep`, `RecognitionAPIResponse`, `ReviewId`, `ReviewListAPIResponse`, `ReviewSubmissionResult`, `SUBSPECIALTIES`, `SpecialtyCode`, `StateCode`, `SubspecialtyCode`, `TenantId`, `ThrowsFunction`, `TimeHHmm`, `TimeSlot`, `UpdateEntityInput`, `User`, `UserId`, `UserProfile`, `UserRole`, `UserSession`, `ValuesOf`, `VitalSigns`, `VoidFunction`, `WeeklySchedule`, `WeightKg`, `ZipCode`, `acceptsInsurancePlan`, `calculateAge`, `calculateBMI`, `calculateMonthsActive`, `calculateOverallRating`, `calculatePatientReviewsScore`, `calculateRecognitionScore`, `calculateReviewsBreakdown`, `calculateRiskLevel`, `calculateTotalTrainingYears`, `calculateVolumePercentile`, `calculateVolumeScore`, `calculateYearsOfExperience`, `canPracticeInArgentina`, `canPracticeSpecialty`, `canReceiveTelemedicine`, `canSubmitReview`, `combineLoadables`, `createBasicAddress`, `createBasicSpecialty`, `createId`, `createMedicalAddress`, `createMedicalLicense`, `createMedicalView`, `createPublicProfile`, `createRatingDisplay`, `createValidatedId`, `extractCountryCode`, `extractPrivateData`, `extractProvinceFromLicense`, `fail`, `failWithCode`, `failure`, `flatMapLoadable`, `formatAddressString`, `formatMedicalLicense`, `formatPhoneForDisplay`, `generateAppointmentId`, `generateDisplayName`, `generateDoctorId`, `generatePatientId`, `generatePrefixedId`, `generateUUID`, `getAvailableSubspecialties`, `getLoadableValue`, `getPhoneExamples`, `getRecognitionBadgeText`, `getSpecialtiesByCategory`, `getSpecialtiesRequiring`, `hasActiveAllergies`, `hasInsuranceCoverage`, `idle`, `isActiveLicense`, `isApiError`, `isApiSuccess`, `isArgentinaMobile`, `isArgentinaPhone`, `isArgentinaStateCode`, `isArgentinaZipCode`, `isAvailableOnDay`, `isCompleteAddress`, `isCountryCode`, `isDoctorLicenseActive`, `isDoctorProfileComplete`, `isEligibleForRecognition`, `isEntityActive`, `isEntityDeleted`, `isFailure`, `isHighRiskPatient`, `isISODateString`, `isIdle`, `isLoading`, `isNonEmptyArray`, `isNonEmptyObject`, `isNonEmptyString`, `isNonNullable`, `isPAMIEligible`, `isPercentage`, `isPhoneE164`, `isPositiveNumber`, `isPublicHealthcareEligible`, `isSuccess`, `isUnauthenticated`, `isValidBloodType`, `isValidCertification`, `isValidCoordinates`, `isValidDNI`, `isValidEmail`, `isValidMedicalLicense`, `isValidPhoneForCountry`, `isValidRatingScore`, `isValidSpecialtyCode`, `isValidSubspecialtyCode`, `isValidTimeHHmm`, `isValidURL`, `loading`, `mapApiResponse`, `mapLoadable`, `markEntityAsDeleted`, `matchAsyncState`, `matchAuthenticatedLoadable`, `matchDataLoadingState`, `matchLoadable`, `medicalFail`, `medicalOk`, `migrateToAddress`, `normalizePhoneNumber`, `nowAsISODateString`, `ok`, `requiresSpecializedCare`, `success`, `toArgentinaStateCode`, `toArgentinaZipCode`, `toCountryCode`, `toE164Format`, `toISODateString`, `toNationalFormat`, `unauthenticated`, `unwrapApiResponse`, `unwrapLoadable`, `validateIdForScope`, `validatePhoneList`
+- ui: `Button`, `ButtonProps`, `Card`, `CardProps`, `FooterLink`, `FooterLinkProps`, `Input`, `InputProps`
+- utils: (sin símbolos)
 
 
 <!-- AUTOGEN_PACKAGES:END -->

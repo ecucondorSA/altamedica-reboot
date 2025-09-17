@@ -6,9 +6,12 @@
 
 - `EnvironmentConfig`
 - `EnvironmentValidation`
+- `LogLevel`
+- `Logger`
 - `ensureClientEnv`
 - `ensureEnv`
 - `ensureServerEnv`
+- `logger`
 - `validateEmail`
 - `validateEnvironment`
 - `validateEnvironmentByType`
