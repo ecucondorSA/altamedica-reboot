@@ -2,11 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  Video,
-  VideoOff,
-  Mic,
-  MicOff,
-  Monitor,
   Settings,
   Users,
   Calendar,
@@ -15,9 +10,6 @@ import {
   MessageSquare,
   Brain,
   History,
-  AlertCircle,
-  CheckCircle,
-  Clock,
 } from 'lucide-react';
 import './globals.css';
 
@@ -27,22 +19,6 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const [activeTab, setActiveTab] = useState('video-call');
-  const [isMuted, setIsMuted] = useState(false);
-  const [isVideoOff, setIsVideoOff] = useState(false);
-  const [showDiagnosisPanel, setShowDiagnosisPanel] = useState(false);
-  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
-  const [streamError, setStreamError] = useState<string | null>(null);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  const [currentPatientData, setCurrentPatientData] = useState({
-    id: 'patient-001',
-    name: 'María González',
-    age: 32,
-  });
-
-  // Inicializar en modo demo para evitar problemas de cámara
-  useEffect(() => {
-    setStreamError('Cámara en modo demo - Haz clic en "Activar cámara" para inicializar');
-  }, []);
 
   const [sidebarItems] = useState([
     { id: 'patients', icon: Users, label: 'Pacientes', count: 12 },

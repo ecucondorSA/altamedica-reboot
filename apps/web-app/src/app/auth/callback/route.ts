@@ -6,8 +6,8 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { createRouteHandlerClient } from "@autamedica/auth";
-import { ensureServerEnv } from "@autamedica/shared";
+import { createRouteHandlerClient, ROLES, type UserRole } from "@autamedica/auth";
+import { getTargetUrlByRole, getCookieDomain, getRoleForPortal } from "@autamedica/shared";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -58,9 +58,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    // Configurar cookies para dominio compartido
+    // Configurar cookies para dominio compartido (.autamedica.com)
     try {
-      const cookieDomain = ensureServerEnv("COOKIE_DOMAIN"); // ej: .altamedica.com
+      const cookieDomain = getCookieDomain();
 
       // Configurar cookies con dominio compartido para SSO
       response.cookies.set("sb-access-token", data.session.access_token, {
@@ -85,33 +85,34 @@ export async function GET(request: NextRequest) {
       // Continuar sin cookies de dominio compartido
     }
 
-    // Determinar URL de redirección
+    // Determinar URL de redirección usando el sistema de role-routing
     let redirectUrl: string;
 
     if (next) {
       // Usar URL específica proporcionada
       redirectUrl = next;
     } else if (portal) {
-      // Redirigir según el portal
-      const portalUrls = {
-        patients: ensureServerEnv("NEXT_PUBLIC_PATIENTS_URL") + "/dashboard",
-        doctors: ensureServerEnv("NEXT_PUBLIC_DOCTORS_URL") + "/dashboard",
-        companies: ensureServerEnv("NEXT_PUBLIC_COMPANIES_URL") + "/dashboard",
-        admin: ensureServerEnv("NEXT_PUBLIC_APP_URL") + "/admin/dashboard",
-      };
-
-      redirectUrl = portalUrls[portal as keyof typeof portalUrls] || "/";
+      // Redirigir según el portal especificado
+      const role = getRoleForPortal(portal);
+      if (role) {
+        redirectUrl = getTargetUrlByRole(role);
+      } else {
+        console.warn(`Portal desconocido: ${portal}, redirigiendo a /`);
+        redirectUrl = "/";
+      }
     } else {
-      // Redirigir según el rol del usuario
-      const userRole = data.session.user.user_metadata?.role || "patient";
-      const roleUrls = {
-        patient: ensureServerEnv("NEXT_PUBLIC_PATIENTS_URL") + "/dashboard",
-        doctor: ensureServerEnv("NEXT_PUBLIC_DOCTORS_URL") + "/dashboard",
-        company_admin: ensureServerEnv("NEXT_PUBLIC_COMPANIES_URL") + "/dashboard",
-        platform_admin: ensureServerEnv("NEXT_PUBLIC_APP_URL") + "/admin/dashboard",
-      };
+      // Redirigir según el rol del usuario o selección de rol pendiente
+      const userMetadata = data.session.user.user_metadata || {};
+      const userRole = userMetadata.role as UserRole | undefined;
+      const pendingRoleSelection = userMetadata.pendingRoleSelection as boolean | undefined;
 
-      redirectUrl = roleUrls[userRole as keyof typeof roleUrls] || "/";
+      if (!userRole || pendingRoleSelection) {
+        // Redirigir a selección de rol si no tiene rol o está pendiente
+        redirectUrl = "/auth/select-role";
+      } else {
+        // Redirigir al portal correspondiente al rol
+        redirectUrl = getTargetUrlByRole(userRole);
+      }
     }
 
     console.log("Auth callback successful, redirecting to:", redirectUrl);

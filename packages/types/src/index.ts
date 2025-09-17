@@ -367,9 +367,13 @@ export type { ISODateString as LegacyISODateString } from "./primitives/date";
 // Auth legacy (deprecated - usar @autamedica/auth directamente)
 export type {
   User,
+  UserRole,
+  Portal,
   UserProfile,
   UserSession,
 } from "./auth/user";
+
+export { ROLE_TO_PORTALS, canAccessPortal } from "./auth/user";
 
 // Entidades legacy (a migrar a nueva estructura)
 export type {
