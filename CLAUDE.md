@@ -27,10 +27,12 @@ Esta guía ayuda a futuras instancias de Claude Code a trabajar efectivamente en
 - ✅ **Páginas faltantes creadas** - forgot-password, terms, privacy
 - ✅ **Errores 404 resueltos** - Todas las rutas funcionando
 - ✅ **UI/UX AutaMedica** - Colores, contraste y branding consistentes
-- ✅ **Deploy en producción** - Vercel con SSL automático
 - ✅ **Arquitectura Multi-App COMPLETADA** - 4 aplicaciones especializadas funcionando
 - ✅ **Marketplace Médico** - Sistema completo de contratación integrado
-- 🚀 **Próximo paso**: Migración de packages críticos desde DevAltamedica
+- ✅ **Zero TypeScript Errors** - Compilación limpia en todos los packages y apps
+- ✅ **DevOps Pipeline** - Git hooks + docs sync + validación automática
+- ✅ **Deployment Config** - Configuración Vercel + Turborepo siguiendo mejores prácticas 2025
+- 🚀 **Estado**: PRODUCTION READY - Listo para deployment y migración de packages críticos
 
 ### 📐 **Arquitectura Actual (Multi-App Completada)**
 ```
@@ -615,17 +617,116 @@ const session = await requirePortalAccess("medico");
 
 ## 🚀 Comandos de Despliegue
 
-### Vercel (Configurado)
+### 🎯 **Configuración Vercel Multi-App (2025 Best Practices)**
 
-- Root Directory: `apps/web-app`
-- Build Command: `pnpm -w build --filter @autamedica/web-app...`
-- Framework: Next.js
-- Node version: >=18
+**🔑 REGLA ORO**: **1 Proyecto Vercel = 1 App** con configuración específica
+
+#### **📋 Configuración por App (Vercel Dashboard)**
+
+**1. Web-App Principal (Landing + Auth)**
+```
+Root Directory: apps/web-app
+Build Command: pnpm turbo run build --filter=@autamedica/web-app
+Install Command: pnpm install
+Framework: Next.js
+☑ Include files outside Root Directory: ENABLED
+☑ Skip deployments for unaffected apps: ENABLED
+```
+
+**2. Portal Médicos**
+```
+Root Directory: apps/doctors
+Build Command: pnpm turbo run build --filter=@autamedica/doctors
+Install Command: pnpm install
+Framework: Next.js
+☑ Include files outside Root Directory: ENABLED
+☑ Skip deployments for unaffected apps: ENABLED
+```
+
+**3. Portal Pacientes**
+```
+Root Directory: apps/patients
+Build Command: pnpm turbo run build --filter=@autamedica/patients
+Install Command: pnpm install
+Framework: Next.js
+☑ Include files outside Root Directory: ENABLED
+☑ Skip deployments for unaffected apps: ENABLED
+```
+
+**4. Portal Empresarial**
+```
+Root Directory: apps/companies
+Build Command: pnpm turbo run build --filter=@autamedica/companies
+Install Command: pnpm install
+Framework: Next.js
+☑ Include files outside Root Directory: ENABLED
+☑ Skip deployments for unaffected apps: ENABLED
+```
+
+#### **⚡ Remote Cache (Turborepo)**
+
+```bash
+# Habilitar Remote Cache (desde monorepo root)
+npx turbo login
+npx turbo link
+
+# Vercel lo usa automáticamente en builds
+```
+
+#### **🔗 CLI Link (Opcional)**
+
+```bash
+# Desde monorepo root - vincula todos los proyectos
+vercel link --repo
+
+# O desde cada app individualmente
+cd apps/web-app && vercel link
+cd apps/doctors && vercel link
+cd apps/patients && vercel link
+cd apps/companies && vercel link
+```
+
+#### **🌐 Dominio Único (Gateway Pattern)**
+
+Si quieres un solo dominio para todas las apps:
+
+```json
+// apps/gateway/vercel.json
+{
+  "rewrites": [
+    { "source": "/doctors/(.*)", "destination": "https://doctors.autamedica.com/$1" },
+    { "source": "/patients/(.*)", "destination": "https://patients.autamedica.com/$1" },
+    { "source": "/companies/(.*)", "destination": "https://companies.autamedica.com/$1" }
+  ]
+}
+```
 
 ### Variables de Entorno
 
-- Usar `ensureEnv()` de `@autamedica/shared`
-- **NO** acceso directo a `process.env`
+**🚨 CRÍTICO**: Variables por proyecto en Vercel Dashboard
+- **NO** usar .env en root del monorepo
+- Usar .env específico por app/package
+- Evita contaminación entre apps y problemas de cache
+
+```bash
+# ✅ CORRECTO - Por app
+apps/web-app/.env.local
+apps/doctors/.env.local
+packages/auth/.env
+
+# ❌ INCORRECTO - Global
+.env (root)
+```
+
+### Checklist de Verificación Deployment
+
+- [ ] **4 proyectos Vercel** creados (web-app, doctors, patients, companies)
+- [ ] **Root Directory** correcto en cada proyecto
+- [ ] **"Include files outside Root Directory"** activado en todos
+- [ ] **Build Command** con filtro específico: `pnpm turbo run build --filter=@autamedica/<app>`
+- [ ] **Remote Cache** enlazado y activo (`turbo login && turbo link`)
+- [ ] **Variables de entorno** definidas por proyecto
+- [ ] **Skip deployments** habilitado para PRs no afectados
 
 ## 🧪 Testing Standards
 
