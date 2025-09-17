@@ -1,6 +1,5 @@
 {
-  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install --no-frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm -w build --filter @autamedica/doctors",
+  "buildCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install --no-frozen-lockfile && pnpm -w build --filter @autamedica/doctors",
   "framework": "nextjs",
   "outputDirectory": "apps/doctors/.next",
   "ignoreCommand": "cd ../.. && npx turbo-ignore @autamedica/doctors",
