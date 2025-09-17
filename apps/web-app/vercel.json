@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd ../.. && SKIP_ENV_VALIDATION=true pnpm -w build --filter @autamedica/web-app...",
-  "outputDirectory": ".next",
-  "installCommand": "cd ../.. && pnpm install",
-  "framework": "nextjs"
-}
