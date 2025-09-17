@@ -2,15 +2,14 @@
   "name": "@autamedica/tailwind-config",
   "version": "1.0.0",
   "description": "Configuración compartida de Tailwind CSS para AutaMedica",
+  "private": true,
   "type": "module",
-  "main": "index.ts",
+  "main": "index.js",
   "exports": {
-    ".": "./index.ts",
-    "./shared-styles.css": "./shared-styles.css"
+    ".": "./index.js"
   },
   "files": [
-    "index.ts",
-    "shared-styles.css"
+    "index.js"
   ],
   "keywords": [
     "tailwindcss",

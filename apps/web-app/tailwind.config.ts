@@ -1,30 +1,11 @@
-import type { Config } from "tailwindcss";
-import autamedicaPreset from "@autamedica/tailwind-config";
+import base from '@autamedica/tailwind-config';
+import type { Config } from 'tailwindcss';
 
-const config: Config = {
-  // Usar el preset compartido de AutaMedica
-  presets: [autamedicaPreset],
-
-  // Paths de contenido específicos para web-app
+export default {
+  ...base,
   content: [
-    "./pages/**/*.{js,jsx,tsx,mdx}",
-    "./components/**/*.{js,jsx,tsx,mdx}",
-    "./app/**/*.{js,jsx,tsx,mdx}",
-    "./src/**/*.{js,jsx,tsx,mdx}",
-    // Incluir packages compartidos solo para componentes UI (evitar TypeScript files)
-    "../../packages/ui/**/*.{js,jsx,tsx,mdx}",
-    "../../packages/components/**/*.{js,jsx,tsx,mdx}",
-  ],
-
-  // Extensiones específicas para web-app (si las hay)
-  theme: {
-    extend: {
-      // Aquí se pueden agregar personalizaciones específicas de web-app
-      // que no estén en el preset compartido
-    },
-  },
-
-  plugins: [],
-};
-
-export default config;
+    './src/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    '../../packages/ui/**/*.{ts,tsx}'
+  ]
+} satisfies Config;

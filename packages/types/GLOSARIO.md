@@ -121,6 +121,7 @@
 - `PrescriptionId`
 - `ProfessionalInsurance`
 - `REVIEW_WINDOW_DAYS`
+- `ROLE_TO_PORTALS`
 - `RatingScore`
 - `ReadonlyDeep`
 - `RecognitionAPIResponse`
@@ -160,6 +161,7 @@
 - `calculateVolumePercentile`
 - `calculateVolumeScore`
 - `calculateYearsOfExperience`
+- `canAccessPortal`
 - `canPracticeInArgentina`
 - `canPracticeSpecialty`
 - `canReceiveTelemedicine`

@@ -1,0 +1,35 @@
+{
+  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm -w build --filter @autamedica/companies",
+  "framework": "nextjs",
+  "outputDirectory": "apps/companies/.next",
+  "ignoreCommand": "cd ../.. && npx turbo-ignore @autamedica/companies",
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(self), geolocation=(self)"
+        }
+      ]
+    }
+  ]
+}
