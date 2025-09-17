@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "monorepo": true,
   "version": 2,
   "buildCommand": "pnpm -w build --filter @autamedica/web-app...",
   "installCommand": "pnpm install",

@@ -6,10 +6,12 @@
   "type": "module",
   "main": "index.js",
   "exports": {
-    ".": "./index.js"
+    ".": "./index.js",
+    "./shared-styles.css": "./shared-styles.css"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "shared-styles.css"
   ],
   "keywords": [
     "tailwindcss",
