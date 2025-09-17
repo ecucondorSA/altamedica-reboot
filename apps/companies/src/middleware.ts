@@ -16,9 +16,10 @@ export async function middleware(request: NextRequest) {
     const { data } = await supabase.auth.getUser();
     const user = data.user;
 
-    // Sin sesión → redirigir a login central con returnTo
+    // Sin sesión → redirigir a login central con returnTo de producción
     if (!user) {
-      const loginUrl = getLoginUrl(request.nextUrl.href, 'companies');
+      const productionReturnTo = 'https://companies.autamedica.com' + request.nextUrl.pathname;
+      const loginUrl = getLoginUrl(productionReturnTo, 'companies');
       return NextResponse.redirect(loginUrl);
     }
 

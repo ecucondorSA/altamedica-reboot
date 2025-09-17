@@ -16,9 +16,10 @@ export async function middleware(request: NextRequest) {
     const { data } = await supabase.auth.getUser();
     const user = data.user;
 
-    // Sin sesión → redirigir a login central con returnTo
+    // Sin sesión → redirigir a login central con returnTo de producción
     if (!user) {
-      const loginUrl = getLoginUrl(request.nextUrl.href, 'patients');
+      const productionReturnTo = 'https://patients.autamedica.com' + request.nextUrl.pathname;
+      const loginUrl = getLoginUrl(productionReturnTo, 'patients');
       return NextResponse.redirect(loginUrl);
     }
 
@@ -29,7 +30,7 @@ export async function middleware(request: NextRequest) {
 
     // Si no tiene rol o está pendiente, enviar a selección de rol en web-app
     if (!userRole || pendingRoleSelection) {
-      const webAppUrl = process.env.APP_URL || 'https://autamedica.com';
+      const webAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://autamedica.com';
       const selectRoleUrl = new URL('/auth/select-role', webAppUrl);
       return NextResponse.redirect(selectRoleUrl);
     }
