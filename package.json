@@ -45,6 +45,13 @@
     "visual:analyze": "node scripts/visual-analyzer.js full",
     "visual:health": "node scripts/visual-analyzer.js health",
     "dev:watch": "concurrently \"pnpm dev\" \"pnpm watch:types\" \"pnpm watch:lint\"",
+    "deploy:setup": "./scripts/deploy-setup.sh",
+    "deploy:web-app": "cd apps/web-app && vercel --prod",
+    "deploy:doctors": "cd apps/doctors && vercel --prod",
+    "deploy:patients": "cd apps/patients && vercel --prod",
+    "deploy:companies": "cd apps/companies && vercel --prod",
+    "deploy:admin": "cd apps/admin && vercel --prod",
+    "deploy:all": "pnpm deploy:web-app && pnpm deploy:doctors && pnpm deploy:patients && pnpm deploy:companies && pnpm deploy:admin",
     "watch:types": "node scripts/watch-types.mjs",
     "check:all": "pnpm run lint && pnpm run type-check && pnpm run policies:validate && pnpm run docs:validate && pnpm run vercel:validate",
     "lint-staged": "lint-staged",
@@ -86,8 +93,5 @@
       "prettier --write"
     ]
   },
-  "packageManager": "pnpm@9.0.0",
-  "engines": {
-    "node": ">=18"
-  }
+  "packageManager": "pnpm@6.35.1"
 }
