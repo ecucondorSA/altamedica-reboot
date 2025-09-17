@@ -1,9 +1,8 @@
 {
-  "buildCommand": "cd ../.. && pnpm -w build --filter @autamedica/web-app...",
-  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install",
+  "installCommand": "corepack enable && pnpm install",
+  "buildCommand": "pnpm build",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "ignoreCommand": "cd ../.. && npx turbo-ignore @autamedica/web-app",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30

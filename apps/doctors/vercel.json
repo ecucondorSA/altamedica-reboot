@@ -1,9 +1,8 @@
 {
-  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && pnpm --filter @autamedica/doctors build",
+  "installCommand": "corepack enable && pnpm install",
+  "buildCommand": "pnpm build",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "ignoreCommand": "cd ../.. && npx turbo-ignore @autamedica/doctors",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30
