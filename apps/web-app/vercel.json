@@ -1,6 +1,6 @@
 {
   "installCommand": "corepack enable && pnpm install",
-  "buildCommand": "pnpm build",
+  "buildCommand": "cd ../.. && pnpm build --filter @autamedica/web-app",
   "framework": "nextjs",
   "outputDirectory": ".next",
   "functions": {
