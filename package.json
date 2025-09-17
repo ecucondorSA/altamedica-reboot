@@ -8,6 +8,8 @@
     "dev": "turbo run dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "validate:vercel": "node scripts/validate-vercel-deployment.js",
+    "validate:vercel:full": "node scripts/validate-vercel-deployment.js --test-build",
     "watch:lint": "nodemon --watch 'apps/**/*.{ts,tsx}' --watch 'packages/**/*.{ts,tsx}' --ext ts,tsx --exec 'eslint .'",
     "depcruise": "depcruise -c .dependency-cruiser.cjs apps packages scripts",
     "dup": "jscpd --config .jscpd.json",
