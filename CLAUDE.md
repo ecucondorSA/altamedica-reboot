@@ -20,23 +20,343 @@ Esta guía ayuda a futuras instancias de Claude Code a trabajar efectivamente en
 
 ## 🏥 Arquitectura del Proyecto
 
-**Autamedica** es una plataforma médica moderna construida como monorepo con Turborepo.
+**AutaMedica** es una plataforma médica moderna construida como monorepo con Turborepo.
 
+### 🎯 **ESTADO ACTUAL (Septiembre 2025)**
+- ✅ **Autenticación completa** - Sistema Supabase con roles y redirección
+- ✅ **Páginas faltantes creadas** - forgot-password, terms, privacy
+- ✅ **Errores 404 resueltos** - Todas las rutas funcionando
+- ✅ **UI/UX AutaMedica** - Colores, contraste y branding consistentes
+- ✅ **Deploy en producción** - Vercel con SSL automático
+- ✅ **Arquitectura Multi-App COMPLETADA** - 4 aplicaciones especializadas funcionando
+- ✅ **Marketplace Médico** - Sistema completo de contratación integrado
+- 🚀 **Próximo paso**: Migración de packages críticos desde DevAltamedica
+
+### 📐 **Arquitectura Actual (Multi-App Completada)**
 ```
 autamedica-reboot/
 ├── apps/
-│   └── web-app/               # Next.js 15 app principal
+│   ├── web-app/               # 🌐 Landing + Auth (completado)
+│   │   ├── app/auth/          # Sistema autenticación completo
+│   │   │   ├── login/         # ✅ Login con OAuth + email
+│   │   │   ├── register/      # ✅ Registro multi-rol
+│   │   │   ├── callback/      # ✅ Manejo callback OAuth
+│   │   │   ├── select-role/   # ✅ Selección rol post-auth
+│   │   │   └── forgot-password/ # ✅ Recuperación contraseña
+│   │   ├── terms/             # ✅ Términos médicos HIPAA
+│   │   └── privacy/           # ✅ Política privacidad detallada
+│   ├── doctors/               # 👨‍⚕️ Portal médicos (completado)
+│   │   ├── layout.tsx         # VSCode-style layout para médicos
+│   │   └── page.tsx           # Dashboard médico con video calling
+│   ├── patients/              # 👤 Portal pacientes (completado)
+│   │   ├── layout.tsx         # Layout modular para pacientes
+│   │   └── page.tsx           # Portal personal con temas
+│   └── companies/             # 🏢 Portal empresarial (completado)
+│       ├── layout.tsx         # Crisis management layout
+│       ├── page.tsx           # Centro control crisis + Marketplace
+│       └── components/
+│           └── marketplace/   # 💼 Sistema marketplace médico
+│               └── MarketplaceDashboard.tsx
 ├── packages/
 │   ├── @autamedica/types      # Contratos TypeScript centralizados
 │   ├── @autamedica/shared     # Utilidades compartidas
 │   ├── @autamedica/auth       # React Context + hooks auth
-│   └── @autamedica/hooks      # React hooks médicos
+│   ├── @autamedica/hooks      # React hooks médicos
+│   └── @autamedica/tailwind-config # Configuración compartida Tailwind
 ├── docs/
 │   └── GLOSARIO_MAESTRO.md    # FUENTE DE VERDAD para contratos
 └── scripts/
     ├── validate-exports.mjs   # Validación contratos vs exports
-    └── health-check.mjs       # Health check completo
+    ├── health-check.mjs       # Health check completo
+    └── visual-analyzer.js     # Análisis visual de las 4 apps
 ```
+
+### 🎯 **Apps Especializadas Implementadas**
+Cada aplicación con su tema y funcionalidad específica:
+
+#### 🌐 **Web-App** (puerto 3000)
+- **Landing page + autenticación central**
+- Sistema Supabase completo con roles
+- Redirección automática según rol del usuario
+
+#### 👨‍⚕️ **Doctors** (puerto 3001)
+- **Layout estilo VSCode** para profesionales médicos
+- Dashboard con interfaz de video calling
+- Controles de cámara y micrófono
+- Panel de información de pacientes en tiempo real
+
+#### 👤 **Patients** (puerto 3002)
+- **Layout modular** con sistema de temas
+- Portal personal del paciente
+- Interfaz amigable y accesible
+- Selector de temas visuales
+
+#### 🏢 **Companies** (puerto 3003)
+- **Crisis management center** con tema de emergencia
+- **Marketplace médico integrado** con toggle
+- Centro de control de crisis sanitarias
+- Sistema de contratación de profesionales médicos
+
+## 🗺️ **Mapa de DevAltamedica para Migración**
+
+### 📊 **Análisis de Apps Existentes en DevAltamedica**
+
+DevAltamedica tiene **7 apps especializadas** con funcionalidades únicas:
+
+#### 👨‍⚕️ **Doctors App** (`/apps/doctors/`)
+**Layouts avanzados:**
+- `DoctorLayout.tsx` - Layout médico estándar
+- `ResponsiveDoctorLayout.tsx` - Layout responsive profesional
+- `VSCodeLayout.tsx` - **Layout estilo IDE** para médicos avanzados
+
+**Componentes médicos especializados:**
+- `PrescriptionForm.tsx` - Formularios de prescripción
+- `MedicalNotesSystem.tsx` - Sistema de notas médicas
+- `DoctorPatientsList.tsx` - Gestión de pacientes
+- `NotificationCenter.tsx` - Centro de notificaciones médicas
+
+#### 👤 **Patients App** (`/apps/patients/`)
+**Layouts modulares:**
+- `PatientLayoutModular.tsx` + `PatientHeaderModular.tsx` + `PatientSidebarModular.tsx`
+- `PatientFooterModular.tsx` - Footer específico para pacientes
+
+**Componentes centrados en el paciente:**
+- **Lab Results**: `LabResultCard.tsx`, `LabResultDetailCard.tsx`, `LabResultFilters.tsx`
+- **Prescriptions**: `PrescriptionCard.tsx`, `PrescriptionDetailCard.tsx`, `PrescriptionFilters.tsx`
+- **Data Export**: `PatientDataExportModal.tsx`, `ExportDataButton.tsx`
+
+#### 🏢 **Companies App** (`/apps/companies/`)
+**Layout empresarial:**
+- `CompanyLayoutProvider.tsx` - Provider de contexto empresarial
+- `ErrorBoundary.tsx` - Manejo profesional de errores
+- `Navigation.tsx` + `Header.tsx` - Navegación corporativa
+
+**Componentes de gestión empresarial:**
+- **Crisis Management**: `CrisisControlCenter.tsx`, `CrisisMapPanel.tsx`, `CommandPalette.tsx`
+- **Performance**: `PerformanceDashboard.tsx`, `CrisisMetrics.tsx`
+- **Mapping**: `MainMap.tsx`, `NetworkMinimap.tsx`
+
+#### ⚙️ **Admin App** (`/apps/admin/`)
+**Layout administrativo global para gestión de plataforma**
+
+#### 🔧 **Infraestructura Técnica**
+- `api-server/` - API centralizada
+- `signaling-server/` - WebRTC para telemedicina
+- `web-app/` - Landing y autenticación central
+
+### 🚀 **Plan de Migración Multi-App (COMPLETADO)**
+
+#### **FASE 1: Preparación Base** ✅ (Completado)
+1. **✅ Estructura de directorios creada** para apps específicas
+2. **✅ Layouts base migrados** de DevAltamedica como templates
+3. **✅ Colores AutaMedica aplicados** en todos los layouts
+4. **✅ Turborepo configurado** para multi-app builds
+5. **✅ Tailwind config compartido** entre todas las apps
+
+#### **FASE 2: Portal Médicos** ✅ (Completado)
+**Componentes migrados:**
+- **✅ Layout VSCode** estilo IDE profesional para médicos
+- **✅ Dashboard médico** con interfaz de video calling
+- **✅ Controles multimedia** cámara y micrófono
+- **✅ Panel de pacientes** en tiempo real
+- **✅ Tema oscuro profesional** Gray 800/900
+
+#### **FASE 3: Portal Pacientes** ✅ (Completado)
+**Componentes migrados:**
+- **✅ Layout modular** con componentes separados
+- **✅ Sistema de temas** para personalización
+- **✅ Portal personal** con interfaz amigable
+- **✅ Responsive design** adaptativo
+- **✅ Colores AutaMedica** integrados
+
+#### **FASE 4: Portal Empresarial** ✅ (Completado)
+**Componentes migrados:**
+- **✅ Crisis management layout** con tema de emergencia
+- **✅ Dashboard corporativo** de control de crisis
+- **✅ Marketplace médico** completamente integrado
+- **✅ Sistema de navegación** entre crisis y marketplace
+- **✅ Métricas en tiempo real** y alertas
+
+#### **FASE 5: Próximos Pasos** 🚀 (Siguientes tareas)
+**Migración de packages críticos desde DevAltamedica:**
+- **@altamedica/types** (190+ tipos médicos)
+- **@altamedica/auth** (Sistema MFA avanzado)
+- **@altamedica/database** (HIPAA + audit)
+- **@altamedica/medical** (Lógica médica core)
+- **@altamedica/telemedicine-core** (WebRTC engine)
+- **@altamedica/alta-agent** (IA médica 3D)
+
+## 💼 **Marketplace Médico - Implementación Completada**
+
+### 🎯 **Funcionalidades del Marketplace**
+- **📊 Dashboard con estadísticas** - Jobs activos, aplicaciones, visualizaciones
+- **🔍 Búsqueda avanzada** - Por especialidad, hospital, ubicación
+- **💼 Gestión de ofertas** - Cardiología, pediatría, oncología, etc.
+- **📈 Métricas de conversión** - Tasa de aplicaciones vs visualizaciones
+- **🚨 Indicadores de urgencia** - Ofertas prioritarias destacadas
+- **💰 Rangos salariales** - Sistema de compensación transparente
+
+### 🏗️ **Arquitectura del Marketplace**
+```typescript
+// apps/companies/src/components/marketplace/MarketplaceDashboard.tsx
+interface JobListing {
+  title: string;
+  specialty: 'Cardiología' | 'Pediatría' | 'Oncología' | 'Enfermería';
+  type: 'full-time' | 'part-time' | 'contract' | 'locum';
+  salary: { min: number; max: number; currency: string };
+  urgent?: boolean;
+  status: 'active' | 'paused' | 'filled';
+}
+```
+
+### 🎨 **Integración Visual**
+- **Toggle navigation** entre Crisis Control y Marketplace
+- **Tema consistente** con crisis management (grays/reds/oranges)
+- **Badge "HOT"** en el marketplace como solicitado
+- **Responsive design** adaptativo para móvil/tablet/desktop
+
+### 🔄 **Navegación Implementada**
+- **Crisis Control**: Centro de control de emergencias sanitarias
+- **Marketplace**: Sistema de contratación de profesionales médicos
+- **Preservación total** de funcionalidades existentes
+- **Transición fluida** entre secciones sin recargas
+
+### 🛠️ **Comandos de Migración Práctica**
+
+**Paso 1: Crear estructura básica**
+```bash
+# Crear directorios para cada app
+mkdir -p apps/{doctors,patients,companies,admin}/src/components/layout
+mkdir -p apps/{doctors,patients,companies,admin}/src/app
+
+# Copiar package.json base de web-app como template
+cp apps/web-app/package.json apps/doctors/package.json
+cp apps/web-app/package.json apps/patients/package.json
+cp apps/web-app/package.json apps/companies/package.json
+```
+
+**Paso 2: Migrar layouts específicos**
+```bash
+# Doctors
+cp /home/edu/Devaltamedica-Independent/apps/doctors/src/components/layout/* \
+   apps/doctors/src/components/layout/
+
+# Patients
+cp /home/edu/Devaltamedica-Independent/apps/patients/src/components/layout/* \
+   apps/patients/src/components/layout/
+
+# Companies
+cp /home/edu/Devaltamedica-Independent/apps/companies/src/components/layout/* \
+   apps/companies/src/components/layout/
+```
+
+**Paso 3: Adaptar para AutaMedica**
+- 🎨 Cambiar paleta de colores a AutaMedica
+- 🏷️ Actualizar branding y logos
+- 📱 Asegurar responsive design
+- 🔒 Integrar con sistema auth existente
+
+## 📚 **Investigación: Mejores Prácticas Oficiales 2024**
+
+### 🏛️ **Estándares GitHub + Turborepo + Vercel**
+
+**Fuentes consultadas:**
+- ✅ Documentación oficial Turborepo
+- ✅ Vercel Solutions para Turborepo
+- ✅ GitHub monorepo examples (belgattitude/nextjs-monorepo-example)
+- ✅ Next.js 15 + Turborepo integration guides
+
+#### 🏗️ **Estructura de Directorios OFICIAL**
+```bash
+# REGLA ORO: Separación clara apps/ vs packages/
+├── apps/                      # ✅ Aplicaciones y servicios
+│   ├── web-app/              # Landing + Auth
+│   ├── doctors/              # Portal médicos
+│   ├── patients/             # Portal pacientes
+│   └── companies/            # Portal empresarial
+└── packages/                 # ✅ Librerías, tooling, shared code
+    ├── @autamedica/types     # Tipos TypeScript
+    ├── @autamedica/auth      # Sistema autenticación
+    ├── @autamedica/ui        # Componentes compartidos
+    └── @autamedica/shared    # Utilidades
+```
+
+#### 🚨 **Regla Fundamental: "Apps NO dependen de Apps"**
+```typescript
+// ✅ CORRECTO: Apps pueden depender de packages
+import { Patient } from "@autamedica/types";
+import { useAuth } from "@autamedica/auth";
+
+// ❌ INCORRECTO: Apps no deben depender de otras apps
+import { DoctorComponent } from "../../doctors/src/components";
+```
+
+#### 📦 **Configuración Package.json RECOMENDADA**
+```json
+{
+  "name": "@autamedica/doctors",
+  "private": true,
+  "dependencies": {
+    "@autamedica/types": "workspace:^",
+    "@autamedica/auth": "workspace:^",
+    "@autamedica/ui": "workspace:^"
+  }
+}
+```
+
+#### ⚡ **Turborepo Performance Features**
+
+**1. Remote Caching (Vercel)**
+- Cache compartido entre team y CI/CD
+- Reduce builds de 25 minutos a 5 segundos (caso Chick-fil-A)
+- Configuración automática con Vercel
+
+**2. Parallel Execution**
+- Builds paralelos por dependencias
+- Solo construye lo que cambió
+- Máximo aprovechamiento de recursos
+
+**3. Next.js 15 Integration**
+```javascript
+// next.config.js recomendado
+const nextConfig = {
+  transpilePackages: ['@autamedica/**'],
+  experimental: {
+    externalDir: true  // Para transpile de packages
+  }
+}
+```
+
+#### 🛠️ **Scripts Globales ESTÁNDAR**
+```json
+{
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "test": "turbo test"
+  }
+}
+```
+
+#### 🚀 **Deployment Vercel OFICIAL**
+- One-click deployment para monorepos
+- Auto-detection de frameworks (Next.js, etc.)
+- Build only affected projects
+- Remote caching automático
+
+### 🎯 **Aplicación a AutaMedica-Reboot**
+
+**CONCLUSIONES de la investigación:**
+
+1. **✅ Estructura actual CORRECTA** - Ya seguimos el patrón apps/packages
+2. **🔄 Namespace requerido** - Cambiar a `@autamedica/` en todos los packages
+3. **⚡ Workspace protocol** - Usar `"workspace:^"` para dependencias internas
+4. **📦 TypeScript transpiling** - Configurar `transpilePackages` en Next.js
+5. **🚀 Remote caching** - Aprovechar Vercel cache automático
+
+**SIGUIENTE PASO VALIDADO:** Crear apps específicas siguiendo estos estándares oficiales.
 
 ## 🚨 Reglas Críticas
 
@@ -54,12 +374,34 @@ autamedica-reboot/
 - Usar `ISODateString` en lugar de `Date` para APIs
 - `APIResponse<T>` como discriminated union obligatorio
 
-### 3. Zero Technical Debt
+### 3. Zero Technical Debt - Reglas ESLint Estrictas
 
 - El usuario enfatizó: **"no generes deuda tecnica por favor"**
-- Strict TypeScript, ESLint sin warnings (`--max-warnings=0`)
+- **Strict TypeScript, ESLint sin warnings (`--max-warnings=0`)**
 - Tests obligatorios con Vitest
 - Pre-commit hooks con husky + lint-staged
+
+#### 🚫 **Prohibiciones Anti-Deuda Técnica (Implementadas)**
+
+**Logging:**
+- `console.*` → usar `LoggerService` de `@autamedica/shared`
+
+**Imports restrictivos:**
+- Deep imports: `@autamedica/*/src/**`
+- Cross-app imports: `apps/web-app/**` ↔ `apps/patients/**` (usar `packages/**`)
+- Node APIs en client/edge: `fs`, `crypto`, `path`, `http`, `https`, `zlib`, `stream`, `child_process`
+- `firebase-admin` fuera de server/api routes
+- CSS suelto fuera de `app/globals.css` por app
+
+**Patrones prohibidos:**
+- `fetch` directo → usar `BaseAPIClient` de `@autamedica/shared`
+- Literales de rol (`'patient'|'doctor'`) → usar `UserRole` de `@autamedica/types`
+- `next/server` en componentes cliente
+
+**Zones de aislamiento:**
+- Apps NO pueden importar entre sí
+- Solo `packages/**` como interfaz compartida
+- Violaciones detectadas automáticamente por ESLint
 
 ### 4. Import Rules Estrictas
 
@@ -109,8 +451,14 @@ pnpm start-claude           # Alias del comando anterior
 ### Desarrollo Manual
 
 ```bash
-pnpm dev                     # Todos los packages en watch mode
-pnpm dev --filter web-app    # Solo la app web
+pnpm dev                                # Todos los packages en watch mode
+pnpm dev --filter @autamedica/web-app   # Solo la app web (puerto 3000)
+pnpm dev --filter @autamedica/doctors   # Solo la app de médicos (puerto 3001)
+pnpm dev --filter @autamedica/patients  # Solo la app de pacientes (puerto 3002)
+pnpm dev --filter @autamedica/companies # Solo la app empresarial (puerto 3003)
+
+# Ejecutar múltiples apps simultáneamente
+pnpm dev --filter @autamedica/web-app --filter @autamedica/doctors
 ```
 
 ### Build y Validación
@@ -133,11 +481,16 @@ pnpm security:check        # Validaciones de seguridad
 pnpm security:full         # Audit + security check completo
 ```
 
-### Testing
+### Testing y Monitoreo Visual
 
 ```bash
-pnpm test:unit            # Vitest con coverage
-pnpm test                 # Run all tests
+pnpm test:unit                    # Vitest con coverage
+pnpm test                         # Run all tests
+
+# Análisis visual de las 4 apps funcionando
+node scripts/visual-analyzer.js health    # Health check rápido
+node scripts/visual-analyzer.js analyze   # Análisis detallado visual
+node scripts/visual-analyzer.js full      # Health check + análisis completo
 ```
 
 ## 📦 Package Architecture

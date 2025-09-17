@@ -2,33 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* AutaMedica Color Palette */
-  --ivory: #F8F6F0;
-  --beige: #E8D5B7;
-  --negro: #1A1A1A;
-  --blanco: #FFFFFF;
-
-  /* UI Colors derived from brand palette */
-  --primary: #D4A574;
-  --primary-dark: #B8935F;
-  --secondary: #8B7355;
-  --accent: #F0E6D2;
-  --text-primary: var(--negro);
-  --text-secondary: #4A4A4A;
-  --text-light: #666666;
-
-  /* Legacy variables for compatibility */
-  --background: var(--blanco);
-  --foreground: var(--negro);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Importar estilos compartidos de AutaMedica */
+@import "@autamedica/tailwind-config/shared-styles.css";
 
 html,
 body {

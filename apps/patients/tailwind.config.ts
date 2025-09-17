@@ -5,7 +5,7 @@ const config: Config = {
   // Usar el preset compartido de AutaMedica
   presets: [autamedicaPreset],
 
-  // Paths de contenido específicos para web-app
+  // Paths de contenido específicos para patients
   content: [
     "./pages/**/*.{js,jsx,tsx,mdx}",
     "./components/**/*.{js,jsx,tsx,mdx}",
@@ -16,10 +16,10 @@ const config: Config = {
     "../../packages/components/**/*.{js,jsx,tsx,mdx}",
   ],
 
-  // Extensiones específicas para web-app (si las hay)
+  // Extensiones específicas para patients (si las hay)
   theme: {
     extend: {
-      // Aquí se pueden agregar personalizaciones específicas de web-app
+      // Aquí se pueden agregar personalizaciones específicas de patients
       // que no estén en el preset compartido
     },
   },

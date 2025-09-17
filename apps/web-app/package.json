@@ -15,6 +15,7 @@
     "@autamedica/auth": "workspace:*",
     "@autamedica/hooks": "workspace:*",
     "@autamedica/shared": "workspace:*",
+    "@autamedica/tailwind-config": "workspace:^",
     "@autamedica/types": "workspace:*",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.4",

@@ -32,8 +32,8 @@ export {
 } from "./email";
 export type { SignInWithOtpOptions, SignInWithOtpResult } from "./email";
 
-// Contexto y hooks React (TODO: implementar)
-// export { AuthProvider, useAuth } from "./react";
+// Contexto y hooks React
+export { AuthProvider, useAuth } from "./react";
 
 // Sistema de roles y permisos
 export {
