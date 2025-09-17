@@ -21,12 +21,13 @@ const ROLES = {
 
 /**
  * URLs base para cada aplicación por entorno
+ * CONFIGURACIÓN: Siempre redirigir a URLs de producción para mejor UX
  */
 export const BASE_URL_BY_ROLE: Record<UserRole, string> = {
-  [ROLES.PATIENT]: process.env.NEXT_PUBLIC_PATIENTS_URL || 'https://patients.autamedica.com',
-  [ROLES.DOCTOR]: process.env.NEXT_PUBLIC_DOCTORS_URL || 'https://doctors.autamedica.com',
-  [ROLES.COMPANY_ADMIN]: process.env.NEXT_PUBLIC_COMPANIES_URL || 'https://companies.autamedica.com',
-  [ROLES.PLATFORM_ADMIN]: process.env.NEXT_PUBLIC_APP_URL || 'https://app.autamedica.com',
+  [ROLES.PATIENT]: 'https://patients.autamedica.com',
+  [ROLES.DOCTOR]: 'https://doctors.autamedica.com', 
+  [ROLES.COMPANY_ADMIN]: 'https://companies.autamedica.com',
+  [ROLES.PLATFORM_ADMIN]: 'https://autamedica.com',
 };
 
 /**
@@ -134,7 +135,7 @@ export const AUTH_URLS = {
  * @returns URL de login completa
  */
 export function getLoginUrl(returnTo?: string, portal?: string): string {
-  const webAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.autamedica.com';
+  const webAppUrl = 'https://autamedica.com';
   const loginUrl = new URL(AUTH_URLS.LOGIN, webAppUrl);
 
   if (returnTo) {

@@ -17,8 +17,8 @@ export async function createServerClient() {
   const cookieStore = await cookies();
 
   return createSupabaseServerClient(
-    ensureServerEnv("NEXT_PUBLIC_SUPABASE_URL"),
-    ensureServerEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
+    ensureServerEnv("SUPABASE_URL"),
+    ensureServerEnv("SUPABASE_ANON_KEY"),
     {
       cookies: {
         getAll() {
@@ -48,8 +48,8 @@ export function createMiddlewareClient(request: NextRequest) {
   });
 
   const supabase = createSupabaseServerClient(
-    ensureServerEnv("NEXT_PUBLIC_SUPABASE_URL"),
-    ensureServerEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
+    ensureServerEnv("SUPABASE_URL"),
+    ensureServerEnv("SUPABASE_ANON_KEY"),
     {
       cookies: {
         getAll() {
@@ -75,8 +75,8 @@ export function createRouteHandlerClient(request: NextRequest) {
   const response = new NextResponse();
 
   const supabase = createSupabaseServerClient(
-    ensureServerEnv("NEXT_PUBLIC_SUPABASE_URL"),
-    ensureServerEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
+    ensureServerEnv("SUPABASE_URL"),
+    ensureServerEnv("SUPABASE_ANON_KEY"),
     {
       cookies: {
         getAll() {
