@@ -18,7 +18,8 @@ export async function middleware(request: NextRequest) {
 
     // Sin sesión → redirigir a login central con returnTo de producción
     if (!user) {
-      const productionReturnTo = 'https://companies.autamedica.com' + request.nextUrl.pathname;
+      const currentAppUrl = process.env.NEXT_PUBLIC_COMPANIES_URL || 'https://companies-reina08s-projects.vercel.app';
+      const productionReturnTo = currentAppUrl + request.nextUrl.pathname;
       const loginUrl = getLoginUrl(productionReturnTo, 'companies');
       return NextResponse.redirect(loginUrl);
     }
@@ -30,7 +31,7 @@ export async function middleware(request: NextRequest) {
 
     // Si no tiene rol o está pendiente, enviar a selección de rol en web-app
     if (!userRole || pendingRoleSelection) {
-      const webAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.autamedica.com';
+      const webAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://altamedica-reboot-7d2mpvm3i-reina08s-projects.vercel.app';
       const selectRoleUrl = new URL('/auth/select-role', webAppUrl);
       return NextResponse.redirect(selectRoleUrl);
     }

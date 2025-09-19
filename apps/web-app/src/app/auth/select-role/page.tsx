@@ -3,6 +3,8 @@ import { getSession, createServerClient } from '@autamedica/auth';
 import { redirect } from 'next/navigation';
 import { RoleSelectionForm } from './RoleSelectionForm';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Página de selección de rol para usuarios después del registro
  * Redirige automáticamente si el usuario ya tiene un rol asignado

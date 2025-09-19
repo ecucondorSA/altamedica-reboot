@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { ensureEnv } from '@autamedica/shared'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
@@ -11,7 +10,19 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient()
+  
+  // Capturar parámetros de URL para pasarlos al callback
+  const returnTo = searchParams.get('returnTo')
+  const portal = searchParams.get('portal')
+
+  const buildCallbackUrl = () => {
+    const callbackUrl = new URL('/auth/callback', window.location.origin)
+    if (returnTo) callbackUrl.searchParams.set('returnTo', returnTo)
+    if (portal) callbackUrl.searchParams.set('portal', portal)
+    return callbackUrl
+  }
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,7 +65,8 @@ export default function LoginForm() {
       }
 
       // Redirect to callback to handle role-based redirection
-      router.push('/auth/callback')
+      const callbackUrl = buildCallbackUrl()
+      router.push(callbackUrl.pathname + callbackUrl.search)
     } catch (err) {
       setError('Error inesperado. Por favor intenta nuevamente.')
       setLoading(false)
@@ -85,10 +97,12 @@ export default function LoginForm() {
     }
 
     try {
+      const callbackUrl = buildCallbackUrl()
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
+          redirectTo: callbackUrl.toString()
         }
       })
 

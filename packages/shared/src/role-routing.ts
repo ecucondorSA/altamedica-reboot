@@ -25,10 +25,10 @@ const ROLES = {
  * SEGURIDAD: Cada rol solo tiene acceso a su aplicación específica
  */
 export const BASE_URL_BY_ROLE: Record<UserRole, string> = {
-  [ROLES.PATIENT]: 'https://autamedica-patients-ecucondor-gmailcoms-projects.vercel.app',
-  [ROLES.DOCTOR]: 'https://doctors-9ntz27vum-ecucondor-gmailcoms-projects.vercel.app', 
-  [ROLES.COMPANY_ADMIN]: 'https://companies-ecucondor-gmailcoms-projects.vercel.app',
-  [ROLES.PLATFORM_ADMIN]: 'https://autamedica.com',
+  [ROLES.PATIENT]: 'https://patients-reina08s-projects.vercel.app',
+  [ROLES.DOCTOR]: 'https://doctors-reina08s-projects.vercel.app',
+  [ROLES.COMPANY_ADMIN]: 'https://companies-reina08s-projects.vercel.app',
+  [ROLES.PLATFORM_ADMIN]: 'https://altamedica-reboot-7d2mpvm3i-reina08s-projects.vercel.app',
 };
 
 /**
@@ -136,7 +136,7 @@ export const AUTH_URLS = {
  * @returns URL de login completa
  */
 export function getLoginUrl(returnTo?: string, portal?: string): string {
-  const webAppUrl = 'https://autamedica.com';
+  const webAppUrl = process.env.NEXT_PUBLIC_APP_URL || BASE_URL_BY_ROLE[ROLES.PLATFORM_ADMIN];
   const loginUrl = new URL(AUTH_URLS.LOGIN, webAppUrl);
 
   if (returnTo) {
