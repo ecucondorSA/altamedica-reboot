@@ -21,12 +21,13 @@ const ROLES = {
 
 /**
  * URLs base para cada aplicación por entorno
- * CONFIGURACIÓN: Siempre redirigir a URLs de producción para mejor UX
+ * CONFIGURACIÓN: URLs de deployment de Vercel para producción
+ * SEGURIDAD: Cada rol solo tiene acceso a su aplicación específica
  */
 export const BASE_URL_BY_ROLE: Record<UserRole, string> = {
-  [ROLES.PATIENT]: 'https://patients.autamedica.com',
-  [ROLES.DOCTOR]: 'https://doctors.autamedica.com', 
-  [ROLES.COMPANY_ADMIN]: 'https://companies.autamedica.com',
+  [ROLES.PATIENT]: 'https://autamedica-patients-ecucondor-gmailcoms-projects.vercel.app',
+  [ROLES.DOCTOR]: 'https://doctors-9ntz27vum-ecucondor-gmailcoms-projects.vercel.app', 
+  [ROLES.COMPANY_ADMIN]: 'https://companies-ecucondor-gmailcoms-projects.vercel.app',
   [ROLES.PLATFORM_ADMIN]: 'https://autamedica.com',
 };
 

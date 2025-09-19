@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
     // Sin sesión → redirigir a login central con returnTo de esta app
     if (!user) {
-      const currentAppUrl = 'https://doctors-9ntz27vum-ecucondor-gmailcoms-projects.vercel.app';
+      const currentAppUrl = process.env.NEXT_PUBLIC_DOCTORS_URL || request.nextUrl.origin;
       const productionReturnTo = currentAppUrl + request.nextUrl.pathname;
       const loginUrl = getLoginUrl(productionReturnTo, 'doctors');
       return NextResponse.redirect(loginUrl);
@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
     console.error('Doctors middleware error:', error);
 
     // En caso de error, redirigir a login
-    const currentAppUrl = 'https://doctors-9ntz27vum-ecucondor-gmailcoms-projects.vercel.app';
+    const currentAppUrl = process.env.NEXT_PUBLIC_DOCTORS_URL || request.nextUrl.origin;
     const productionReturnTo = currentAppUrl + request.nextUrl.pathname;
     const loginUrl = getLoginUrl(productionReturnTo, 'doctors');
     return NextResponse.redirect(loginUrl);
