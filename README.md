@@ -201,3 +201,4 @@ pnpm type-check
 ## 📄 Licencia
 
 Proprietary - Autamedica © 2025
+# Force Cloudflare cache refresh vie 19 sep 2025 16:34:46 -03
