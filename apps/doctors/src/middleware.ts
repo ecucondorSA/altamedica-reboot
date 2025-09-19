@@ -16,9 +16,10 @@ export async function middleware(request: NextRequest) {
     const { data } = await supabase.auth.getUser();
     const user = data.user;
 
-    // Sin sesión → redirigir a login central con returnTo de producción
+    // Sin sesión → redirigir a login central con returnTo de esta app
     if (!user) {
-      const productionReturnTo = 'https://doctors.autamedica.com' + request.nextUrl.pathname;
+      const currentAppUrl = 'https://doctors-9ntz27vum-ecucondor-gmailcoms-projects.vercel.app';
+      const productionReturnTo = currentAppUrl + request.nextUrl.pathname;
       const loginUrl = getLoginUrl(productionReturnTo, 'doctors');
       return NextResponse.redirect(loginUrl);
     }
@@ -48,7 +49,8 @@ export async function middleware(request: NextRequest) {
     console.error('Doctors middleware error:', error);
 
     // En caso de error, redirigir a login
-    const productionReturnTo = 'https://doctors.autamedica.com' + request.nextUrl.pathname;
+    const currentAppUrl = 'https://doctors-9ntz27vum-ecucondor-gmailcoms-projects.vercel.app';
+    const productionReturnTo = currentAppUrl + request.nextUrl.pathname;
     const loginUrl = getLoginUrl(productionReturnTo, 'doctors');
     return NextResponse.redirect(loginUrl);
   }
