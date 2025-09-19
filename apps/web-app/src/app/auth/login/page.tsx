@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { LoginForm } from '@/components/auth/LoginForm';
 
 export const metadata = {
@@ -22,7 +23,9 @@ export default function LoginPage() {
         <div className="bg-autamedica-negro/50 backdrop-blur-lg rounded-2xl p-8 border border-autamedica-secondary/30">
           <h1 className="text-2xl font-bold text-autamedica-blanco mb-6 text-center">Iniciar Sesión</h1>
 
-          <LoginForm />
+          <Suspense fallback={<div className="animate-pulse bg-gray-600 h-32 rounded"></div>}>
+            <LoginForm />
+          </Suspense>
         </div>
 
         {/* HIPAA Notice */}
