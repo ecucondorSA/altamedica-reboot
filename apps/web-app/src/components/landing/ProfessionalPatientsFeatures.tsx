@@ -1,9 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useRef } from 'react';
 import { getAppUrl } from '@/lib/env';
 
 export default function ProfessionalPatientsFeatures() {
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const features = [
     'Consultas virtuales HD',
     'Historia clínica digital',
@@ -17,25 +21,56 @@ export default function ProfessionalPatientsFeatures() {
   const videoThumbnails = [
     {
       title: 'Consulta Virtual',
+      video: '/videos/patient_consulta_virtual.mp4',
       thumbnail: '/videos/thumb1.jpg',
-      duration: '2:30'
+      duration: '8:00'
     },
     {
       title: 'Historia Clínica',
+      video: '/videos/patient_historia_clinica.mp4',
       thumbnail: '/videos/thumb2.jpg',
-      duration: '1:45'
+      duration: '8:00'
     },
     {
       title: 'Agendamiento',
+      video: '/videos/patient_agendamiento.mp4',
       thumbnail: '/videos/thumb3.jpg',
-      duration: '3:15'
+      duration: '8:00'
     },
     {
       title: 'Seguimiento',
+      video: '/videos/patient_seguimiento.mp4',
       thumbnail: '/videos/thumb4.jpg',
-      duration: '2:20'
+      duration: '5:00'
     }
   ];
+
+  // Función para avanzar al siguiente video
+  const handleVideoEnd = () => {
+    const nextIndex = (currentVideoIndex + 1) % videoThumbnails.length;
+    setCurrentVideoIndex(nextIndex);
+  };
+
+  // Video actual seguro
+  const currentVideo = videoThumbnails[currentVideoIndex];
+
+  // Función para pausar/reanudar la secuencia
+  const togglePlayback = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Función para ir a un video específico
+  const goToVideo = (index: number) => {
+    setCurrentVideoIndex(index);
+    setIsPlaying(true);
+  };
 
   return (
     <div className="content">
@@ -60,17 +95,68 @@ export default function ProfessionalPatientsFeatures() {
         ))}
       </ul>
 
-      {/* Videos en miniatura */}
-      <div className="video-thumbnails">
-        <h3 className="video-title">Conoce nuestros servicios</h3>
-        <div className="thumbnail-grid">
-          {videoThumbnails.map((video, index) => (
-            <div key={index} className="thumbnail-card">
-              <div className="thumbnail-image">
-                <div className="play-button">▶</div>
-                <span className="duration">{video.duration}</span>
+      {/* Videos de pacientes - Reproducción automática en secuencia */}
+      <div className="video-section">
+        <h3 className="video-title">Experiencias de nuestros pacientes</h3>
+        
+        {/* Reproductor principal */}
+        <div className="video-player-container">
+          <video
+            ref={videoRef}
+            key={currentVideo?.video}
+            width="100%"
+            height="400"
+            autoPlay
+            muted
+            onEnded={handleVideoEnd}
+            style={{ 
+              borderRadius: '12px', 
+              boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+              objectFit: 'cover'
+            }}
+          >
+            <source src={currentVideo?.video} type="video/mp4" />
+            Tu navegador no soporta la reproducción de videos.
+          </video>
+          
+          {/* Overlay con información del video actual */}
+          <div className="video-overlay">
+            <div className="video-info">
+              <h4 className="current-video-title">{currentVideo?.title}</h4>
+              <div className="video-progress">
+                <div className="progress-dots">
+                  {videoThumbnails.map((_, index) => (
+                    <button
+                      key={index}
+                      className={`progress-dot ${index === currentVideoIndex ? 'active' : ''} ${index < currentVideoIndex ? 'completed' : ''}`}
+                      onClick={() => goToVideo(index)}
+                    />
+                  ))}
+                </div>
               </div>
-              <p className="thumbnail-text">{video.title}</p>
+            </div>
+            
+            {/* Controles de reproducción */}
+            <div className="video-controls">
+              <button onClick={togglePlayback} className="play-pause-btn">
+                {isPlaying ? '⏸️' : '▶️'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Thumbnails como navegación */}
+        <div className="video-navigation">
+          {videoThumbnails.map((video, index) => (
+            <div 
+              key={index} 
+              className={`nav-thumbnail ${index === currentVideoIndex ? 'active' : ''}`}
+              onClick={() => goToVideo(index)}
+            >
+              <div className="nav-thumb-image">
+                <span className="nav-duration">{video.duration}</span>
+              </div>
+              <p className="nav-title">{video.title}</p>
             </div>
           ))}
         </div>
@@ -235,29 +321,148 @@ export default function ProfessionalPatientsFeatures() {
           }
         }
 
-        /* Videos en miniatura */
-        .video-thumbnails {
-          margin: 0.25rem 0;
-          padding: 0.15rem;
+        /* Video section - Reproductor automático */
+        .video-section {
+          margin: 1rem 0;
+          padding: 1rem;
           background: rgba(255, 255, 255, 0.02);
-          border-radius: 3px;
+          border-radius: 8px;
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .video-title {
-          font-size: clamp(0.65rem, 1.2vw, 0.7rem);
+          font-size: clamp(0.8rem, 1.4vw, 1rem);
           font-weight: 600;
           color: #fff;
-          margin-bottom: 0.15rem;
+          margin-bottom: 1rem;
           text-align: center;
         }
 
-        .thumbnail-grid {
+        .video-player-container {
+          position: relative;
+          margin-bottom: 1rem;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+
+        .video-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: linear-gradient(transparent, rgba(0,0,0,0.8));
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+        }
+
+        .current-video-title {
+          color: #fff;
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin: 0 0 0.5rem 0;
+        }
+
+        .progress-dots {
+          display: flex;
+          gap: 8px;
+        }
+
+        .progress-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          border: 2px solid rgba(255,255,255,0.5);
+          background: transparent;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+          background: var(--primary);
+          border-color: var(--primary);
+          transform: scale(1.2);
+        }
+
+        .progress-dot.completed {
+          background: rgba(255,255,255,0.7);
+          border-color: rgba(255,255,255,0.7);
+        }
+
+        .video-controls {
+          display: flex;
+          gap: 10px;
+        }
+
+        .play-pause-btn {
+          background: rgba(255,255,255,0.2);
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 16px;
+        }
+
+        .play-pause-btn:hover {
+          background: rgba(255,255,255,0.3);
+          transform: scale(1.05);
+        }
+
+        .video-navigation {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: clamp(0.2rem, 0.8vw, 0.3rem);
-          max-width: 250px;
-          margin: 0 auto;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 0.5rem;
+        }
+
+        .nav-thumbnail {
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border-radius: 6px;
+          overflow: hidden;
+          border: 2px solid transparent;
+        }
+
+        .nav-thumbnail.active {
+          border-color: var(--primary);
+          transform: scale(1.05);
+        }
+
+        .nav-thumbnail:hover {
+          transform: scale(1.03);
+        }
+
+        .nav-thumb-image {
+          aspect-ratio: 16/9;
+          background: linear-gradient(45deg, rgba(37, 211, 102, 0.3), rgba(0, 100, 255, 0.3));
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .nav-duration {
+          background: rgba(0,0,0,0.7);
+          color: white;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-size: 0.7rem;
+          position: absolute;
+          bottom: 4px;
+          right: 4px;
+        }
+
+        .nav-title {
+          color: #fff;
+          font-size: 0.7rem;
+          text-align: center;
+          margin: 0.3rem 0 0 0;
+          padding: 0 0.2rem;
         }
 
         .thumbnail-card {
@@ -329,6 +534,51 @@ export default function ProfessionalPatientsFeatures() {
           line-height: 0.9;
         }
 
+        /* Responsive design for video section */
+        @media (max-width: 768px) {
+          .video-section {
+            padding: 0.5rem;
+          }
+          
+          .video-navigation {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.3rem;
+          }
+          
+          .current-video-title {
+            font-size: 0.9rem;
+          }
+          
+          .video-overlay {
+            padding: 0.5rem;
+          }
+          
+          .nav-title {
+            font-size: 0.6rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .video-navigation {
+            grid-template-columns: 1fr 1fr;
+          }
+          
+          .progress-dots {
+            gap: 6px;
+          }
+          
+          .progress-dot {
+            width: 8px;
+            height: 8px;
+          }
+          
+          .play-pause-btn {
+            width: 35px;
+            height: 35px;
+            font-size: 14px;
+          }
+        }
+
         /* Optimización para zoom */
         @media (min-width: 1200px) {
           .content {
@@ -339,8 +589,9 @@ export default function ProfessionalPatientsFeatures() {
             max-width: 500px;
           }
 
-          .thumbnail-grid {
-            max-width: 700px;
+          .video-section {
+            max-width: 800px;
+            margin: 1.5rem auto;
           }
         }
       `}</style>

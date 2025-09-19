@@ -13,9 +13,10 @@ export default function MobileExperience() {
   const router = useRouter()
 
   const videos = [
-    '/videos/alta-agent-ia.mp4',
-    '/videos/consultas-video-hd.mp4',
-    '/videos/historia-clinica-digital.mp4'
+    '/videos/patient_consulta_virtual.mp4',
+    '/videos/patient_historia_clinica.mp4',
+    '/videos/patient_agendamiento.mp4',
+    '/videos/patient_seguimiento.mp4'
   ]
 
   // Detect device type and capabilities

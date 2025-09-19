@@ -4,15 +4,24 @@
       "/videos/Video_Listo_.mp4",
       "/videos/Video_Listo_Encuentra_Doctor.mp4",
       "/videos/Video_Listo_Telemedicina.mp4",
-      "/videos/alta-agent-ia.mp4",
-      "/videos/historia-clinica-digital.mp4"
+      "/videos/patient_consulta_virtual.mp4",
+      "/videos/patient_historia_clinica.mp4"
     ],
-    "mobile": [],
-    "tablet": [],
+    "mobile": [
+      "/videos/patient_agendamiento.mp4",
+      "/videos/patient_seguimiento.mp4"
+    ],
+    "tablet": [
+      "/videos/patient_consulta_virtual.mp4",
+      "/videos/patient_historia_clinica.mp4"
+    ],
     "desktop": [
-      "/videos/consultas-video-hd.mp4"
+      "/videos/patient_consulta_virtual.mp4",
+      "/videos/patient_historia_clinica.mp4",
+      "/videos/patient_agendamiento.mp4",
+      "/videos/patient_seguimiento.mp4"
     ]
   },
-  "generated": "2025-09-15T16:27:23.826Z",
-  "totalFiles": 6
+  "generated": "2025-09-19T06:48:00.000Z",
+  "totalFiles": 10
 }
