@@ -11,7 +11,7 @@ import type { UserRole } from '@autamedica/types';
  * 2. Redirige landing page (/) al portal correspondiente según rol
  * 3. Protege rutas de autenticación según estado del usuario
  */
-export async function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest): Promise<NextResponse> {
   try {
     // Crear cliente middleware y obtener sesión del usuario
     const { supabase, response } = createMiddlewareClient(request);
