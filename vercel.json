@@ -1,13 +1,54 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "buildCommand": "pnpm -w build --filter @autamedica/web-app...",
-  "installCommand": "pnpm install",
-  "framework": "nextjs",
-  "outputDirectory": "apps/web-app/.next",
-  "git": {
-    "deploymentEnabled": {
-      "main": true
+  "projects": {
+    "web-app": {
+      "rootDirectory": "apps/web-app",
+      "buildCommand": "cd ../.. && pnpm build:packages && pnpm build --filter @autamedica/web-app",
+      "installCommand": "cd ../.. && corepack enable && corepack prepare pnpm@9.15.2 --activate && HUSKY=0 pnpm install --prod=false",
+      "outputDirectory": ".next",
+      "framework": "nextjs",
+      "git": {
+        "deploymentEnabled": {
+          "main": true
+        }
+      }
+    },
+    "doctors": {
+      "rootDirectory": "apps/doctors",
+      "buildCommand": "cd ../.. && pnpm build:packages && pnpm build --filter @autamedica/doctors",
+      "installCommand": "cd ../.. && corepack enable && corepack prepare pnpm@9.15.2 --activate && HUSKY=0 pnpm install --prod=false",
+      "outputDirectory": ".next",
+      "framework": "nextjs",
+      "git": {
+        "deploymentEnabled": {
+          "main": true
+        }
+      }
+    },
+    "patients": {
+      "rootDirectory": "apps/patients",
+      "buildCommand": "cd ../.. && pnpm build:packages && pnpm build --filter @autamedica/patients",
+      "installCommand": "cd ../.. && corepack enable && corepack prepare pnpm@9.15.2 --activate && HUSKY=0 pnpm install --prod=false",
+      "outputDirectory": ".next",
+      "framework": "nextjs",
+      "git": {
+        "deploymentEnabled": {
+          "main": true
+        }
+      }
+    },
+    "companies": {
+      "rootDirectory": "apps/companies",
+      "buildCommand": "cd ../.. && pnpm build:packages && pnpm build --filter @autamedica/companies",
+      "installCommand": "cd ../.. && corepack enable && corepack prepare pnpm@9.15.2 --activate && HUSKY=0 pnpm install --prod=false",
+      "outputDirectory": ".next",
+      "framework": "nextjs",
+      "git": {
+        "deploymentEnabled": {
+          "main": true
+        }
+      }
     }
   },
   "ignoreCommand": "npx turbo-ignore",
@@ -24,10 +65,23 @@
           "value": "nosniff"
         },
         {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(self), geolocation=(self)"
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "apps/*/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  }
 }
