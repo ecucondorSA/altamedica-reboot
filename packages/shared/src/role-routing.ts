@@ -35,10 +35,10 @@ export const BASE_URL_BY_ROLE: Record<UserRole, string> = {
  * Rutas home por defecto dentro de cada aplicación
  */
 export const HOME_BY_ROLE: Record<UserRole, string> = {
-  [ROLES.PATIENT]: '/dashboard',
-  [ROLES.DOCTOR]: '/dashboard',
-  [ROLES.COMPANY_ADMIN]: '/dashboard',
-  [ROLES.PLATFORM_ADMIN]: '/admin/dashboard',
+  [ROLES.PATIENT]: '/',
+  [ROLES.DOCTOR]: '/',
+  [ROLES.COMPANY_ADMIN]: '/',
+  [ROLES.PLATFORM_ADMIN]: '/',
 };
 
 /**
