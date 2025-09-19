@@ -90,7 +90,7 @@ if [ "$DEPLOYMENT_URL" != "no-found" ] && [ "$DEPLOYMENT_URL" != "null" ]; then
     echo "3. Verificar que redirecciona al dashboard"
     echo ""
     echo "Si aún hay problemas, agregar manualmente en Supabase:"
-    echo "📍 https://supabase.com/dashboard/project/hfadsjmdmfqzvtgnqsqr/auth/url-configuration"
+    echo "📍 https://supabase.com/dashboard/project/gtyvdircfhmdjiaelqkg/auth/url-configuration"
     echo "🔗 Redirect URL: https://$DEPLOYMENT_URL/auth/callback"
 else
     echo "⚠️  No se pudo obtener la URL de deployment automáticamente"

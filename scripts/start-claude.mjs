@@ -54,58 +54,10 @@ function startProcess(name, command, args = [], options = {}) {
 async function main() {
   console.log('📋 Iniciando procesos de desarrollo:\n');
 
-  // 1. Validación inicial completa (políticas + quality)
-  console.log('🔍 Ejecutando validación inicial completa...');
-  try {
-    const { spawnSync } = await import('node:child_process');
-
-    // Validación de políticas
-    console.log('  📋 Validando políticas del monorepo...');
-    const policyValidation = spawnSync('pnpm', ['run', 'policies:validate'], {
-      stdio: 'pipe',
-      encoding: 'utf8',
-      cwd: join(__dirname, '..')
-    });
-
-    if (policyValidation.status === 0) {
-      console.log('  ✅ Políticas: PASÓ');
-    } else {
-      console.log('  ⚠️  Políticas: FALLÓ (continuando...)');
-    }
-
-    // Validación de arquitectura con dependency-cruiser (rápida)
-    console.log('  🏗️  Validando arquitectura del proyecto...');
-    const archValidation = spawnSync('pnpm', ['run', 'depcruise'], {
-      stdio: 'pipe',
-      encoding: 'utf8',
-      cwd: join(__dirname, '..')
-    });
-
-    if (archValidation.status === 0) {
-      console.log('  ✅ Arquitectura: LIMPIA');
-    } else {
-      console.log('  ⚠️  Arquitectura: Violaciones detectadas (revisar con pnpm depcruise)');
-    }
-
-    // ESLint básico (no con --fix para no modificar archivos automáticamente)
-    console.log('  🔍 Verificando calidad de código...');
-    const lintValidation = spawnSync('pnpm', ['run', 'lint'], {
-      stdio: 'pipe',
-      encoding: 'utf8',
-      cwd: join(__dirname, '..')
-    });
-
-    if (lintValidation.status === 0) {
-      console.log('  ✅ Calidad de código: PASÓ');
-    } else {
-      console.log('  ⚠️  Calidad de código: Issues detectados (revisar con pnpm lint)');
-    }
-
-    console.log('');
-
-  } catch (error) {
-    console.log('⚠️  Error en validación inicial (continuando...):', error.message);
-  }
+  // 1. Validación inicial rápida (skip validaciones lentas para dev)
+  console.log('🔍 Iniciando desarrollo con validación básica...');
+  console.log('  💡 Para validación completa ejecuta: pnpm check:all');
+  console.log('');
 
   // 2. TypeScript Watch Mode para todos los packages
   startProcess(
@@ -118,7 +70,7 @@ async function main() {
   startProcess(
     'Dev Server',
     'pnpm',
-    ['dev']
+    ['dev', '--concurrency=15']
   );
 
   // 4. ESLint en modo watch (si está disponible)

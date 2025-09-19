@@ -1,4 +1,9 @@
 const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  },
   transpilePackages: [
     "@autamedica/types",
     "@autamedica/shared",
@@ -146,18 +151,6 @@ const nextConfig = {
       }
     ];
   },
-  images: {
-    domains: [
-      "autamedica.com",
-      "staging.autamedica.com",
-      "localhost",
-      "gtyvdircfhmdjiaelqkg.supabase.co"
-    ],
-    formats: ["image/webp", "image/avif"],
-    dangerouslyAllowSVG: false,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    unoptimized: true
-  }
 };
 
 export default nextConfig;

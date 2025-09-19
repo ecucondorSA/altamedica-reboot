@@ -1,5 +1,5 @@
 import { createBrowserClient } from '@supabase/ssr'
-import { ensureEnv } from '@autamedica/shared'
+import { ensureClientEnv } from '@autamedica/shared'
 
 export function createClient() {
   // Only create client on the client side
@@ -8,13 +8,13 @@ export function createClient() {
   }
 
   // For development/testing, use dummy values if not available
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://dummy.supabase.co'
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'dummy-key'
+  const url = ensureClientEnv('NEXT_PUBLIC_SUPABASE_URL') || 'https://dummy.supabase.co'
+  const key = ensureClientEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') || 'dummy-key'
 
   return createBrowserClient(url, key)
 }
 
-export type UserRole = 'patient' | 'doctor' | 'company' | 'admin'
+export type UserRole = 'patient' | 'doctor' | 'company' | 'company_admin' | 'admin' | 'platform_admin'
 
 export interface UserProfile {
   id: string
@@ -39,9 +39,17 @@ export const ROLE_REDIRECTS = {
     development: 'http://localhost:3004/dashboard',
     production: 'https://companies.autamedica.com/dashboard'
   },
+  company_admin: {
+    development: 'http://localhost:3004/dashboard',
+    production: 'https://companies.autamedica.com/dashboard'
+  },
   admin: {
     development: 'http://localhost:3005/dashboard',
     production: 'https://admin.autamedica.com/dashboard'
+  },
+  platform_admin: {
+    development: 'http://localhost:3000/admin',
+    production: 'https://www.autamedica.com/admin'
   }
 } as const
 

@@ -1,8 +1,9 @@
-name = "autamedica-web"
-main = ".open-next/worker.js"
-compatibility_date = "2025-03-25"
-compatibility_flags = ["nodejs_compat"]
+name = "autamedica-web-app"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "out"
 
-[assets]
-directory = ".open-next/assets"
-binding = "ASSETS"
+[pages]
+compatibility_date = "2024-01-01"
+
+# Dominios personalizados (estos se deben configurar manualmente en el dashboard)
+# custom_domains = ["www.autamedica.com", "autamedica.com"]

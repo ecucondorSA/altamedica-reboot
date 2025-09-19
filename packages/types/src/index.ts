@@ -4,7 +4,7 @@
  * Este package exporta todos los tipos fundamentales utilizados
  * en toda la plataforma médica de Autamedica.
  *
- * IMPORTANTE: Exports controlados - no usar export *
+ * IMPORTANTE: Exports controlados - no usar export wildcard
  */
 
 // ==========================================

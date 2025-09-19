@@ -7,7 +7,7 @@ El login funciona pero queda en loop porque Supabase no reconoce el nuevo domini
 
 ### **Paso 1: Acceder a Supabase Dashboard**
 1. Ir a [Supabase Dashboard](https://supabase.com/dashboard)
-2. Seleccionar proyecto: `hfadsjmdmfqzvtgnqsqr` (AutaMedica)
+2. Seleccionar proyecto: `gtyvdircfhmdjiaelqkg` (AutaMedica)
 3. Ir a **Authentication** → **URL Configuration**
 
 ### **Paso 2: Agregar Nuevas URLs**

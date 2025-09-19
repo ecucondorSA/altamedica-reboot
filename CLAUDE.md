@@ -869,7 +869,7 @@ pnpm pre-deploy
 **Ejemplo del deployment exitoso:**
 ```bash
 cd /root/altamedica-reboot-deploy && \
-NEXT_PUBLIC_SUPABASE_URL=https://hfadsjmdmfqzvtgnqsqr.supabase.co \
+NEXT_PUBLIC_SUPABASE_URL=https://gtyvdircfhmdjiaelqkg.supabase.co \
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh... \
 NODE_ENV=production \
 HUSKY=0 \

@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  },
   // Para production build, disabled estricto linting por el momento
   eslint: {
     ignoreDuringBuilds: true,

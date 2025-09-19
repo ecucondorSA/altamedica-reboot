@@ -6,7 +6,7 @@
 echo "🔧 Actualizando URLs de Supabase para el deployment..."
 echo ""
 
-PROJECT_REF="hfadsjmdmfqzvtgnqsqr"
+PROJECT_REF="gtyvdircfhmdjiaelqkg"
 ACCESS_TOKEN="sbp_aa74b7707840d07be814d4f92adde20dd35d3c16"
 
 # URLs del deployment de Vercel

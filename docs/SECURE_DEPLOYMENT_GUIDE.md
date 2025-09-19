@@ -46,7 +46,7 @@ npx vercel --prod --yes --token <TOKEN> --cwd apps/admin
 ### **Variables de Entorno Críticas**
 ```bash
 # Supabase (Producción)
-NEXT_PUBLIC_SUPABASE_URL=https://hfadsjmdmfqzvtgnqsqr.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://gtyvdircfhmdjiaelqkg.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 

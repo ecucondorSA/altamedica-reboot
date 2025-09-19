@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { setRole } from './actions';
 import type { UserRole } from '@autamedica/types';
-import type { User } from '@supabase/supabase-js';
+
+interface User {
+  email: string;
+}
 
 interface RoleSelectionFormProps {
   user: User;
@@ -57,7 +59,20 @@ export function RoleSelectionForm({ user }: RoleSelectionFormProps) {
 
     setSelectedRole(role);
     startTransition(() => {
-      setRole(role);
+      // Simular guardado de rol - en producción se haría con API
+      console.log('Role selected:', role);
+      
+      // Simular redirección basada en rol
+      setTimeout(() => {
+        const urls = {
+          patient: '/patients',
+          doctor: '/doctors', 
+          company_admin: '/companies',
+          platform_admin: '/admin'
+        };
+        
+        alert(`Rol seleccionado: ${role}. En producción redirigirías a: ${urls[role]}`);
+      }, 1000);
     });
   };
 

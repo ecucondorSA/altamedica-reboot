@@ -30,7 +30,7 @@ echo ""
 
 # NEXT_PUBLIC_SUPABASE_URL
 echo "📝 NEXT_PUBLIC_SUPABASE_URL..."
-echo "https://hfadsjmdmfqzvtgnqsqr.supabase.co" | npx vercel env add NEXT_PUBLIC_SUPABASE_URL production --stdin
+echo "https://gtyvdircfhmdjiaelqkg.supabase.co" | npx vercel env add NEXT_PUBLIC_SUPABASE_URL production --stdin
 
 # NEXT_PUBLIC_SUPABASE_ANON_KEY
 echo "📝 NEXT_PUBLIC_SUPABASE_ANON_KEY..."
@@ -62,7 +62,7 @@ echo "production" | npx vercel env add NODE_ENV production --stdin
 
 # Variables adicionales para middleware de Supabase
 echo "📝 SUPABASE_URL..."
-echo "https://hfadsjmdmfqzvtgnqsqr.supabase.co" | npx vercel env add SUPABASE_URL production --stdin
+echo "https://gtyvdircfhmdjiaelqkg.supabase.co" | npx vercel env add SUPABASE_URL production --stdin
 
 echo "📝 SUPABASE_ANON_KEY..."
 echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmYWRzam1kbWZxenZ0Z25xc3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzNDY1NjEsImV4cCI6MjA0MTkyMjU2MX0.9wl5PXEbX7XRvDC3CjKNtaXj8fGiRCLJY4TIoQ8vKm4" | npx vercel env add SUPABASE_ANON_KEY production --stdin
@@ -85,4 +85,4 @@ echo "📍 Revisa tu deployment en: https://vercel.com/dashboard"
 echo ""
 echo "⚠️  SIGUIENTE PASO: Configurar Redirect URLs en Supabase"
 echo "   Obten la URL de deployment y configura en Supabase Dashboard:"
-echo "   https://supabase.com/dashboard/project/hfadsjmdmfqzvtgnqsqr/auth/url-configuration"
+echo "   https://supabase.com/dashboard/project/gtyvdircfhmdjiaelqkg/auth/url-configuration"

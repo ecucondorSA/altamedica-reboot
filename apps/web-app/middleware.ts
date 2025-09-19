@@ -10,6 +10,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { ensureClientEnv } from "@autamedica/shared";
 
 // Rutas que requieren autenticación
 const PROTECTED_ROUTES = [
@@ -59,8 +60,8 @@ export async function middleware(request: NextRequest) {
 
     // Create Supabase client for middleware
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      ensureClientEnv("NEXT_PUBLIC_SUPABASE_URL"),
+      ensureClientEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
       {
         cookies: {
           get(name: string) {

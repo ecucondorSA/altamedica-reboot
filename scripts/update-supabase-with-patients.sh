@@ -6,7 +6,7 @@
 echo "🔧 Configurando Supabase con todas las URLs de deployment..."
 echo ""
 
-PROJECT_REF="hfadsjmdmfqzvtgnqsqr"
+PROJECT_REF="gtyvdircfhmdjiaelqkg"
 ACCESS_TOKEN="sbp_aa74b7707840d07be814d4f92adde20dd35d3c16"
 
 # URLs de todos los deployments

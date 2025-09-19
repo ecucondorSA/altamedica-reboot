@@ -66,8 +66,18 @@ export function getTargetUrlByRole(role: UserRole, path?: string): string {
  * Solo funciona en servidor (acceso a ensureServerEnv)
  */
 export function getCookieDomain(): string {
-  return process.env.AUTH_COOKIE_DOMAIN ||
-    (process.env.NODE_ENV === 'production' ? '.autamedica.com' : 'localhost');
+  try {
+    const authDomain = ensureServerEnv('AUTH_COOKIE_DOMAIN');
+    return authDomain;
+  } catch {
+    // Fallback si AUTH_COOKIE_DOMAIN no está definido
+    try {
+      const nodeEnv = ensureServerEnv('NODE_ENV');
+      return nodeEnv === 'production' ? '.autamedica.com' : 'localhost';
+    } catch {
+      return 'localhost';
+    }
+  }
 }
 
 /**
@@ -136,7 +146,12 @@ export const AUTH_URLS = {
  * @returns URL de login completa
  */
 export function getLoginUrl(returnTo?: string, portal?: string): string {
-  const webAppUrl = process.env.NEXT_PUBLIC_APP_URL || BASE_URL_BY_ROLE[ROLES.PLATFORM_ADMIN];
+  let webAppUrl: string;
+  try {
+    webAppUrl = ensureServerEnv('NEXT_PUBLIC_APP_URL');
+  } catch {
+    webAppUrl = BASE_URL_BY_ROLE[ROLES.PLATFORM_ADMIN];
+  }
   const loginUrl = new URL(AUTH_URLS.LOGIN, webAppUrl);
 
   if (returnTo) {

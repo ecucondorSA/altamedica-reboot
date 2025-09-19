@@ -31,7 +31,7 @@ else
     echo "3. Settings → Environment Variables → Production"
     echo "4. Agregar estas variables:"
     echo ""
-    echo "NEXT_PUBLIC_SUPABASE_URL=https://hfadsjmdmfqzvtgnqsqr.supabase.co"
+    echo "NEXT_PUBLIC_SUPABASE_URL=https://gtyvdircfhmdjiaelqkg.supabase.co"
     echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmYWRzam1kbWZxenZ0Z25xc3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzNDY1NjEsImV4cCI6MjA0MTkyMjU2MX0.9wl5PXEbX7XRvDC3CjKNtaXj8fGiRCLJY4TIoQ8vKm4"
     echo "NEXT_PUBLIC_APP_URL=https://autamedica.com"
     echo "NEXT_PUBLIC_DOCTORS_URL=https://doctors.autamedica.com"
@@ -39,13 +39,13 @@ else
     echo "NEXT_PUBLIC_COMPANIES_URL=https://companies.autamedica.com"
     echo "AUTH_COOKIE_DOMAIN=.autamedica.com"
     echo "NODE_ENV=production"
-    echo "SUPABASE_URL=https://hfadsjmdmfqzvtgnqsqr.supabase.co"
+    echo "SUPABASE_URL=https://gtyvdircfhmdjiaelqkg.supabase.co"
     echo "SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmYWRzam1kbWZxenZ0Z25xc3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzNDY1NjEsImV4cCI6MjA0MTkyMjU2MX0.9wl5PXEbX7XRvDC3CjKNtaXj8fGiRCLJY4TIoQ8vKm4"
     echo ""
     echo "5. Después de agregar variables, hacer redeploy desde Vercel Dashboard"
     echo ""
     echo "6. Ir a Supabase Dashboard:"
-    echo "   https://supabase.com/dashboard/project/hfadsjmdmfqzvtgnqsqr/auth/url-configuration"
+    echo "   https://supabase.com/dashboard/project/gtyvdircfhmdjiaelqkg/auth/url-configuration"
     echo ""
     echo "7. Agregar Redirect URL (obtener URL de Vercel después del deploy):"
     echo "   https://doctors-[project-id].vercel.app/auth/callback"
@@ -58,7 +58,7 @@ echo "🔧 Configurando variables de entorno con token..."
 
 # Array de variables a configurar
 declare -A VARS=(
-    ["NEXT_PUBLIC_SUPABASE_URL"]="https://hfadsjmdmfqzvtgnqsqr.supabase.co"
+    ["NEXT_PUBLIC_SUPABASE_URL"]="https://gtyvdircfhmdjiaelqkg.supabase.co"
     ["NEXT_PUBLIC_SUPABASE_ANON_KEY"]="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmYWRzam1kbWZxenZ0Z25xc3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzNDY1NjEsImV4cCI6MjA0MTkyMjU2MX0.9wl5PXEbX7XRvDC3CjKNtaXj8fGiRCLJY4TIoQ8vKm4"
     ["NEXT_PUBLIC_APP_URL"]="https://autamedica.com"
     ["NEXT_PUBLIC_DOCTORS_URL"]="https://doctors.autamedica.com"
@@ -66,7 +66,7 @@ declare -A VARS=(
     ["NEXT_PUBLIC_COMPANIES_URL"]="https://companies.autamedica.com"
     ["AUTH_COOKIE_DOMAIN"]=".autamedica.com"
     ["NODE_ENV"]="production"
-    ["SUPABASE_URL"]="https://hfadsjmdmfqzvtgnqsqr.supabase.co"
+    ["SUPABASE_URL"]="https://gtyvdircfhmdjiaelqkg.supabase.co"
     ["SUPABASE_ANON_KEY"]="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmYWRzam1kbWZxenZ0Z25xc3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzNDY1NjEsImV4cCI6MjA0MTkyMjU2MX0.9wl5PXEbX7XRvDC3CjKNtaXj8fGiRCLJY4TIoQ8vKm4"
 )
 
