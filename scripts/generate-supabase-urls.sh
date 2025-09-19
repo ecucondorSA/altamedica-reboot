@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Script que genera las URLs exactas para configurar en Supabase Dashboard
+
+echo "📋 URLS EXACTAS PARA CONFIGURAR EN SUPABASE DASHBOARD"
+echo "===================================================="
+echo ""
+echo "🔗 Ve a: https://supabase.com/dashboard/project/hfadsjmdmfqzvtgnqsqr/auth/url-configuration"
+echo ""
+
+echo "1️⃣  SITE URL (cambiar el actual):"
+echo "https://médicos-4vjq1iyi1-ecucondor-gmailcoms-proyectos.vercel.app"
+echo ""
+
+echo "2️⃣  REDIRECT URLs (agregar estas dos nuevas):"
+echo ""
+echo "✅ Agregar URL #1:"
+echo "https://médicos-4vjq1iyi1-ecucondor-gmailcoms-proyectos.vercel.app/auth/callback"
+echo ""
+echo "✅ Agregar URL #2:"
+echo "https://doctores-ebon.vercel.app/auth/callback"
+echo ""
+
+echo "📋 PASOS EXACTOS:"
+echo "=================="
+echo "1. Ir a Supabase Dashboard URL de arriba"
+echo "2. En 'URL del sitio', cambiar a:"
+echo "   https://médicos-4vjq1iyi1-ecucondor-gmailcoms-proyectos.vercel.app"
+echo ""
+echo "3. En 'URL de redireccionamiento', hacer clic en 'Agregar URL' y agregar:"
+echo "   https://médicos-4vjq1iyi1-ecucondor-gmailcoms-proyectos.vercel.app/auth/callback"
+echo ""
+echo "4. Hacer clic en 'Agregar URL' otra vez y agregar:"
+echo "   https://doctores-ebon.vercel.app/auth/callback"
+echo ""
+echo "5. Hacer clic en 'Guardar cambios'"
+echo ""
+
+echo "🎯 DESPUÉS DE CONFIGURAR:"
+echo "========================"
+echo "Probar login en estas URLs:"
+echo "• https://médicos-4vjq1iyi1-ecucondor-gmailcoms-proyectos.vercel.app"
+echo "• https://doctores-ebon.vercel.app"
+echo ""
+echo "El OAuth con Google debería funcionar perfectamente."

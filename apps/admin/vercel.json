@@ -1,5 +1,5 @@
 {
-  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && pnpm install",
+  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && HUSKY=0 pnpm install --prod=false",
   "buildCommand": "cd ../.. && pnpm -w build --filter @autamedica/admin",
   "framework": "nextjs",
   "outputDirectory": ".next",

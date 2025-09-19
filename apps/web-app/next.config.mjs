@@ -178,7 +178,7 @@ const nextConfig = {
       'autamedica.com',
       'staging.autamedica.com',
       'localhost',
-      'hfadsjmdmfqzvtgnqsqr.supabase.co' // Supabase storage
+      'gtyvdircfhmdjiaelqkg.supabase.co' // Supabase storage
     ],
     formats: ['image/webp', 'image/avif'],
     dangerouslyAllowSVG: false, // Security: no SVG uploads

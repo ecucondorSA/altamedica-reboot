@@ -1,13 +1,8 @@
 {
-  "installCommand": "corepack enable && pnpm install",
+  "installCommand": "corepack enable && corepack prepare pnpm@9.15.2 --activate && cd ../.. && HUSKY=0 pnpm install --prod=false",
   "buildCommand": "cd ../.. && pnpm build:packages && pnpm build --filter @autamedica/web-app",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "functions": {
-    "app/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",

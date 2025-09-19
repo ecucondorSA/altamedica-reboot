@@ -71,26 +71,28 @@ export async function middleware(request: NextRequest) {
   } catch (error) {
     console.error('Middleware error:', error);
 
-    // En caso de error, redirigir a login si no está en ruta pública
-    if (!request.nextUrl.pathname.startsWith('/auth/')) {
+    // En caso de error, permitir acceso para rutas públicas y solo manejar redirección para landing page
+    const { pathname } = request.nextUrl;
+    
+    // Si es la landing page (/), redirigir a login en caso de error
+    if (pathname === '/') {
       const loginUrl = new URL('/auth/login', request.url);
-      loginUrl.searchParams.set('error', 'Error de autenticación');
+      loginUrl.searchParams.set('error', 'Error de conexión');
       return NextResponse.redirect(loginUrl);
     }
 
+    // Para otras rutas, permitir acceso (no bloquear toda la app por errores de Supabase)
     return NextResponse.next();
   }
 }
 
 /**
  * Configuración del middleware - rutas que deben ser procesadas
- * Incluye landing page y rutas de autenticación (excepto callback)
+ * Solo procesa rutas específicas que requieren lógica de redirección
  */
 export const config = {
   matcher: [
     '/',
     '/auth/select-role/:path*',
-    // Excluir archivos estáticos y APIs
-    '/((?!_next|favicon.ico|api).*)',
   ],
 };
