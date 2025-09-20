@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
 
+// Required for static export compatibility
+export const dynamic = 'force-static'
+export const revalidate = false
+
 export async function GET() {
   try {
     return NextResponse.json({
@@ -8,7 +12,7 @@ export async function GET() {
       service: 'autamedica-web-app',
       version: '1.0.0'
     })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { 
         status: 'error', 
