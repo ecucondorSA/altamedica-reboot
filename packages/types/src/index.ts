@@ -396,3 +396,69 @@ export type {
 } from "./entities/company";
 
 export type { Appointment } from "./entities/appointment";
+
+// ==========================================
+// Supabase Database Types
+// ==========================================
+
+// Supabase generated types (with prefixes to avoid conflicts)
+export type {
+  Database,
+  Json,
+  Tables,
+  TablesInsert,
+  TablesUpdate,
+  Profile as SupabaseProfile,
+  Company as SupabaseCompany,
+  Doctor as SupabaseDoctor,
+  Patient as SupabasePatient,
+  CompanyMember,
+  PatientCareTeam,
+  Appointment as SupabaseAppointment,
+  MedicalRecord,
+  ProfileInsert,
+  CompanyInsert,
+  DoctorInsert,
+  PatientInsert,
+  CompanyMemberInsert,
+  PatientCareTeamInsert,
+  AppointmentInsert,
+  MedicalRecordInsert,
+  ProfileUpdate,
+  CompanyUpdate,
+  DoctorUpdate,
+  PatientUpdate,
+  CompanyMemberUpdate,
+  PatientCareTeamUpdate,
+  AppointmentUpdate,
+  MedicalRecordUpdate,
+  UserRole as SupabaseUserRole,
+  CompanySize as SupabaseCompanySize,
+  Gender as SupabaseGender,
+  AppointmentType,
+  AppointmentStatus,
+  MedicalRecordVisibility,
+  CompanyMemberRole,
+  DoctorWithProfile,
+  PatientWithProfile,
+  AppointmentWithDetails,
+  MedicalRecordWithDetails,
+  CompanyWithMembers,
+  PatientCareTeamWithDetails,
+  SupabaseApiResponse,
+  SupabasePaginatedResponse,
+} from './supabase/database.types';
+
+export {
+  isProfile,
+  isDoctor,
+  isPatient,
+  isAppointment,
+  USER_ROLES,
+  COMPANY_SIZES,
+  GENDERS,
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUSES,
+  MEDICAL_RECORD_VISIBILITIES,
+  COMPANY_MEMBER_ROLES,
+} from './supabase/database.types';

@@ -1,115 +1,209 @@
 # AutaMedica Database Schema
 
-Este directorio contiene el esquema de base de datos y políticas RLS para AutaMedica.
+This directory contains the complete database schema for the AutaMedica medical platform.
 
-## Archivos
+## 📁 Files
 
-- `schema.sql` - Esquema principal con tablas, políticas RLS y triggers
-- `README.md` - Esta documentación
+### Core Schema
+- **`schema.sql`** - Complete database schema including all tables, policies, and functions
+- **`schema-extensions.sql`** - Standalone transactional tables extension
+- **`apply-transactional-extension.sql`** - Migration script for existing databases
 
-## Configuración de Supabase
+### Supabase Integration
+- **Supabase Project ID**: `gtyvdircfhmdjiaelqkg`
+- **Environment**: Production
+- **Database URL**: `https://gtyvdircfhmdjiaelqkg.supabase.co`
 
-### Proyecto de Producción
-- **Project ID**: `gtyvdircfhmdjiaelqkg`
-- **URL**: `https://gtyvdircfhmdjiaelqkg.supabase.co`
-- **Region**: US East
+## 🏗️ Schema Architecture
 
-### Tablas Principales
+### Core Medical Tables
+1. **`profiles`** - User authentication bridge (linked to auth.users)
+2. **`companies`** - Healthcare organizations and enterprises  
+3. **`doctors`** - Medical professionals with licenses and specialties
+4. **`patients`** - Patient demographics and medical record numbers
+5. **`appointments`** - Scheduling and encounter management
+6. **`medical_records`** - Clinical documentation and notes
+7. **`patient_care_team`** - Doctor-patient assignments
+8. **`company_members`** - Organization membership and roles
 
-#### `public.profiles`
-Tabla principal de perfiles de usuario con control de acceso basado en roles.
+### Transactional Business Tables ⭐ **New: Added 2025-09-20**
+9. **`billing_accounts`** - Billing information for patients and companies
+10. **`invoices`** - Medical service invoices and billing records
+11. **`invoice_items`** - Detailed line items for medical service invoices  
+12. **`payments`** - Payment transaction records for medical services
+13. **`service_plans`** - Subscription plans and pricing tiers
+14. **`subscriptions`** - Active subscription records for patients and companies
+15. **`audit_log`** - System audit trail for compliance and security
+16. **`error_log`** - Application error tracking for debugging and monitoring
 
-**Campos:**
-- `id` (UUID) - FK a `auth.users`, clave primaria
-- `email` (VARCHAR) - Email del usuario
-- `role` (VARCHAR) - Rol del usuario (patient, doctor, company, company_admin, admin, platform_admin)
-- `first_name` (VARCHAR) - Nombre
-- `last_name` (VARCHAR) - Apellido
-- `created_at` (TIMESTAMP) - Fecha de creación
-- `updated_at` (TIMESTAMP) - Fecha de última actualización
+## 🔐 Security Features
 
-**Políticas RLS:**
-1. **Users can view own profile** - Los usuarios pueden ver su propio perfil
-2. **Users can update own profile** - Los usuarios pueden actualizar su propio perfil
-3. **Users can insert own profile** - Los usuarios pueden crear su propio perfil
-4. **Admins can view all profiles** - Los administradores pueden ver todos los perfiles
+### Row Level Security (RLS)
+- **Enabled on all tables** - Every table has RLS policies
+- **Role-based access** - Patients, doctors, company admins, platform admins
+- **Care team constraints** - Doctors only see assigned patients
+- **Company isolation** - Company data isolated by membership
 
-### Triggers y Funciones
+### HIPAA Compliance
+- **Audit logging** - All actions tracked with user, timestamp, IP
+- **Data encryption** - Sensitive data stored as JSONB with encryption
+- **Access controls** - Granular permissions based on medical relationships
+- **Data retention** - Configurable retention policies via audit log
 
-#### `handle_new_user()`
-Función que se ejecuta automáticamente cuando se crea un nuevo usuario en `auth.users`.
-Crea el perfil correspondiente en `public.profiles` con el rol especificado en los metadatos.
+### Authentication Bridge
+- **Supabase Auth integration** - Automatic profile creation on user registration
+- **Role assignment** - Support for patient, doctor, company_admin, admin roles
+- **Magic links** - Passwordless authentication via email
+- **Session management** - Secure session handling with auto-refresh
 
-#### `update_updated_at_column()`
-Función que actualiza automáticamente el campo `updated_at` cuando se modifica un registro.
+## 💰 Business Logic
 
-### Roles de Usuario
+### Billing System
+- **Multi-entity billing** - Supports both patient and company billing
+- **Invoice automation** - Auto-calculation of totals via triggers
+- **Payment tracking** - Multiple payment methods and status tracking
+- **Invoice numbering** - Auto-generated invoice numbers (INV-000001 format)
 
-1. **patient** - Pacientes del sistema
-2. **doctor** - Médicos profesionales  
-3. **company_admin** - Administradores de empresas
-4. **admin** - Administradores generales
-5. **platform_admin** - Administradores de plataforma
+### Subscription Management
+- **Flexible plans** - Individual, family, corporate, enterprise tiers
+- **Trial support** - Built-in trial period management
+- **Billing cycles** - Monthly and yearly billing options
+- **Feature flags** - JSONB-based feature configuration per plan
 
-**Roles removidos**: `company` (sustituido por `company_admin` para mayor claridad)
-
-### Redirecciones por Rol
-
-Después de la autenticación, los usuarios son redirigidos según su rol:
-
-- **patient** → `https://patients.autamedica.com/` (dev: `https://autamedica-patients.pages.dev/`)
-- **doctor** → `https://doctors.autamedica.com/` (dev: `https://autamedica-doctors.pages.dev/`)
-- **company_admin** → `https://companies.autamedica.com/` (dev: `https://autamedica-companies.pages.dev/`)
-- **admin/platform_admin** → `/admin` (en web-app)
-
-**Nota**: El rol `company` fue removido para evitar inconsistencias. Solo se usa `company_admin`.
-
-## Aplicar Schema
-
-Para aplicar el schema a un proyecto Supabase:
-
-```bash
-# Conectar al proyecto
-supabase link --project-ref gtyvdircfhmdjiaelqkg
-
-# Aplicar migraciones
-supabase db push
-
-# O aplicar directamente
-psql -h db.gtyvdircfhmdjiaelqkg.supabase.co -U postgres -d postgres -f database/schema.sql
+### Service Plans (Default)
+```json
+{
+  "Basic Individual": {
+    "price_monthly": 29.99,
+    "features": {
+      "telemedicine": true,
+      "medical_records": true, 
+      "appointment_scheduling": true,
+      "max_doctors": 3
+    },
+    "max_appointments_per_month": 10
+  },
+  "Enterprise": {
+    "price_monthly": 49.99,
+    "features": {
+      "custom_integrations": true,
+      "dedicated_support": true,
+      "admin_dashboard": true
+    },
+    "max_appointments_per_month": 2000
+  }
+}
 ```
 
-## Backup y Versionado
+## 📊 Performance Optimizations
 
-Este esquema debe mantenerse sincronizado con el estado de producción:
+### Indexes
+- **Entity lookups** - Optimized queries for billing accounts by entity
+- **Status filtering** - Fast invoice and payment status queries  
+- **Date ranges** - Efficient billing date and audit log queries
+- **Resource access** - Quick audit log lookups by resource type
 
-```bash
-# Exportar schema actual
-supabase db dump --linked -f database/schema_backup.sql
+### Triggers
+- **Auto-timestamps** - All tables have updated_at triggers
+- **Invoice calculations** - Automatic subtotal/total calculation
+- **Audit trail** - Automatic audit logging for sensitive operations
 
-# Comparar diferencias
-diff database/schema.sql database/schema_backup.sql
+## 🚀 Migration Instructions
+
+### For New Installations
+```sql
+-- Apply complete schema
+\i database/schema.sql
 ```
 
-## Seguridad
+### For Existing Installations
+```sql
+-- Apply only the transactional extension
+\i database/apply-transactional-extension.sql
+```
 
-- **RLS habilitado** en todas las tablas sensibles
-- **Políticas restrictivas** por defecto con protección contra auto-promoción de roles
-- **Validación segura de roles** en registro (solo permite patient, doctor, company_admin)
-- **Triggers de auditoría** para cambios importantes
-- **Principio de menor privilegio** en permisos (SELECT, INSERT, UPDATE únicamente)
-- **Protección WITH CHECK** contra elevación de privilegios no autorizada
+### Verification
+```sql
+-- Check all tables were created
+SELECT schemaname, tablename, tableowner
+FROM pg_tables 
+WHERE schemaname = 'public' 
+ORDER BY tablename;
 
-### Vulnerabilidades Corregidas
+-- Verify RLS is enabled
+SELECT schemaname, tablename, rowsecurity 
+FROM pg_tables 
+WHERE schemaname = 'public' AND rowsecurity = true;
 
-1. **Auto-promoción de roles**: Los usuarios no pueden cambiar su propio rol a admin
-2. **Roles inseguros en registro**: Solo roles seguros permitidos en auto-registro
-3. **Permisos excesivos**: Eliminado GRANT ALL, solo permisos mínimos necesarios
-4. **Inconsistencia de roles**: Removido rol `company` duplicado
+-- Check initial service plans
+SELECT name, plan_type, price_monthly, max_users 
+FROM public.service_plans 
+ORDER BY price_monthly;
+```
 
-## Próximos Pasos
+## 🔧 Development Tools
 
-1. Agregar tablas específicas por dominio (appointments, medical_records, etc.)
-2. Implementar auditoría completa de cambios
-3. Agregar políticas RLS para compartir datos entre roles
-4. Configurar backups automáticos
+### Supabase CLI Commands
+```bash
+# Connect to database
+supabase db dump --linked -f database/schema.sql
+
+# Apply migrations
+supabase db reset
+
+# Generate types
+supabase gen types typescript --linked > types/database.ts
+```
+
+### Local Development
+```bash
+# Start local Supabase
+supabase start
+
+# Apply schema locally  
+supabase db reset --local
+
+# Run migrations
+supabase migration up --local
+```
+
+## 📋 Schema Validation
+
+### Required Extensions
+- `uuid-ossp` - UUID generation
+- `pg_stat_statements` - Query performance monitoring (optional)
+
+### Foreign Key Relationships
+- All references use UUID primary keys
+- Cascading deletes for dependent data
+- SET NULL for optional references (e.g., doctor on medical records)
+
+### Data Constraints
+- Email validation in triggers
+- Enum constraints for status fields
+- Check constraints for currency codes (ISO 4217)
+- Positive amounts for financial transactions
+
+## 🎯 Next Steps
+
+### Phase 1: TypeScript Types
+- [ ] Generate TypeScript definitions from schema
+- [ ] Create type-safe database client
+- [ ] Add to `@autamedica/types` package
+
+### Phase 2: Business Logic
+- [ ] Implement billing service functions
+- [ ] Add subscription management APIs
+- [ ] Create audit logging middleware
+
+### Phase 3: Reporting
+- [ ] Financial reporting views
+- [ ] Usage analytics tables
+- [ ] Performance monitoring dashboards
+
+---
+
+**Schema Version**: 2.0 (with transactional extensions)  
+**Last Updated**: 2025-09-20  
+**Total Tables**: 16 tables  
+**Security Level**: HIPAA-compliant with full audit trail

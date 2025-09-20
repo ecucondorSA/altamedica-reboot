@@ -138,17 +138,17 @@ export default function SystemStatus() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-gray-700/50 rounded-lg p-3">
           <p className="text-xs text-gray-400 mb-1">Tiempo Activo</p>
-          <p className="text-sm font-medium text-white">{formatUptime(health.uptime)}</p>
+          <p className="text-sm font-medium text-white">{formatUptime(health.uptime ?? 0)}</p>
         </div>
 
         <div className="bg-gray-700/50 rounded-lg p-3">
           <p className="text-xs text-gray-400 mb-1">Respuesta</p>
-          <p className="text-sm font-medium text-white">{health.responseTime}ms</p>
+          <p className="text-sm font-medium text-white">{health.responseTime ?? 0}ms</p>
         </div>
 
         <div className="bg-gray-700/50 rounded-lg p-3">
           <p className="text-xs text-gray-400 mb-1">Memoria</p>
-          <p className="text-sm font-medium text-white">{Math.round(health.checks.memory_usage)}MB</p>
+          <p className="text-sm font-medium text-white">{Math.round(health.checks?.memory_usage ?? 0)}MB</p>
         </div>
 
         <div className="bg-gray-700/50 rounded-lg p-3">

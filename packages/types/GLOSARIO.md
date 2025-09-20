@@ -4,6 +4,8 @@
 
 ### 🔎 Símbolos (auto)
 
+- `APPOINTMENT_STATUSES`
+- `APPOINTMENT_TYPES`
 - `ARGENTINA_INSURANCE_PROVIDERS`
 - `ARS`
 - `Address`
@@ -14,6 +16,11 @@
 - `ApiResponse`
 - `Appointment`
 - `AppointmentId`
+- `AppointmentInsert`
+- `AppointmentStatus`
+- `AppointmentType`
+- `AppointmentUpdate`
+- `AppointmentWithDetails`
 - `ArrayElement`
 - `AsyncFunction`
 - `AsyncState`
@@ -24,19 +31,29 @@
 - `BloodType`
 - `Brand`
 - `CERTIFICATION_TYPES`
+- `COMPANY_MEMBER_ROLES`
+- `COMPANY_SIZES`
 - `Callback`
 - `CertificationId`
 - `Company`
 - `CompanyAddress`
 - `CompanyContact`
 - `CompanyId`
+- `CompanyInsert`
+- `CompanyMember`
+- `CompanyMemberInsert`
+- `CompanyMemberRole`
+- `CompanyMemberUpdate`
 - `CompanySize`
+- `CompanyUpdate`
+- `CompanyWithMembers`
 - `ComplianceInfo`
 - `Coordinates`
 - `CountryCode`
 - `CreateEntityInput`
 - `DNI`
 - `DataLoadingState`
+- `Database`
 - `DaySchedule`
 - `DiscriminateUnion`
 - `Doctor`
@@ -44,6 +61,7 @@
 - `DoctorEducation`
 - `DoctorExperience`
 - `DoctorId`
+- `DoctorInsert`
 - `DoctorListAPIResponse`
 - `DoctorLookupResult`
 - `DoctorPrivateData`
@@ -53,9 +71,13 @@
 - `DoctorPublicRating`
 - `DoctorRatingAPIResponse`
 - `DoctorRatingDisplay`
+- `DoctorUpdate`
+- `DoctorWithProfile`
 - `EmergencyContact`
 - `EmployeeId`
 - `EntityFilters`
+- `GENDERS`
+- `Gender`
 - `HeightCm`
 - `ICD10Code`
 - `ID_VALIDATION_CONFIG`
@@ -63,6 +85,7 @@
 - `Id`
 - `InsurancePlan`
 - `InsurancePolicyNumber`
+- `Json`
 - `JsonArray`
 - `JsonObject`
 - `JsonPrimitive`
@@ -72,6 +95,7 @@
 - `LicenseProvinceCode`
 - `Loadable`
 - `LoadingState`
+- `MEDICAL_RECORD_VISIBILITIES`
 - `MEDICAL_SPECIALTIES`
 - `MapDiscriminatedUnion`
 - `Maybe`
@@ -83,7 +107,12 @@
 - `MedicalLicense`
 - `MedicalLicenseNumber`
 - `MedicalLoadable`
+- `MedicalRecord`
+- `MedicalRecordInsert`
 - `MedicalRecordNumber`
+- `MedicalRecordUpdate`
+- `MedicalRecordVisibility`
+- `MedicalRecordWithDetails`
 - `MedicalSpecialty`
 - `MedicalSubspecialty`
 - `Medication`
@@ -102,8 +131,13 @@
 - `PatientAPIResponse`
 - `PatientAddress`
 - `PatientAdminView`
+- `PatientCareTeam`
+- `PatientCareTeamInsert`
+- `PatientCareTeamUpdate`
+- `PatientCareTeamWithDetails`
 - `PatientCount`
 - `PatientId`
+- `PatientInsert`
 - `PatientListAPIResponse`
 - `PatientMedicalAPIResponse`
 - `PatientMedicalView`
@@ -111,7 +145,9 @@
 - `PatientProfile`
 - `PatientPublicProfile`
 - `PatientReview`
+- `PatientUpdate`
 - `PatientVolumeMetrics`
+- `PatientWithProfile`
 - `Percent0to100`
 - `Percentage`
 - `PhoneE164`
@@ -120,6 +156,9 @@
 - `Predicate`
 - `PrescriptionId`
 - `ProfessionalInsurance`
+- `Profile`
+- `ProfileInsert`
+- `ProfileUpdate`
 - `REVIEW_WINDOW_DAYS`
 - `ROLE_TO_PORTALS`
 - `RatingScore`
@@ -132,10 +171,16 @@
 - `SpecialtyCode`
 - `StateCode`
 - `SubspecialtyCode`
+- `SupabaseApiResponse`
+- `SupabasePaginatedResponse`
+- `Tables`
+- `TablesInsert`
+- `TablesUpdate`
 - `TenantId`
 - `ThrowsFunction`
 - `TimeHHmm`
 - `TimeSlot`
+- `USER_ROLES`
 - `UpdateEntityInput`
 - `User`
 - `UserId`
@@ -204,6 +249,7 @@
 - `isActiveLicense`
 - `isApiError`
 - `isApiSuccess`
+- `isAppointment`
 - `isArgentinaMobile`
 - `isArgentinaPhone`
 - `isArgentinaStateCode`
@@ -211,6 +257,7 @@
 - `isAvailableOnDay`
 - `isCompleteAddress`
 - `isCountryCode`
+- `isDoctor`
 - `isDoctorLicenseActive`
 - `isDoctorProfileComplete`
 - `isEligibleForRecognition`
@@ -226,9 +273,11 @@
 - `isNonEmptyString`
 - `isNonNullable`
 - `isPAMIEligible`
+- `isPatient`
 - `isPercentage`
 - `isPhoneE164`
 - `isPositiveNumber`
+- `isProfile`
 - `isPublicHealthcareEligible`
 - `isSuccess`
 - `isUnauthenticated`
